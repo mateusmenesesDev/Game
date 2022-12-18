@@ -1,0 +1,10 @@
+.hiddenHamburguer {
+  position: static;
+  display: inline-block;
+}
+
+.hiddenHamburguer .dropdown-content {
+  visibility: visible;
+  position: static;
+  opacity: 100;
+}
