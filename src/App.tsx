@@ -6,7 +6,7 @@ function App() {
     <>
       <Header />
       <main>
-        <Category title='Aventura' />
+        <Category />
       </main>
     </>
   );
