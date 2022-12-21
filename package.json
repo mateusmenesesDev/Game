@@ -13,7 +13,8 @@
     "daisyui": "^2.45.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "snekfetch": "^4.0.4"
+    "snekfetch": "^4.0.4",
+    "swiper": "^8.4.5"
   },
   "devDependencies": {
     "@types/node": "^18.11.17",

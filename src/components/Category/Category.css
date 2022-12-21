@@ -1,0 +1,10 @@
+.swiper-button-next {
+  visibility: hidden;
+}
+
+.swiper-button-prev {
+  visibility: hidden;
+}
+.swiper:hover > * {
+  visibility: visible;
+}

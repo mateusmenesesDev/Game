@@ -18,7 +18,7 @@ const apiRequest = {
         Authorization: `Bearer ${auth}`,
         'Accept-Encoding': 'gzip,deflate,compress',
       },
-      data: 'fields *; limit 100;',
+      data: 'fields name, rating, id, genres, screenshots.image_id; where rating != null; sort rating desc; limit 500;',
     });
     return request.data;
   },
@@ -32,13 +32,13 @@ const apiRequest = {
         Authorization: `Bearer ${auth}`,
         'Accept-Encoding': 'gzip,deflate,compress',
       },
-      data: 'fields name, id; limit 100;',
+      data: 'fields name; id; limit 100;',
     });
     return request.data;
   },
 };
 
-export const handler = async (call: string) => {
+export const handler = async () => {
   const games = await apiRequest.getAllGames();
   const genres = await apiRequest.getAllGenres();
   return {
