@@ -21,36 +21,36 @@ export function Category() {
     getGamesAndGenres();
   }, []);
   return (
-    <div className='pl-6'>
+    <div className=''>
       {genres.map((genre) => (
         <div key={genre.id}>
-          <h3 key={genre.id} className='font-bold text-lg mb-1 lg:text-3xl'>
+          <h3 key={genre.id} className='font-bold text-lg lg:text-3xl ml-8'>
             {genre.name}
           </h3>
           <Swiper
             slidesPerView={2}
             navigation={true}
-            spaceBetween={5}
+            spaceBetween={10}
             modules={[Navigation]}
             breakpoints={{
               768: { slidesPerGroup: 2, slidesPerView: 3 },
               1024: { slidesPerGroup: 3, slidesPerView: 4 },
-              1200: { slidesPerGroup: 5, slidesPerView: 6 },
+              1440: { slidesPerGroup: 4, slidesPerView: 5 },
             }}
-            className='mb-16'
+            className='mb-4 pb-5'
           >
             {games
               .filter((game) => game.genres?.includes(genre.id))
               .map((game) => (
                 <SwiperSlide
                   key={game.id}
-                  className=' h-28 sm:h-48 transition-all cursor-pointer hover:scale-x-125 hover:relative hover:z-50'
+                  className='first:ml-8 max-w-[310px] h-[400px] transition-all cursor-pointer lg:mt-6 lg:hover:scale-105 '
                 >
                   {game.screenshots !== undefined && (
                     <img
                       src={`https://images.igdb.com/igdb/image/upload/t_1080p/${game.cover.image_id}.jpg`}
                       alt=''
-                      className='min-w-full max-w-[256px] h-full rounded-md '
+                      className='h-full min-w-full rounded-md transition-all hover:border-4'
                     />
                   )}
                 </SwiperSlide>
