@@ -18,7 +18,7 @@ const apiRequest = {
         Authorization: `Bearer ${auth}`,
         'Accept-Encoding': 'gzip,deflate,compress',
       },
-      data: 'fields name, rating, id, genres, screenshots.image_id; where rating != null & screenshots != null; sort rating desc; limit 500;',
+      data: 'fields name, rating, id, genres, screenshots.image_id, cover.image_id; where rating != null & screenshots != null; sort rating desc; limit 500;',
     });
     return request.data;
   },
@@ -32,7 +32,7 @@ const apiRequest = {
         Authorization: `Bearer ${auth}`,
         'Accept-Encoding': 'gzip,deflate,compress',
       },
-      data: 'fields name; where name != "Quiz/Trivia" & name != "Pinball" & name != "MOBA"; limit 100;',
+      data: 'fields name; where name != "Quiz/Trivia" & name != "Pinball" & name !="MOBA"; limit 100;',
     });
     return request.data;
   },

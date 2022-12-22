@@ -30,6 +30,7 @@ export function Category() {
           <Swiper
             slidesPerView={2}
             navigation={true}
+            spaceBetween={5}
             modules={[Navigation]}
             breakpoints={{
               768: { slidesPerGroup: 2, slidesPerView: 3 },
@@ -41,15 +42,16 @@ export function Category() {
             {games
               .filter((game) => game.genres?.includes(genre.id))
               .map((game) => (
-                <SwiperSlide key={game.id} className=''>
+                <SwiperSlide
+                  key={game.id}
+                  className=' h-28 sm:h-48 transition-all cursor-pointer hover:scale-x-125 hover:relative hover:z-50'
+                >
                   {game.screenshots !== undefined && (
-                    <div className='h-28 sm:h-36'>
-                      <img
-                        src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.screenshots[0].image_id}.jpg`}
-                        alt=''
-                        className='w-full max-w-[256px] h-full'
-                      />
-                    </div>
+                    <img
+                      src={`https://images.igdb.com/igdb/image/upload/t_1080p/${game.cover.image_id}.jpg`}
+                      alt=''
+                      className='min-w-full max-w-[256px] h-full rounded-md '
+                    />
                   )}
                 </SwiperSlide>
               ))}

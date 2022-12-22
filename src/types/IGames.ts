@@ -7,6 +7,7 @@ export interface IGame {
   id: number;
   name: string;
   genres: [number];
+  cover: { id: number; image_id: string };
   screenshots: [
     {
       id: number;

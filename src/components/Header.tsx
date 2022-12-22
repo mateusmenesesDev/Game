@@ -20,13 +20,16 @@ export function Header() {
           </button>
           <ul
             tabIndex={0}
-            className='dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52'
+            className='dropdown-content menu p-2 shadow  bg-base-300 rounded-box w-52'
           >
             <li className=''>
               <a>Início</a>
             </li>
             <li>
               <a>Minha Lista</a>
+            </li>
+            <li>
+              <a>Random Game</a>
             </li>
           </ul>
         </div>
