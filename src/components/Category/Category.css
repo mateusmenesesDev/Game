@@ -1,0 +1,11 @@
+:root {
+  --swiper-navigation-color: white;
+}
+.swiper-button-next,
+.swiper-button-prev {
+  visibility: hidden;
+}
+
+.swiper:hover > :not(.swiper-button-disabled) {
+  visibility: visible;
+}
