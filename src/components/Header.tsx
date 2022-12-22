@@ -1,3 +1,5 @@
+import { Theme } from './Theme';
+
 export function Header() {
   return (
     <header className='px-2 py-6 flex gap-3 justify-between mb-16 my-2 sm:text-lg sm:px-10 md:px-12 lg:justify-around lg:px-0'>
@@ -35,12 +37,13 @@ export function Header() {
         </div>
         <div>GAMENETZ</div>
       </div>
-      <div>
+      <div className='flex gap-5'>
         <input
           type='text'
           placeholder='Buscar'
           className='input input-bordered w-full max-w-xs'
         />
+        <Theme />
       </div>
     </header>
   );
