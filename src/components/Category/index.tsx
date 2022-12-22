@@ -24,7 +24,10 @@ export function Category() {
     <div className=''>
       {genres.map((genre) => (
         <div key={genre.id}>
-          <h3 key={genre.id} className='font-bold text-lg lg:text-3xl ml-8'>
+          <h3
+            key={genre.id}
+            className='font-bold text-lg lg:text-3xl ml-4 md:ml-8'
+          >
             {genre.name}
           </h3>
           <Swiper
@@ -44,7 +47,7 @@ export function Category() {
               .map((game) => (
                 <SwiperSlide
                   key={game.id}
-                  className='first:ml-8 max-w-[310px] h-[400px] transition-all cursor-pointer lg:mt-6 lg:hover:scale-105 '
+                  className='first:ml-4 md:first:ml-8 max-w-[310px] h-auto max-h-[440px] transition-all cursor-pointer lg:mt-6 lg:hover:scale-105 '
                 >
                   {game.screenshots !== undefined && (
                     <img
