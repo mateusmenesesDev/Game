@@ -1,8 +1,7 @@
 [build]
-	command = "npm run build"
-	functions = "functions"
-	publish = "dist"
+	command = "# no build command"
+	functions = "netlify/functions"
+	publish = "public"
 
 [functions]
   node_bundler = "esbuild"
-	directory = "functions"
