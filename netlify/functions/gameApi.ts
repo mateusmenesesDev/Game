@@ -18,7 +18,7 @@ const apiRequest = {
         Authorization: `Bearer ${auth}`,
         'Accept-Encoding': 'gzip,deflate,compress',
       },
-      data: 'fields name, rating, id, genres, screenshots.image_id; where rating != null; sort rating desc; limit 500;',
+      data: 'fields name, rating, id, genres, screenshots.image_id; where rating != null & screenshots != null; sort rating desc; limit 500;',
     });
     return request.data;
   },
@@ -32,7 +32,7 @@ const apiRequest = {
         Authorization: `Bearer ${auth}`,
         'Accept-Encoding': 'gzip,deflate,compress',
       },
-      data: 'fields name; id; limit 100;',
+      data: 'fields name; where name != "Quiz/Trivia" & name != "Pinball" & name != "MOBA"; limit 100;',
     });
     return request.data;
   },
@@ -46,16 +46,3 @@ export const handler = async () => {
     body: JSON.stringify({ games, genres }),
   };
 };
-
-// PRECISO GUARDAR ESSA REQUEST
-// const data = await axios.post(
-//   'https://api.igdb.com/v4/games',
-//   `fields *; where release_dates.platform = 6 & name !~ *"edition"* & release_dates.date > 1538129354 & hypes > 50; sort hypes desc; limit 100;`,
-//   {
-//     headers: {
-//       'Client-ID': process.env.CLIENT_ID,
-//       Authorization: `Bearer ${auth}`,
-//       'Accept-Encoding': 'gzip,deflate,compress',
-//     },
-//   }
-// );

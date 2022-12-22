@@ -1,10 +1,11 @@
-.swiper-button-next {
-  visibility: hidden;
+:root {
+  --swiper-navigation-color: white;
 }
-
+.swiper-button-next,
 .swiper-button-prev {
   visibility: hidden;
 }
-.swiper:hover > * {
+
+.swiper:hover > :not(.swiper-button-disabled) {
   visibility: visible;
 }

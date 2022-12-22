@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { IGame, IGameGenre } from '../../types/IGames';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './Category.css';
@@ -21,10 +21,10 @@ export function Category() {
     getGamesAndGenres();
   }, []);
   return (
-    <div>
+    <div className='pl-6'>
       {genres.map((genre) => (
-        <div key={genre.id} className=''>
-          <h3 key={genre.id} className='font-bold text-lg mb-2 px-3'>
+        <div key={genre.id}>
+          <h3 key={genre.id} className='font-bold text-lg mb-1 lg:text-3xl'>
             {genre.name}
           </h3>
           <Swiper
@@ -32,21 +32,24 @@ export function Category() {
             navigation={true}
             modules={[Navigation]}
             breakpoints={{
-              768: { slidesPerGroup: 3, slidesPerView: 4 },
-              1024: { slidesPerGroup: 4, slidesPerView: 5 },
+              768: { slidesPerGroup: 2, slidesPerView: 3 },
+              1024: { slidesPerGroup: 3, slidesPerView: 4 },
               1200: { slidesPerGroup: 5, slidesPerView: 6 },
             }}
+            className='mb-16'
           >
             {games
               .filter((game) => game.genres?.includes(genre.id))
               .map((game) => (
                 <SwiperSlide key={game.id} className=''>
                   {game.screenshots !== undefined && (
-                    <img
-                      src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.screenshots[0].image_id}.jpg`}
-                      alt=''
-                      className='w-60 h-32'
-                    />
+                    <div className='h-28 sm:h-36'>
+                      <img
+                        src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${game.screenshots[0].image_id}.jpg`}
+                        alt=''
+                        className='w-full max-w-[256px] h-full'
+                      />
+                    </div>
                   )}
                 </SwiperSlide>
               ))}
