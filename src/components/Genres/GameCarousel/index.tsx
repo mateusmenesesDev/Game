@@ -1,7 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Navigation } from 'swiper';
+import { Navigation, Mousewheel } from 'swiper';
 import { IGameGenre } from '../../../types/IGames';
 import { GameImage } from './GameImage';
 import { useContext } from 'react';
@@ -19,7 +19,8 @@ export function GameCarousel({ genre }: Props) {
       slidesPerView={2}
       navigation={true}
       spaceBetween={10}
-      modules={[Navigation]}
+      mousewheel={{ forceToAxis: true }}
+      modules={[Navigation, Mousewheel]}
       breakpoints={{
         768: { slidesPerGroup: 2, slidesPerView: 3 },
         1024: { slidesPerGroup: 3, slidesPerView: 4 },
