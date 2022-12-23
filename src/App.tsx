@@ -1,15 +1,20 @@
+import { BrowserRouter } from 'react-router-dom';
 import { Header } from './components/Header';
-import { Genres } from './components/Genres';
 import { ContextProvider } from './contexts/Context';
+import { RouteList } from './routes/RouteList';
 
 function App() {
   return (
-    <ContextProvider>
+    <div>
       <Header />
       <main>
-        <Genres />
+        <ContextProvider>
+          <BrowserRouter>
+            <RouteList />
+          </BrowserRouter>
+        </ContextProvider>
       </main>
-    </ContextProvider>
+    </div>
   );
 }
 

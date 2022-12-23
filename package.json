@@ -13,6 +13,7 @@
     "daisyui": "^2.45.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "^6.6.1",
     "snekfetch": "^4.0.4",
     "swiper": "^8.4.5"
   },
