@@ -3,10 +3,9 @@ import { useEffect, useState } from 'react';
 import { IGame, IGameGenre } from '../../types/IGames';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import './Category.css';
-// Import Swiper styles
+
 import 'swiper/css';
 import 'swiper/css/navigation';
-
 import { Navigation } from 'swiper';
 
 export function Category() {
