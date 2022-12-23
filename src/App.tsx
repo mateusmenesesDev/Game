@@ -1,15 +1,15 @@
 import { Header } from './components/Header';
-import { Category } from './components/Category';
-import { Placeholder } from './components/utils/Placeholder';
+import { Genres } from './components/Genres';
+import { ContextProvider } from './contexts/Context';
 
 function App() {
   return (
-    <>
+    <ContextProvider>
       <Header />
       <main>
-        <Category />
+        <Genres />
       </main>
-    </>
+    </ContextProvider>
   );
 }
 
