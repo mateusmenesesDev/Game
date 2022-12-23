@@ -1,13 +1,12 @@
 import { Header } from './components/Header';
-import { Category } from './components/Category';
-import { Placeholder } from './components/utils/Placeholder';
+import { Home } from './pages/Home';
 
 function App() {
   return (
     <>
       <Header />
       <main>
-        <Category />
+        <Home />
       </main>
     </>
   );
