@@ -1,3 +1,3 @@
 export function Detail() {
-  return null;
+  return <div>teste</div>;
 }

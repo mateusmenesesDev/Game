@@ -1,5 +1,5 @@
-import { Category } from '../components/Category';
+import { Genres } from '../components/Genres';
 
 export function Home() {
-  return <Category />;
+  return <Genres />;
 }
