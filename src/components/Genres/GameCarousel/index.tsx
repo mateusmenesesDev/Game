@@ -6,6 +6,7 @@ import { IGameGenre } from '../../../types/IGames';
 import { GameImage } from './GameImage';
 import { useContext } from 'react';
 import { Context } from '../../../contexts/Context';
+import { Link } from 'react-router-dom';
 
 type Props = {
   genre: IGameGenre;
@@ -33,7 +34,11 @@ export function GameCarousel({ genre }: Props) {
           key={game.id}
           className='first:ml-4 md:first:ml-8 max-w-[310px] h-auto max-h-[440px] transition-all cursor-pointer lg:mt-6 lg:hover:scale-105 '
         >
-          {game.screenshots !== undefined && <GameImage game={game} />}
+          {game.screenshots !== undefined && (
+            <Link to={`detail/${game.id}`}>
+              <GameImage ImageId={game.cover.image_id} hover />
+            </Link>
+          )}
         </SwiperSlide>
       ))}
     </Swiper>

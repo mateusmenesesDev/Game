@@ -1,18 +1,18 @@
-import { IGame } from '../../../types/IGames';
+type Props = { ImageId: string | undefined; hover?: boolean };
 
-type Props = { game: IGame };
-
-export function GameImage({ game }: Props) {
+export function GameImage({ ImageId, hover = false }: Props) {
   return (
     <picture>
       <source
-        srcSet={`https://images.igdb.com/igdb/image/upload/t_1080p/${game.cover.image_id}.jpg`}
+        srcSet={`https://images.igdb.com/igdb/image/upload/t_1080p/${ImageId}.jpg`}
         media='(min-width: 768px)'
       />
       <img
-        src={`https://images.igdb.com/igdb/image/upload/t_720p/${game.cover.image_id}.jpg`}
+        src={`https://images.igdb.com/igdb/image/upload/t_720p/${ImageId}.jpg`}
         alt=''
-        className='h-full min-w-full rounded-md transition-all hover:border-4'
+        className={`h-full min-w-full rounded-md ${
+          hover ? 'transition-all hover:border-4' : ''
+        } `}
       />
     </picture>
   );
