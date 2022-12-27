@@ -20,7 +20,7 @@ const apiRequest = {
         Authorization: `Bearer ${auth}`,
         'Accept-Encoding': 'gzip,deflate,compress',
       },
-      data: `${fields} where rating != null & screenshots != null; sort rating desc; limit 500;`,
+      data: `${fields} where rating != null & screenshots != null & genres != (7) & genres != (35) & genres != (26) & genres != (30) & genres != (36); sort rating desc; limit 500;`,
     });
     return request.data;
   },
@@ -34,7 +34,7 @@ const apiRequest = {
         Authorization: `Bearer ${auth}`,
         'Accept-Encoding': 'gzip,deflate,compress',
       },
-      data: 'fields name; where name != "Quiz/Trivia" & name != "Pinball" & name !="MOBA"; limit 100;',
+      data: 'fields name; where name != "Quiz/Trivia" & name != "Card & Board Game" & name != "Music" & name != "Pinball" & name !="MOBA"; limit 100;',
     });
     return request.data;
   },

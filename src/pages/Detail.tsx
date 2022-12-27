@@ -55,13 +55,13 @@ export function Detail() {
           <GameImage ImageId={detailGame.cover.image_id} />
         </div>
         <h3 className='font-bold text-lg flex-1'>{detailGame.name}</h3>
-        <div className='flex gap-2'>
+        <div className='flex gap-2 flex-wrap justify-center my-3'>
           {company.length > 0 && <h3>{company[0].name}</h3>}
           {new Date(detailGame.first_release_date * 1000).toLocaleDateString()}
         </div>
-        <div className='flex gap-5 bg-base-300 px-3'>
+        <div className='flex gap-5 px-3 bg-secondary rounded-lg'>
           {plataformsLogos.map(({ image_id }) => (
-            <div key={image_id} className=''>
+            <div key={image_id} className='w-[30px] '>
               <GameImage ImageId={image_id} />
             </div>
           ))}
