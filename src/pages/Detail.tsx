@@ -106,7 +106,7 @@ export function Detail() {
           <div className={`${tab === 3 ? 'block' : 'hidden'}`}>teste3</div>
         </div>
       </div>
-      <div></div>
+      <div className='mt-3'>{detailGame.summary}</div>
     </div>
   ) : (
     <Placeholder quantify={1} />
