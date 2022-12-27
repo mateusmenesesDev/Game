@@ -12,6 +12,7 @@ import { useContext, useEffect, useState } from 'react';
 
 export function Detail() {
   const [company, setCompany] = useState<IBasicGameApi[]>([]);
+  const [tab, setTab] = useState<Number>(1);
   const [plataformsLogos, setPlataformsLogos] = useState<
     IBasicImageGameApi[] | []
   >([]);
@@ -70,13 +71,42 @@ export function Detail() {
           ))}
         </div>
       </div>
-      <Swiper navigation={true} modules={[Navigation]} className={''}>
-        {detailGame.screenshots.map(({ image_id }) => (
-          <SwiperSlide key={image_id}>
-            <GameImage ImageId={image_id} />
-          </SwiperSlide>
-        ))}
-      </Swiper>
+      <div>
+        <div className='tabs tabs-boxed  justify-around'>
+          <a
+            className={`tab  ${tab === 1 ? 'tab-bordered' : null} rounded-none`}
+            onClick={() => setTab(1)}
+          >
+            Imagens
+          </a>
+          <a
+            className={`tab ${tab === 2 ? 'tab-bordered' : null} rounded-none`}
+            onClick={() => setTab(2)}
+          >
+            Vídeo
+          </a>
+          <a
+            className={`tab ${tab === 3 ? 'tab-active' : null} rounded-none`}
+            onClick={() => setTab(3)}
+          >
+            Sugestões
+          </a>
+        </div>
+        <div>
+          <div className={`${tab === 1 ? 'block' : 'hidden'} mt-1`}>
+            <Swiper navigation={true} modules={[Navigation]} className={''}>
+              {detailGame.screenshots.map(({ image_id }) => (
+                <SwiperSlide key={image_id}>
+                  <GameImage ImageId={image_id} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+          <div className={`${tab === 2 ? 'block' : 'hidden'}`}>teste2</div>
+          <div className={`${tab === 3 ? 'block' : 'hidden'}`}>teste3</div>
+        </div>
+      </div>
+      <div></div>
     </div>
   ) : (
     <Placeholder quantify={1} />
