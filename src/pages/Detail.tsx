@@ -3,22 +3,20 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
-import { Context } from '../contexts/Context';
-import { IBasicGameApi, IBasicImageGameApi } from '../types/IGames';
+import { IBasicGameApi, IBasicImageGameApi, IGame } from '../types/IGames';
 import { GameImage } from '../components/Genres/GameCarousel/GameImage';
 import { Placeholder } from '../components/utils/Placeholder';
-import { useParams } from 'react-router-dom';
-import { useContext, useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export function Detail() {
   const [company, setCompany] = useState<IBasicGameApi[]>([]);
   const [tab, setTab] = useState<number>(1);
+  const [detailGame, setDetailGame] = useState<IGame>();
   const [plataformsLogos, setPlataformsLogos] = useState<
     IBasicImageGameApi[] | []
   >([]);
-  const { games } = useContext(Context);
   const { gameId } = useParams();
-  const detailGame = games.find((game) => game.id === Number(gameId));
   async function getCompany() {
     const companyId = detailGame?.involved_companies[0].company;
     const { data } = await axios.get(
@@ -42,15 +40,25 @@ export function Detail() {
       setPlataformsLogos(logos);
     }
   }
+
+  async function getGame() {
+    const { data } = await axios.get(
+      `/.netlify/functions/getGame?gameId=${gameId}`
+    );
+    setDetailGame(data[0]);
+  }
   useEffect(() => {
-    if (detailGame !== undefined) {
+    getGame();
+  }, []);
+
+  useEffect(() => {
+    if (detailGame != undefined) {
       getCompany();
       getPlataformsLogos();
-      console.log(detailGame);
     }
   }, [detailGame]);
 
-  return detailGame !== undefined ? (
+  return detailGame != undefined ? (
     <div className=''>
       <div className='flex flex-col items-center mb-10'>
         <div className='w-1/2 max-w-[310px] flex-1'>
@@ -115,10 +123,12 @@ export function Detail() {
             <Swiper navigation={true} modules={[Navigation]} slidesPerView={2}>
               {detailGame.similar_games.map((game) => (
                 <SwiperSlide
-                  key={game.cover.id}
                   className='max-h-[220px] max-w-[160px]'
+                  key={game.id}
                 >
-                  <GameImage ImageId={game.cover.image_id} />
+                  <Link to={`/detail/${game.id}`} reloadDocument>
+                    <GameImage ImageId={game.cover.image_id} />
+                  </Link>
                 </SwiperSlide>
               ))}
             </Swiper>
