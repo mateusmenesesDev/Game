@@ -9,11 +9,12 @@ import { GameImage } from '../components/Genres/GameCarousel/GameImage';
 import { Placeholder } from '../components/utils/Placeholder';
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { platform } from 'os';
 
 export function Detail() {
   const [company, setCompany] = useState<IBasicGameApi[]>([]);
-  const [plataformsLogos, setPlataformsLogos] = useState<any>([]);
+  const [plataformsLogos, setPlataformsLogos] = useState<
+    IBasicImageGameApi[] | []
+  >([]);
   const { games } = useContext(Context);
   const { gameId } = useParams();
   const detailGame = games.find((game) => game.id === Number(gameId));
@@ -29,7 +30,7 @@ export function Detail() {
       const logoIds = detailGame.platforms.map(
         ({ platform_logo }) => platform_logo
       );
-      const logos = await Promise.all(
+      const logos: IBasicImageGameApi[] = await Promise.all(
         logoIds.map(async (id) => {
           const { data } = await axios.get(
             `/.netlify/functions/gamePlataform?logoId=${id}`

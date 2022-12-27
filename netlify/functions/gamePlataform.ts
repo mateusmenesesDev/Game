@@ -17,7 +17,7 @@ async function getPlataformLogo(plataformId) {
       Authorization: `Bearer ${auth}`,
       'Accept-Encoding': 'gzip,deflate,compress',
     },
-    data: `fields *; where id = ${plataformId};`,
+    data: `fields image_id; where id = ${plataformId};`,
   });
   return data;
 }
