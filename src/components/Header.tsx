@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Theme } from './Theme';
 
 export function Header() {
@@ -25,7 +26,9 @@ export function Header() {
             className='dropdown-content menu p-2 shadow  bg-base-300 rounded-box w-52'
           >
             <li className=''>
-              <a>Início</a>
+              <Link to={'/'}>
+                <a>Início</a>
+              </Link>
             </li>
             <li>
               <a>Minha Lista</a>

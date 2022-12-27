@@ -2,14 +2,14 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation, Mousewheel } from 'swiper';
-import { IGameGenre } from '../../../types/IGames';
+import { IBasicGameApi } from '../../../types/IGames';
 import { GameImage } from './GameImage';
 import { useContext } from 'react';
 import { Context } from '../../../contexts/Context';
 import { Link } from 'react-router-dom';
 
 type Props = {
-  genre: IGameGenre;
+  genre: IBasicGameApi;
 };
 
 export function GameCarousel({ genre }: Props) {

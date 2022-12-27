@@ -5,16 +5,16 @@ import { RouteList } from './routes/RouteList';
 
 function App() {
   return (
-    <div>
-      <Header />
-      <main>
-        <ContextProvider>
-          <BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Header />
+        <main>
+          <ContextProvider>
             <RouteList />
-          </BrowserRouter>
-        </ContextProvider>
-      </main>
-    </div>
+          </ContextProvider>
+        </main>
+      </BrowserRouter>
+    </>
   );
 }
 
