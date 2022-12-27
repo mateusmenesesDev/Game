@@ -111,7 +111,18 @@ export function Detail() {
               src={`https://www.youtube.com/embed/LW5NwaUXgIA`}
             ></iframe>
           </div>
-          <div className={`${tab === 3 ? 'block' : 'hidden'}`}>teste3</div>
+          <div className={`${tab === 3 ? 'block' : 'hidden'} mt-1`}>
+            <Swiper navigation={true} modules={[Navigation]} slidesPerView={2}>
+              {detailGame.similar_games.map((game) => (
+                <SwiperSlide
+                  key={game.cover.id}
+                  className='max-h-[220px] max-w-[160px]'
+                >
+                  <GameImage ImageId={game.cover.image_id} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
         </div>
       </div>
       <div className='mt-4'>{detailGame.summary}</div>

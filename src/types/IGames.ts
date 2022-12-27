@@ -20,7 +20,7 @@ export interface IGame {
   first_release_date: number;
   involved_companies: [object: any];
   platforms: [object: any];
-  similar_games: [number];
+  similar_games: [object: any];
   summary: [string];
 }
 
