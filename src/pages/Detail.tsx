@@ -12,7 +12,7 @@ import { useContext, useEffect, useState } from 'react';
 
 export function Detail() {
   const [company, setCompany] = useState<IBasicGameApi[]>([]);
-  const [tab, setTab] = useState<Number>(1);
+  const [tab, setTab] = useState<number>(1);
   const [plataformsLogos, setPlataformsLogos] = useState<
     IBasicImageGameApi[] | []
   >([]);
