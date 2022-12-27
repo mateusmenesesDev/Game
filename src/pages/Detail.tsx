@@ -50,8 +50,11 @@ export function Detail() {
 
   return detailGame !== undefined ? (
     <div className=''>
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center mb-10'>
         <div className='w-1/2 max-w-[310px] flex-1'>
+          <div className='badge bg-red-700 w-10 h-10 relative top-7 right-4 font-bold sm:w-14 sm:h-14 sm:top-9'>
+            {Math.floor(detailGame.rating)}
+          </div>
           <GameImage ImageId={detailGame.cover.image_id} />
         </div>
         <h3 className='font-bold text-lg flex-1'>{detailGame.name}</h3>
