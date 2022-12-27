@@ -6,7 +6,7 @@ import { NotFound } from '../pages/NotFound';
 export function RouteList() {
   return useRoutes([
     { path: '/', element: <Home /> },
-    { path: 'detail/:gameId', element: <Detail /> },
+    { path: '/detail/:gameId', element: <Detail /> },
     { path: '*', element: <NotFound /> },
   ]);
 }

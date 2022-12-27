@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 
 export function Detail() {
   const [company, setCompany] = useState<IBasicGameApi[]>([]);
+  const [newGame, setNewGame] = useState(false);
   const [tab, setTab] = useState<number>(1);
   const [detailGame, setDetailGame] = useState<IGame>();
   const [plataformsLogos, setPlataformsLogos] = useState<
@@ -42,14 +43,16 @@ export function Detail() {
   }
 
   async function getGame() {
+    console.log('entrei');
     const { data } = await axios.get(
       `/.netlify/functions/getGame?gameId=${gameId}`
     );
     setDetailGame(data[0]);
   }
   useEffect(() => {
+    console.log(newGame);
     getGame();
-  }, []);
+  }, [newGame]);
 
   useEffect(() => {
     if (detailGame != undefined) {
@@ -126,7 +129,10 @@ export function Detail() {
                   className='max-h-[220px] max-w-[160px]'
                   key={game.id}
                 >
-                  <Link to={`/detail/${game.id}`} reloadDocument>
+                  <Link
+                    onClick={() => setNewGame(!newGame)}
+                    to={`/detail/${game.id}`}
+                  >
                     <GameImage ImageId={game.cover.image_id} />
                   </Link>
                 </SwiperSlide>
