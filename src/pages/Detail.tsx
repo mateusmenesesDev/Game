@@ -46,6 +46,7 @@ export function Detail() {
     if (detailGame !== undefined) {
       getCompany();
       getPlataformsLogos();
+      console.log(detailGame);
     }
   }, [detailGame]);
 
@@ -94,7 +95,7 @@ export function Detail() {
         </div>
         <div>
           <div className={`${tab === 1 ? 'block' : 'hidden'} mt-1`}>
-            <Swiper navigation={true} modules={[Navigation]} className={''}>
+            <Swiper navigation={true} modules={[Navigation]}>
               {detailGame.screenshots.map(({ image_id }) => (
                 <SwiperSlide key={image_id}>
                   <GameImage ImageId={image_id} />
@@ -102,11 +103,18 @@ export function Detail() {
               ))}
             </Swiper>
           </div>
-          <div className={`${tab === 2 ? 'block' : 'hidden'}`}>teste2</div>
+
+          <div className={`${tab === 2 ? 'block' : 'hidden'} mt-1`}>
+            <iframe
+              className='w-full h-44'
+              allowFullScreen={true}
+              src={`https://www.youtube.com/embed/LW5NwaUXgIA`}
+            ></iframe>
+          </div>
           <div className={`${tab === 3 ? 'block' : 'hidden'}`}>teste3</div>
         </div>
       </div>
-      <div className='mt-3'>{detailGame.summary}</div>
+      <div className='mt-4'>{detailGame.summary}</div>
     </div>
   ) : (
     <Placeholder quantify={1} />

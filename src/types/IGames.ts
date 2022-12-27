@@ -14,6 +14,7 @@ export interface IGame {
       image_id: string;
     }
   ];
+  videos: [{ id: number; video_id: string }];
   rating: number;
   created_at: number;
   first_release_date: number;
