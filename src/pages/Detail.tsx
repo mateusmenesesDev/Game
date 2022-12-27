@@ -4,14 +4,16 @@ import { Navigation } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Context } from '../contexts/Context';
-import { IBasicGameApi } from '../types/IGames';
+import { IBasicGameApi, IBasicImageGameApi } from '../types/IGames';
 import { GameImage } from '../components/Genres/GameCarousel/GameImage';
 import { Placeholder } from '../components/utils/Placeholder';
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
+import { platform } from 'os';
 
 export function Detail() {
   const [company, setCompany] = useState<IBasicGameApi[]>([]);
+  const [plataformsLogos, setPlataformsLogos] = useState<any>([]);
   const { games } = useContext(Context);
   const { gameId } = useParams();
   const detailGame = games.find((game) => game.id === Number(gameId));
@@ -22,9 +24,27 @@ export function Detail() {
     );
     setCompany(data.company);
   }
+  async function getPlataformsLogos() {
+    if (detailGame !== undefined) {
+      const logoIds = detailGame.platforms.map(
+        ({ platform_logo }) => platform_logo
+      );
+      const logos = await Promise.all(
+        logoIds.map(async (id) => {
+          const { data } = await axios.get(
+            `/.netlify/functions/gamePlataform?logoId=${id}`
+          );
+          return data;
+        })
+      );
+      setPlataformsLogos(logos);
+    }
+  }
   useEffect(() => {
-    if (detailGame !== undefined) getCompany();
-    console.log(gameId);
+    if (detailGame !== undefined) {
+      getCompany();
+      getPlataformsLogos();
+    }
   }, [detailGame]);
 
   return detailGame !== undefined ? (
@@ -34,12 +54,22 @@ export function Detail() {
           <GameImage ImageId={detailGame.cover.image_id} />
         </div>
         <h3 className='font-bold text-lg flex-1'>{detailGame.name}</h3>
-        {company.length > 0 && <h3>{company[0].name}</h3>}
+        <div className='flex gap-2'>
+          {company.length > 0 && <h3>{company[0].name}</h3>}
+          {new Date(detailGame.first_release_date * 1000).toLocaleDateString()}
+        </div>
+        <div className='flex gap-5 bg-base-300 px-3'>
+          {plataformsLogos.map(({ image_id }) => (
+            <div key={image_id} className=''>
+              <GameImage ImageId={image_id} />
+            </div>
+          ))}
+        </div>
       </div>
       <Swiper navigation={true} modules={[Navigation]} className={''}>
-        {detailGame.screenshots.map((screenshot) => (
-          <SwiperSlide key={screenshot.id}>
-            <GameImage ImageId={screenshot.image_id} />
+        {detailGame.screenshots.map(({ image_id }) => (
+          <SwiperSlide key={image_id}>
+            <GameImage ImageId={image_id} />
           </SwiperSlide>
         ))}
       </Swiper>

@@ -18,7 +18,12 @@ export interface IGame {
   created_at: number;
   first_release_date: number;
   involved_companies: [object: any];
-  platforms: [number];
+  platforms: [object: any];
   similar_games: [number];
   summary: [string];
+}
+
+export interface IBasicImageGameApi {
+  id: number;
+  image_id: string;
 }
