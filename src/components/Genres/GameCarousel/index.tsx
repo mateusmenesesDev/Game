@@ -25,7 +25,7 @@ export function GameCarousel({ genre }: Props) {
       breakpoints={{
         768: { slidesPerGroup: 2, slidesPerView: 3 },
         1024: { slidesPerGroup: 3, slidesPerView: 4 },
-        1440: { slidesPerGroup: 4, slidesPerView: 5 },
+        1440: { slidesPerGroup: 4, slidesPerView: 'auto' },
       }}
       className='mb-4 pb-5'
     >
