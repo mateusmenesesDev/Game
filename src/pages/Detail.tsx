@@ -68,8 +68,8 @@ export function Detail() {
     <div className=''>
       <div className='flex flex-col items-center mb-10'>
         <div className='w-1/2 max-w-[310px] flex-1'>
-          <div className='badge bg-red-700 w-10 h-10 relative top-7 right-4 font-bold sm:w-14 sm:h-14 sm:top-9'>
-            {Math.floor(detailGame.rating)}
+          <div className='badge bg-red-700 w-14 h-14 relative top-10 right-4 font-bold sm:w-16 sm:h-16 sm:top-12'>
+            {Math.floor(detailGame.rating)}/100
           </div>
           <GameImage ImageId={detailGame.cover.image_id} />
         </div>
