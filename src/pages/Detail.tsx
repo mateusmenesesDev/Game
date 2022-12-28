@@ -120,11 +120,11 @@ export function Detail() {
             </Swiper>
           </div>
 
-          <div className={`${tab === 2 ? 'block' : 'hidden'} mt-1`}>
+          <div className={`${tab === 2 ? 'block' : 'hidden'} mt-1 h-44`}>
             <iframe
-              className='w-full h-44'
+              className='w-full h-full'
               allowFullScreen={true}
-              src={`https://www.youtube.com/embed/LW5NwaUXgIA`}
+              src={`https://www.youtube.com/embed/${detailGame.videos[0].video_id}`}
             ></iframe>
           </div>
           <div className={`${tab === 3 ? 'block' : 'hidden'} mt-1`}>
