@@ -36,7 +36,7 @@ export function GameCarousel({ genre }: Props) {
         >
           {game.screenshots !== undefined && (
             <Link to={`detail/${game.id}`}>
-              <GameImage ImageId={game.cover.image_id} hover />
+              <GameImage ImageId={game.cover.image_id} hover rounded />
             </Link>
           )}
         </SwiperSlide>

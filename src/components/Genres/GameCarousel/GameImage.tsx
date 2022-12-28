@@ -1,6 +1,10 @@
-type Props = { ImageId: string | undefined; hover?: boolean };
+type Props = {
+  ImageId: string | undefined;
+  hover?: boolean;
+  rounded?: boolean;
+};
 
-export function GameImage({ ImageId, hover = false }: Props) {
+export function GameImage({ ImageId, hover = false, rounded }: Props) {
   return (
     <picture>
       <source
@@ -10,7 +14,7 @@ export function GameImage({ ImageId, hover = false }: Props) {
       <img
         src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${ImageId}.png`}
         alt=''
-        className={`h-full min-w-full rounded-md ${
+        className={`h-full min-w-full ${rounded ? 'rounded-md' : null} ${
           hover ? 'transition-all hover:border-4' : ''
         } `}
         loading='lazy'

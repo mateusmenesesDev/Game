@@ -41,7 +41,6 @@ export function Detail() {
       setPlataformsLogos(logos);
     }
   }
-
   async function getGame() {
     console.log('entrei');
     const { data } = await axios.get(
@@ -49,8 +48,12 @@ export function Detail() {
     );
     setDetailGame(data[0]);
   }
+
   useEffect(() => {
-    console.log(newGame);
+    if (newGame) {
+      setNewGame(false);
+      window.location.reload();
+    }
     getGame();
   }, [newGame]);
 
@@ -61,7 +64,7 @@ export function Detail() {
     }
   }, [detailGame]);
 
-  return detailGame != undefined ? (
+  return detailGame !== undefined ? (
     <div className=''>
       <div className='flex flex-col items-center mb-10'>
         <div className='w-1/2 max-w-[310px] flex-1'>
@@ -130,7 +133,7 @@ export function Detail() {
                   key={game.id}
                 >
                   <Link
-                    onClick={() => setNewGame(!newGame)}
+                    onClick={() => setNewGame(true)}
                     to={`/detail/${game.id}`}
                   >
                     <GameImage ImageId={game.cover.image_id} />
