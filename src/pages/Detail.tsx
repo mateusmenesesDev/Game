@@ -78,13 +78,15 @@ export function Detail() {
           {company.length > 0 && <h3>{company[0].name}</h3>}
           {new Date(detailGame.first_release_date * 1000).toLocaleDateString()}
         </div>
-        <div className='flex gap-5 px-3 bg-secondary rounded-lg'>
-          {plataformsLogos.map(({ image_id }) => (
-            <div key={image_id} className='w-[30px] '>
-              <GameImage ImageId={image_id} />
-            </div>
-          ))}
-        </div>
+        {plataformsLogos.length > 0 && (
+          <div className='flex gap-5 mx-6 px-5 py-1 bg-primary rounded-lg flex-wrap justify-center'>
+            {plataformsLogos.map(({ image_id }) => (
+              <div key={image_id} className='w-[30px] '>
+                <GameImage ImageId={image_id} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
       <div>
         <div className='tabs tabs-boxed  justify-around'>
