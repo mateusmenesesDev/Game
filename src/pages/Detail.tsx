@@ -65,7 +65,7 @@ export function Detail() {
   }, [detailGame]);
 
   return detailGame !== undefined ? (
-    <div className='gird'>
+    <div className=''>
       <div className='flex flex-col items-center mb-10'>
         <div className='w-1/2 max-w-[310px] flex-1'>
           <div className='badge bg-red-700 w-14 h-14 relative top-10 right-4 font-bold sm:w-16 sm:h-16 sm:top-12'>
