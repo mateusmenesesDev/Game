@@ -10,7 +10,7 @@ async function getAuth() {
 const apiRequest = {
   getAllGames: async () => {
     const fields =
-      'fields name, rating, id, genres, screenshots.image_id, videos.video_id, created_at, first_release_date, involved_companies.*, platforms.*, similar_games.cover.image_id, summary, cover.image_id;';
+      'fields name, rating, id, genres, screenshots.image_id, videos.video_id, created_at, first_release_date, involved_companies.*, platforms.platform_logo, similar_games.cover.image_id, summary, cover.image_id;';
     const auth = await getAuth();
     const request = await axios({
       url: 'https://api.igdb.com/v4/games',

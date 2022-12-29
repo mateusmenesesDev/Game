@@ -21,7 +21,6 @@ export function Detail() {
     );
     setDetailGame(data[0]);
   }
-
   async function getCompany() {
     const companyId = detailGame?.involved_companies[0].company;
     const { data } = await axios.get(
@@ -91,7 +90,6 @@ export function Detail() {
           )}
         </div>
       </div>
-
       <div className='col-span-2'>
         <Tabs detailGame={detailGame} setNewGame={setNewGame} />
       </div>
