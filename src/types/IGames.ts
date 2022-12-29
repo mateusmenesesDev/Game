@@ -22,7 +22,7 @@ export interface IGame {
     { id: number; developer: boolean; publisher: boolean; company: number }
   ];
   platforms: [{ id: number; platform_logo: number }];
-  similar_games: [{ id: number; cover: number }];
+  similar_games: [{ id: number; cover: { id: number; image_id: string } }];
   summary: [string];
 }
 
