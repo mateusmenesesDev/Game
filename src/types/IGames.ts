@@ -26,7 +26,8 @@ export interface IGame {
   summary: [string];
 }
 
-export interface IBasicImageGameApi {
+export interface IBasicMediaGameApi {
   id: number;
-  image_id: string;
+  image_id?: string;
+  video_id?: string;
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IBasicGameApi, IBasicImageGameApi, IGame } from '../../types/IGames';
+import { IBasicGameApi, IBasicMediaGameApi, IGame } from '../../types/IGames';
 import { GameImage } from '../../components/Genres/GameCarousel/GameImage';
 import { Placeholder } from '../../components/utils/Placeholder';
 import { useParams } from 'react-router-dom';
@@ -11,7 +11,7 @@ export function Detail() {
   const [newGame, setNewGame] = useState(false);
   const [detailGame, setDetailGame] = useState<IGame>();
   const [plataformsLogos, setPlataformsLogos] = useState<
-    IBasicImageGameApi[] | []
+    IBasicMediaGameApi[] | []
   >([]);
 
   const { gameId } = useParams();
@@ -33,7 +33,7 @@ export function Detail() {
       const logoIds = detailGame.platforms.map(
         ({ platform_logo }) => platform_logo
       );
-      const logos: IBasicImageGameApi[] = await Promise.all(
+      const logos: IBasicMediaGameApi[] = await Promise.all(
         logoIds.map(async (id) => {
           const { data } = await axios.get(
             `/.netlify/functions/gamePlataform?logoId=${id}`
