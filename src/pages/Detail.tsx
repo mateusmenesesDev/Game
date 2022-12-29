@@ -65,7 +65,7 @@ export function Detail() {
   }, [detailGame]);
 
   return detailGame !== undefined ? (
-    <div className='lg:grid grid-flow-row grid-cols-2 items-center'>
+    <div className='lg:grid grid-cols-2 items-center '>
       <div className='col-span-1 row-span-1 justify-self-end'>
         <div className='flex flex-col items-center mb-10'>
           <div className='indicator max-w-[310px]'>
@@ -97,9 +97,9 @@ export function Detail() {
 
       <div className='col-span-2'>
         <div className=''>
-          <div className='tabs tabs-boxed justify-center mb-2'>
+          <div className=' text-white tabs tabs-boxed justify-center mb-2'>
             <a
-              className={`tab  ${
+              className={`tab ${
                 tab === 1 ? 'tab-bordered' : null
               } rounded-none`}
               onClick={() => setTab(1)}
@@ -108,7 +108,7 @@ export function Detail() {
             </a>
             {detailGame.videos !== undefined && (
               <a
-                className={`tab ${
+                className={`tab  ${
                   tab === 2 ? 'tab-bordered' : null
                 } rounded-none`}
                 onClick={() => setTab(2)}
@@ -117,7 +117,7 @@ export function Detail() {
               </a>
             )}
             <a
-              className={`tab ${
+              className={`tab  ${
                 tab === 3 ? 'tab-bordered' : null
               } rounded-none`}
               onClick={() => setTab(3)}
@@ -170,7 +170,7 @@ export function Detail() {
                       onClick={() => setNewGame(true)}
                       to={`/detail/${game.id}`}
                     >
-                      <GameImage ImageId={game.cover.image_id} />
+                      <GameImage ImageId={game.cover.image_id} hover />
                     </Link>
                   </SwiperSlide>
                 ))}
@@ -179,7 +179,7 @@ export function Detail() {
           </div>
         </div>
       </div>
-      <div className='mt-4 px-2 row-start-1 col-start-2 pr-24 max-w-[500px]'>
+      <div className='mt-4 px-2 row-start-1 col-start-2 lg:pr-24 lg:max-w-[500px]'>
         {detailGame.summary}
       </div>
     </div>
