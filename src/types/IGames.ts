@@ -18,13 +18,16 @@ export interface IGame {
   rating: number;
   created_at: number;
   first_release_date: number;
-  involved_companies: [object: any];
-  platforms: [object: any];
-  similar_games: [object: any];
+  involved_companies: [
+    { id: number; developer: boolean; publisher: boolean; company: number }
+  ];
+  platforms: [{ id: number; platform_logo: number }];
+  similar_games: [{ id: number; cover: { id: number; image_id: string } }];
   summary: [string];
 }
 
-export interface IBasicImageGameApi {
+export interface IBasicMediaGameApi {
   id: number;
-  image_id: string;
+  image_id?: string;
+  video_id?: string;
 }
