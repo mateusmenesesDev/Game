@@ -68,21 +68,22 @@ export function Tabs({ detailGame, setNewGame }: Props) {
         )}
         <div className={`${tab === 3 ? 'block' : 'hidden'}`}>
           <Swiper navigation={true} modules={[Navigation]} slidesPerView={2}>
-            {detailGame.similar_games
-              .filter((game) => game.cover !== undefined)
-              .map((game) => (
-                <SwiperSlide
-                  className='max-h-[220px] max-w-[160px] md:max-h-[400px] md:max-w-[300px]'
-                  key={game.id}
-                >
-                  <Link
-                    onClick={() => setNewGame(true)}
-                    to={`/detail/${game.id}`}
+            {detailGame.similar_games !== undefined &&
+              detailGame.similar_games
+                .filter((game) => game.cover !== undefined)
+                .map((game) => (
+                  <SwiperSlide
+                    className='max-h-[220px] max-w-[160px] md:max-h-[400px] md:max-w-[300px]'
+                    key={game.id}
                   >
-                    <GameImage ImageId={game.cover.image_id} hover />
-                  </Link>
-                </SwiperSlide>
-              ))}
+                    <Link
+                      onClick={() => setNewGame(true)}
+                      to={`/detail/${game.id}`}
+                    >
+                      <GameImage ImageId={game.cover.image_id} hover />
+                    </Link>
+                  </SwiperSlide>
+                ))}
           </Swiper>
         </div>
       </div>

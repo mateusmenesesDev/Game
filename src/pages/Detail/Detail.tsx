@@ -3,8 +3,10 @@ import { IBasicGameApi, IBasicMediaGameApi, IGame } from '../../types/IGames';
 import { GameImage } from '../../components/Genres/GameCarousel/GameImage';
 import { Placeholder } from '../../components/utils/Placeholder';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Tabs } from './components/Tabs';
+import { Context } from '../../contexts/Context';
+import { generateRandom } from '../../utils/generateRandom';
 
 export function Detail() {
   const [company, setCompany] = useState<IBasicGameApi[]>([]);
@@ -13,8 +15,9 @@ export function Detail() {
   const [plataformsLogos, setPlataformsLogos] = useState<
     IBasicMediaGameApi[] | []
   >([]);
-
   const { gameId } = useParams();
+  const { games } = useContext(Context);
+
   async function getGame() {
     const { data } = await axios.get(
       `/.netlify/functions/getGame?gameId=${gameId}`
@@ -22,14 +25,14 @@ export function Detail() {
     setDetailGame(data[0]);
   }
   async function getCompany() {
-    const companyId = detailGame?.involved_companies[0].company;
+    const companyId = detailGame?.involved_companies[0]?.company;
     const { data } = await axios.get(
       `/.netlify/functions/gamePublisher?companyId=${companyId}`
     );
     setCompany(data.company);
   }
   async function getPlataformsLogos() {
-    if (detailGame !== undefined) {
+    if (detailGame?.platforms !== undefined) {
       const logoIds = detailGame.platforms.map(
         ({ platform_logo }) => platform_logo
       );
@@ -46,17 +49,26 @@ export function Detail() {
   }
 
   useEffect(() => {
+    console.log('t');
+    console.log(detailGame);
     if (newGame) {
       setNewGame(false);
       window.location.reload();
     }
-    getGame();
-  }, [newGame]);
+    if (gameId?.startsWith('random')) {
+      const randomGameIndex = generateRandom(499);
+      setDetailGame(games[randomGameIndex]);
+    } else {
+      getGame();
+    }
+  }, [newGame, gameId, games]);
 
   useEffect(() => {
     if (detailGame != undefined) {
       getCompany();
-      getPlataformsLogos();
+      if (detailGame.platforms !== undefined) {
+        getPlataformsLogos();
+      }
     }
   }, [detailGame]);
 
