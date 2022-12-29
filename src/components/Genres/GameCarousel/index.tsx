@@ -2,13 +2,14 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation, Mousewheel } from 'swiper';
-import { IGameGenre } from '../../../types/IGames';
+import { IBasicGameApi } from '../../../types/IGames';
 import { GameImage } from './GameImage';
 import { useContext } from 'react';
 import { Context } from '../../../contexts/Context';
+import { Link } from 'react-router-dom';
 
 type Props = {
-  genre: IGameGenre;
+  genre: IBasicGameApi;
 };
 
 export function GameCarousel({ genre }: Props) {
@@ -24,7 +25,7 @@ export function GameCarousel({ genre }: Props) {
       breakpoints={{
         768: { slidesPerGroup: 2, slidesPerView: 3 },
         1024: { slidesPerGroup: 3, slidesPerView: 4 },
-        1440: { slidesPerGroup: 4, slidesPerView: 5 },
+        1440: { slidesPerGroup: 4, slidesPerView: 'auto' },
       }}
       className='mb-4 pb-5'
     >
@@ -33,7 +34,11 @@ export function GameCarousel({ genre }: Props) {
           key={game.id}
           className='first:ml-4 md:first:ml-8 max-w-[310px] h-auto max-h-[440px] transition-all cursor-pointer lg:mt-6 lg:hover:scale-105 '
         >
-          {game.screenshots !== undefined && <GameImage game={game} />}
+          {game.screenshots !== undefined && (
+            <Link to={`detail/${game.id}`}>
+              <GameImage ImageId={game.cover.image_id} hover rounded />
+            </Link>
+          )}
         </SwiperSlide>
       ))}
     </Swiper>

@@ -1,8 +1,9 @@
+import { Link } from 'react-router-dom';
 import { Theme } from './Theme';
 
 export function Header() {
   return (
-    <header className='px-4 py-6 flex gap-3 justify-between mb-16 sm:text-lg sm:px-10 md:px-12 lg:justify-around lg:px-0'>
+    <header className='px-4 py-6 flex gap-3 justify-between mb-12 sm:text-lg sm:px-10 md:px-12 lg:justify-around lg:px-0'>
       <div className='flex items-center gap-2'>
         <div className='dropdown'>
           <button className='btn btn-square btn-ghost'>
@@ -25,7 +26,9 @@ export function Header() {
             className='dropdown-content menu p-2 shadow  bg-base-300 rounded-box w-52'
           >
             <li className=''>
-              <a>Início</a>
+              <Link to={'/'}>
+                <a>Início</a>
+              </Link>
             </li>
             <li>
               <a>Minha Lista</a>

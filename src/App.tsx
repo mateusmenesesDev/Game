@@ -1,20 +1,20 @@
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter } from 'react-router-dom';
 import { Header } from './components/Header';
 import { ContextProvider } from './contexts/Context';
 import { RouteList } from './routes/RouteList';
 
 function App() {
   return (
-    <div>
-      <Header />
-      <main>
-        <ContextProvider>
-          <BrowserRouter>
+    <>
+      <HashRouter>
+        <Header />
+        <main>
+          <ContextProvider>
             <RouteList />
-          </BrowserRouter>
-        </ContextProvider>
-      </main>
-    </div>
+          </ContextProvider>
+        </main>
+      </HashRouter>
+    </>
   );
 }
 
