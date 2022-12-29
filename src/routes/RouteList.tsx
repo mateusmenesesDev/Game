@@ -1,5 +1,5 @@
 import { useRoutes } from 'react-router-dom';
-import { Detail } from '../pages/Detail';
+import { Detail } from '../pages/Detail/Detail';
 import { Home } from '../pages/Home';
 import { NotFound } from '../pages/NotFound';
 
