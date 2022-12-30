@@ -23,6 +23,7 @@ export function Detail() {
       `/.netlify/functions/getGame?gameId=${gameId}`
     );
     setDetailGame(data[0]);
+    setNewGame(false);
   }
   async function getCompany() {
     const companyId = detailGame?.involved_companies[0]?.company;
@@ -49,10 +50,6 @@ export function Detail() {
   }
 
   useEffect(() => {
-    if (newGame) {
-      setNewGame(false);
-      window.location.reload();
-    }
     if (gameId?.startsWith('random')) {
       const randomGameIndex = generateRandom(499);
       setDetailGame(games[randomGameIndex]);
@@ -70,7 +67,7 @@ export function Detail() {
     }
   }, [detailGame]);
 
-  return detailGame !== undefined ? (
+  return detailGame !== undefined && newGame === false ? (
     <div className='lg:grid grid-cols-2 items-center '>
       <div className='col-span-1 row-span-1 justify-self-end'>
         <div className='flex flex-col items-center mb-10'>
