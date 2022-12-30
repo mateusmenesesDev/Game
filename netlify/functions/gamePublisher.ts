@@ -26,6 +26,6 @@ export const handler = async (event) => {
   const company = await getCompany(event.queryStringParameters.companyId);
   return {
     statusCode: 200,
-    body: JSON.stringify({ company }),
+    body: JSON.stringify(company),
   };
 };
