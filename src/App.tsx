@@ -1,4 +1,4 @@
-import { BrowserRouter, HashRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { Header } from './components/Header';
 import { ContextProvider } from './contexts/Context';
 import { RouteList } from './routes/RouteList';
@@ -6,14 +6,14 @@ import { RouteList } from './routes/RouteList';
 function App() {
   return (
     <>
-      <BrowserRouter>
+      <HashRouter>
         <Header />
         <main>
           <ContextProvider>
             <RouteList />
           </ContextProvider>
         </main>
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }
