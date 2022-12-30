@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { IBasicGameApi, IBasicMediaGameApi, IGame } from '../../types/IGames';
 import { GameImage } from '../../components/Genres/GameCarousel/GameImage';
 import { Placeholder } from '../../components/utils/Placeholder';
@@ -7,86 +6,71 @@ import { useContext, useEffect, useState } from 'react';
 import { Tabs } from './components/Tabs';
 import { Context } from '../../contexts/Context';
 import { generateRandom } from '../../utils/generateRandom';
+import { gameFetch } from '../../api/game';
 
 export function Detail() {
-  const [company, setCompany] = useState<IBasicGameApi[]>([]);
+  const [company, setCompany] = useState<IBasicGameApi>();
   const [newGame, setNewGame] = useState(false);
   const [detailGame, setDetailGame] = useState<IGame>();
   const [plataformsLogos, setPlataformsLogos] = useState<
-    IBasicMediaGameApi[] | []
+    IBasicMediaGameApi[] | [] | undefined
   >([]);
   const { gameId } = useParams();
   const { games } = useContext(Context);
 
-  async function getGame() {
-    const { data } = await axios.get(
-      `/.netlify/functions/getGame?gameId=${gameId}`
-    );
-    setDetailGame(data[0]);
+  async function fetchGameData() {
+    const game: IGame = await gameFetch.getGame(gameId);
+    const plataformsLogos = await gameFetch.getPlataformsLogos(game);
+    const company = await gameFetch.getCompany(game);
+    setDetailGame(game);
+    setCompany(company);
+    setPlataformsLogos(plataformsLogos);
     setNewGame(false);
   }
-  async function getCompany() {
-    const companyId = detailGame?.involved_companies[0]?.company;
-    const { data } = await axios.get(
-      `/.netlify/functions/gamePublisher?companyId=${companyId}`
-    );
-    setCompany(data.company);
-  }
-  async function getPlataformsLogos() {
-    if (detailGame?.platforms !== undefined) {
-      const logoIds = detailGame.platforms.map(
-        ({ platform_logo }) => platform_logo
-      );
-      const logos: IBasicMediaGameApi[] = await Promise.all(
-        logoIds.map(async (id) => {
-          const { data } = await axios.get(
-            `/.netlify/functions/gamePlataform?logoId=${id}`
-          );
-          return data;
-        })
-      );
-      setPlataformsLogos(logos);
-    }
+
+  async function fetchExtraData(game: IGame) {
+    const plataformsLogos = await gameFetch.getPlataformsLogos(game);
+    const company = await gameFetch.getCompany(game);
+    setCompany(company);
+    setPlataformsLogos(plataformsLogos);
   }
 
   useEffect(() => {
     if (gameId?.startsWith('random')) {
       const randomGameIndex = generateRandom(499);
-      setDetailGame(games[randomGameIndex]);
+      const game: IGame = games[randomGameIndex];
+      setDetailGame(game);
+      fetchExtraData(game);
     } else {
-      getGame();
+      fetchGameData();
     }
   }, [newGame, gameId, games]);
-
-  useEffect(() => {
-    if (detailGame != undefined) {
-      getCompany();
-      if (detailGame.platforms !== undefined) {
-        getPlataformsLogos();
-      }
-    }
-  }, [detailGame]);
 
   return detailGame !== undefined && newGame === false ? (
     <div className='lg:grid grid-cols-2 items-center '>
       <div className='col-span-1 row-span-1 justify-self-end'>
         <div className='flex flex-col items-center mb-10'>
           <div className='indicator max-w-[310px]'>
-            <span className='indicator-item indicator-start badge bg-red-700 w-14 h-14 font-bold border-none'>
-              {Math.floor(detailGame.rating)}/100
-            </span>
+            {detailGame.rating && (
+              <span className='indicator-item indicator-start badge bg-red-700 w-14 h-14 font-bold border-none'>
+                {Math.floor(detailGame.rating)}/100
+              </span>
+            )}
             <div className='grid bg-base-300 place-items-center'>
               <GameImage ImageId={detailGame.cover.image_id} />
             </div>
           </div>
           <h3 className='font-bold text-lg flex-1'>{detailGame.name}</h3>
           <div className='flex gap-2 flex-wrap justify-center my-3'>
-            {company.length > 0 && <h3>{company[0].name}</h3>}
+            {company && <h3>{company.name}</h3>}
             {new Date(
               detailGame.first_release_date * 1000
-            ).toLocaleDateString()}
+            ).toLocaleDateString() !== 'Invalid Date' &&
+              new Date(
+                detailGame.first_release_date * 1000
+              ).toLocaleDateString()}
           </div>
-          {plataformsLogos.length > 0 && (
+          {plataformsLogos && (
             <div className='flex gap-5 mx-6 px-5 py-1 bg-primary rounded-lg flex-wrap justify-center'>
               {plataformsLogos.map(({ image_id }) => (
                 <div key={image_id} className='w-[50px]'>
