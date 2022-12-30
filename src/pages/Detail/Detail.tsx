@@ -19,6 +19,7 @@ export function Detail() {
   const { games } = useContext(Context);
 
   async function fetchGameData() {
+    console.log('aqui');
     const game: IGame = await gameFetch.getGame(gameId);
     const plataformsLogos = await gameFetch.getPlataformsLogos(game);
     const company = await gameFetch.getCompany(game);
@@ -46,7 +47,7 @@ export function Detail() {
     }
   }, [newGame, gameId, games]);
 
-  return detailGame && !newGame ? (
+  return detailGame !== undefined && newGame === false ? (
     <div className='lg:grid grid-cols-2 items-center '>
       <div className='col-span-1 row-span-1 justify-self-end'>
         <div className='flex flex-col items-center mb-10'>

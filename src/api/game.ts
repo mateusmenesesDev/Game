@@ -9,7 +9,7 @@ export const gameFetch = {
     return data[0];
   },
   getCompany: async (game: IGame) => {
-    if (game !== undefined) {
+    if (game !== undefined && game.involved_companies !== undefined) {
       const companyId = game.involved_companies.find(
         (company) => company.publisher === true
       );
@@ -20,7 +20,7 @@ export const gameFetch = {
     }
   },
   getPlataformsLogos: async (game: IGame) => {
-    if (game !== undefined) {
+    if (game !== undefined && game.platforms !== undefined) {
       const logoIds = game.platforms.map(({ platform_logo }) => platform_logo);
       const logos: IBasicMediaGameApi[] = await Promise.all(
         logoIds.map(async (id) => {

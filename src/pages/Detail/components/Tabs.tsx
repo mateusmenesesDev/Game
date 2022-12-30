@@ -46,11 +46,12 @@ export function Tabs({ detailGame, setNewGame }: Props) {
               1024: { slidesPerGroup: 2, slidesPerView: 3 },
             }}
           >
-            {detailGame.screenshots.map(({ image_id }) => (
-              <SwiperSlide key={image_id} className='h-64 md:h-72 lg:h-96'>
-                <GameImage ImageId={image_id} />
-              </SwiperSlide>
-            ))}
+            {detailGame.screenshots &&
+              detailGame.screenshots.map(({ image_id }) => (
+                <SwiperSlide key={image_id} className='h-64 md:h-72 lg:h-96'>
+                  <GameImage ImageId={image_id} />
+                </SwiperSlide>
+              ))}
           </Swiper>
         </div>
         {detailGame.videos != undefined && (

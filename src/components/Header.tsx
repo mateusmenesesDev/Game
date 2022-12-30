@@ -1,12 +1,20 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Theme } from './Theme';
 
 export function Header() {
+  const [random, setRandom] = useState(1);
+  const [search, setSearch] = useState('');
   const navigate = useNavigate();
-  const [random, setRandom] = useState<number>(1);
-  function refreshPage() {
-    navigate(1);
+
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    setSearch(event.target.value);
+  }
+
+  function handleKeyDown(event: any) {
+    if (event.key === 'Enter') {
+      navigate(`/detail/${search}`);
+    }
   }
   return (
     <header className='px-4 py-6 flex gap-3 justify-between mb-12 sm:text-lg sm:px-10 md:px-12 lg:justify-around lg:px-0'>
@@ -54,6 +62,8 @@ export function Header() {
           type='text'
           placeholder='Buscar'
           className='input input-bordered w-full max-w-xs'
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
         />
         <Theme />
       </div>
