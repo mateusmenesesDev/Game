@@ -46,7 +46,7 @@ export function Detail() {
     }
   }, [newGame, gameId, games]);
 
-  return detailGame !== undefined && newGame === false ? (
+  return detailGame && !newGame ? (
     <div className='lg:grid grid-cols-2 items-center '>
       <div className='col-span-1 row-span-1 justify-self-end'>
         <div className='flex flex-col items-center mb-10'>
