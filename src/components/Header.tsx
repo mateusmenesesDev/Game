@@ -42,7 +42,7 @@ export function Header() {
                 to={`detail/random${random}`}
                 onClick={() => setRandom(random + 1)}
               >
-                <a>Random Game</a>
+                Random Game
               </Link>
             </li>
           </ul>

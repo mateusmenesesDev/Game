@@ -49,8 +49,6 @@ export function Detail() {
   }
 
   useEffect(() => {
-    console.log('t');
-    console.log(detailGame);
     if (newGame) {
       setNewGame(false);
       window.location.reload();
