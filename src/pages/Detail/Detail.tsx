@@ -19,6 +19,7 @@ export function Detail() {
   const { games } = useContext(Context);
 
   async function fetchGameData() {
+    console.log('aqui');
     const game: IGame = await gameFetch.getGame(gameId);
     const plataformsLogos = await gameFetch.getPlataformsLogos(game);
     const company = await gameFetch.getCompany(game);
