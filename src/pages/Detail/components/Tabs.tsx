@@ -78,7 +78,7 @@ export function Tabs({ detailGame, setNewGame }: Props) {
                     key={game.id}
                   >
                     <Link
-                      onClick={() => setNewGame(true)}
+                      
                       to={`/detail/${game.id}`}
                     >
                       <GameImage ImageId={game.cover.image_id} hover />

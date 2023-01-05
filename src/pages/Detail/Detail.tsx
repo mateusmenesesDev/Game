@@ -20,6 +20,7 @@ export function Detail() {
   const { games } = useContext(Context);
 
   async function fetchGameData() {
+    setNewGame(true);
     let game: IGame;
     if (gameId?.startsWith("random")) {
       game = games[generateRandom(499)];
@@ -27,19 +28,15 @@ export function Detail() {
       game = await gameFetch.getGame(gameId);
     }
     const company = await gameFetch.getCompany(game);
-    if (company !== undefined) {
-      setDetailGame({ game: game, company: company });
-    } else {
-      setDetailGame({ game: game, company: company });
-    }
+    setDetailGame({ game, company });
     setNewGame(false);
   }
 
   useEffect(() => {
     fetchGameData();
-  }, [newGame, gameId, games]);
+  }, [gameId, games]);
 
-  return detailGame?.game !== undefined && newGame === false ? (
+  return detailGame?.game && newGame === false ? (
     <div className="lg:grid grid-cols-2 items-center ">
       <div className="col-span-1 row-span-1 justify-self-end">
         <div className="flex flex-col items-center mb-10">

@@ -13,6 +13,9 @@ export const gameFetch = {
       const companyId = game.involved_companies.find(
         (company) => company.publisher === true
       );
+      if (companyId === undefined) {
+        return undefined;
+      }
       const { data } = await axios.get(
         `/.netlify/functions/gamePublisher?companyId=${companyId?.company}`
       );
