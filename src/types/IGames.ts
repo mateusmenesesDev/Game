@@ -31,3 +31,8 @@ export interface IBasicMediaGameApi {
   image_id?: string;
   video_id?: string;
 }
+
+export interface IDetaiGame {
+  game: IGame;
+  company?: IBasicGameApi;
+}
