@@ -1,7 +1,21 @@
-import { Link } from 'react-router-dom';
+import { ChangeEvent, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Theme } from './Theme';
 
 export function Header() {
+  const [random, setRandom] = useState(1);
+  const [search, setSearch] = useState('');
+  const navigate = useNavigate();
+
+  function handleChange(event: ChangeEvent<HTMLInputElement>) {
+    setSearch(event.target.value);
+  }
+
+  function handleKeyDown(event: any) {
+    if (event.key === 'Enter') {
+      navigate(`/detail/${search}`);
+    }
+  }
   return (
     <header className='px-4 py-6 flex gap-3 justify-between mb-12 sm:text-lg sm:px-10 md:px-12 lg:justify-around lg:px-0'>
       <div className='flex items-center gap-2'>
@@ -26,15 +40,18 @@ export function Header() {
             className='dropdown-content menu p-2 shadow  bg-base-300 rounded-box w-52'
           >
             <li className=''>
-              <Link to={'/'}>
-                <a>Início</a>
-              </Link>
+              <Link to={'/'}>Início</Link>
             </li>
             <li>
               <a>Minha Lista</a>
             </li>
             <li>
-              <a>Random Game</a>
+              <Link
+                to={`detail/random${random}`}
+                onClick={() => setRandom(random + 1)}
+              >
+                Random Game
+              </Link>
             </li>
           </ul>
         </div>
@@ -45,6 +62,8 @@ export function Header() {
           type='text'
           placeholder='Buscar'
           className='input input-bordered w-full max-w-xs'
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
         />
         <Theme />
       </div>
