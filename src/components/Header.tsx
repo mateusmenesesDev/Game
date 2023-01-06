@@ -94,9 +94,11 @@ export function Header() {
                 {searchGames.map((game) => (
                   <div className="border-b flex gap-2" key={game.id}>
                     {game.cover && (
-                      <div className="w-16 h-24">
-                        <GameImage ImageId={game.cover.image_id} />
-                      </div>
+                      <Link to={`detail/${game.id}`}>
+                        <div className="w-16 h-24">
+                          <GameImage ImageId={game.cover.image_id} />
+                        </div>
+                      </Link>
                     )}
                     <div className="flex-1">{game.name}</div>
                   </div>
