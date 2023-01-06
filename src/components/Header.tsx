@@ -90,16 +90,21 @@ export function Header() {
           />
           {searchGames.length > 0 && (
             <div className="relative hidden group-focus-within:block hover:block">
-              <div className="text-xs md:text-sm bg-base-300 border border-slate-600 max-h-52 overflow-auto absolute w-full z-50 mt-2 px-2">
+              <div className="text-xs md:text-sm bg-base-300  border border-slate-600 max-h-52 overflow-auto absolute w-full z-50 mt-2">
                 {searchGames.map((game) => (
-                  <div className="border-b flex gap-2" key={game.id}>
-                    {game.cover && (
-                      <div className="w-16 h-24">
-                        <GameImage ImageId={game.cover.image_id} />
-                      </div>
-                    )}
-                    <div className="flex-1">{game.name}</div>
-                  </div>
+                  <Link to={`detail/${game.id}`}>
+                    <div
+                      className="border-b flex gap-2 hover:bg-base-100"
+                      key={game.id}
+                    >
+                      {game.cover && (
+                        <div className="w-16 h-24 ">
+                          <GameImage ImageId={game.cover.image_id} />
+                        </div>
+                      )}
+                      <div className="flex-1">{game.name}</div>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
