@@ -47,7 +47,7 @@ export function Detail() {
                 {Math.floor(detailGame.game.rating)}/100
               </span>
             )}
-            <div className="grid bg-base-300 place-items-center">
+            <div className="w-full">
               {detailGame.game.cover && (
                 <GameImage ImageId={detailGame.game.cover.image_id} />
               )}
