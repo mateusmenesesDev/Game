@@ -37,7 +37,7 @@ const apiRequest = {
         Authorization: `Bearer ${auth}`,
         'Accept-Encoding': 'gzip,deflate,compress',
       },
-      data: `${fields} search "${gameId}"; limit 1;`,
+      data: `${fields} search *"${gameId}"*; limit 10;`,
     });
     return request.data;
   },
@@ -50,7 +50,7 @@ export const handler = async (event) => {
     );
     return {
       statusCode: 200,
-      body: JSON.stringify(games),
+      body: JSON.stringify([...games]),
     };
   } else {
     const games = await apiRequest.getGameById(
