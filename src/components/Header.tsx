@@ -15,7 +15,6 @@ export function Header() {
   }
 
   useEffect(() => {
-    // getGame(input);
     const delayDebounceFn = setTimeout(async () => {
       if (input === "") setSearchGames([]);
       if (input !== "") setSearchGames(await gameFetch.getGame(input));
@@ -78,7 +77,7 @@ export function Header() {
             </li>
           </ul>
         </div>
-        <div>GAMENETZ</div>
+        <div className="hidden sm:block">GAMENETZ</div>
       </div>
       <div className="flex gap-5">
         <div className="group">
@@ -91,7 +90,7 @@ export function Header() {
           />
           {searchGames.length > 0 && (
             <div className="relative hidden group-hover:block">
-              <div className="text-sm bg-base-300 border border-slate-600 max-h-52 overflow-auto absolute w-full z-50 mt-2 px-2">
+              <div className="text-xs md:text-sm bg-base-300 border border-slate-600 max-h-52 overflow-auto absolute w-full z-50 mt-2 px-2">
                 {searchGames.map((game) => (
                   <div className="border-b flex gap-2" key={game.id}>
                     {game.cover && (
