@@ -6,7 +6,7 @@ export const gameFetch = {
     const { data } = await axios.get(
       `/.netlify/functions/getGame?gameId=${gameId}`
     );
-    return data[0];
+    return data;
   },
   getCompany: async (game: IGame) => {
     if (game !== undefined && game.involved_companies !== undefined) {

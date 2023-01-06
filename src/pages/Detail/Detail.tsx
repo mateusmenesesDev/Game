@@ -25,7 +25,8 @@ export function Detail() {
     if (gameId?.startsWith("random")) {
       game = games[generateRandom(499)];
     } else {
-      game = await gameFetch.getGame(gameId);
+      const request = await gameFetch.getGame(gameId);
+      game = request[0];
     }
     const company = await gameFetch.getCompany(game);
     setDetailGame({ game, company });
@@ -47,7 +48,9 @@ export function Detail() {
               </span>
             )}
             <div className="grid bg-base-300 place-items-center">
-              <GameImage ImageId={detailGame.game.cover.image_id} />
+              {detailGame.game.cover && (
+                <GameImage ImageId={detailGame.game.cover.image_id} />
+              )}
             </div>
           </div>
           <h3 className="font-bold text-lg flex-1">{detailGame.game.name}</h3>
