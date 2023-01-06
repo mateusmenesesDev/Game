@@ -89,7 +89,7 @@ export function Header() {
             value={input}
           />
           {searchGames.length > 0 && (
-            <div className="relative hidden group-hover:block">
+            <div className="relative hidden group-focus-within:block hover:block">
               <div className="text-xs md:text-sm bg-base-300 border border-slate-600 max-h-52 overflow-auto absolute w-full z-50 mt-2 px-2">
                 {searchGames.map((game) => (
                   <div className="border-b flex gap-2" key={game.id}>
