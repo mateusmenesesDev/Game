@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { Navigation } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { GameImage } from "../../../components/Genres/GameCarousel/GameImage";
+import { GameImage } from "../../../components/GameImage";
 import { IGame } from "../../../types/IGames";
 import { Link } from "react-router-dom";
 
 type Props = {
   detailGame: IGame;
-  setNewGame: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export function Tabs({ detailGame, setNewGame }: Props) {
+export function Tabs({ detailGame }: Props) {
   const [tab, setTab] = useState<number>(1);
 
   return (

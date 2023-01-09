@@ -1,12 +1,14 @@
-import { useRoutes } from 'react-router-dom';
-import { Detail } from '../pages/Detail/Detail';
-import { Home } from '../pages/Home';
-import { NotFound } from '../pages/NotFound';
+import { useRoutes } from "react-router-dom";
+import { Detail } from "../pages/Detail/Detail";
+import { Home } from "../pages/Home";
+import { List } from "../pages/List/List";
+import { NotFound } from "../pages/NotFound";
 
 export function RouteList() {
   return useRoutes([
-    { path: '/', element: <Home /> },
-    { path: '/detail/:gameId', element: <Detail /> },
-    { path: '*', element: <NotFound /> },
+    { path: "/", element: <Home /> },
+    { path: "/detail/:gameId", element: <Detail /> },
+    { path: "/list", element: <List /> },
+    { path: "*", element: <NotFound /> },
   ]);
 }

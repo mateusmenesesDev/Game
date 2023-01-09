@@ -1,7 +1,8 @@
-import { HashRouter } from 'react-router-dom';
-import { Header } from './components/Header';
-import { ContextProvider } from './contexts/Context';
-import { RouteList } from './routes/RouteList';
+import { HashRouter } from "react-router-dom";
+import { Header } from "./components/Header";
+import { Modal } from "./components/Modal/Modal";
+import { ContextProvider } from "./contexts/Context";
+import { RouteList } from "./routes/RouteList";
 
 function App() {
   return (

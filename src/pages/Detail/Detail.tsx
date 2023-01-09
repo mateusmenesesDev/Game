@@ -1,5 +1,5 @@
 import { IDetaiGame } from "../../types/IGames";
-import { GameImage } from "../../components/Genres/GameCarousel/GameImage";
+import { GameImage } from "../../components/GameImage";
 import { Placeholder } from "../../components/utils/Placeholder";
 import { useParams } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
@@ -11,8 +11,10 @@ import { gameFetch } from "../../api/game";
 export function Detail() {
   const [newGame, setNewGame] = useState(false);
   const [detailGame, setDetailGame] = useState<IDetaiGame>();
+  const [rating, setRating] = useState(0);
+  const [type, setType] = useState("");
   const { gameId } = useParams();
-  const { games } = useContext(Context);
+  const { games, setUserList, userList } = useContext(Context);
 
   async function fetchGameData() {
     setNewGame(true);
@@ -49,6 +51,7 @@ export function Detail() {
     } else {
       fetchGameData();
     }
+    console.log(userList);
   }, [gameId]);
 
   return detailGame?.game && newGame === false ? (
@@ -61,12 +64,72 @@ export function Detail() {
                 {Math.floor(detailGame.game.rating)}/100
               </span>
             )}
+            <label
+              htmlFor="my-modal"
+              className="indicator-item indicator-end badge w-6 h-6 font-bold border-none hover:scale-150"
+            >
+              +
+            </label>
+            <input type="checkbox" id="my-modal" className="modal-toggle" />
+            <div className="modal">
+              <div className="modal-box">
+                <h3 className="font-bold text-lg">{detailGame.game.name}</h3>
+                <div>
+                  <select
+                    className="select select-bordered w-full max-w-xs"
+                    onChange={(e) => setRating(Number(e.target.value))}
+                  >
+                    <option disabled selected>
+                      Nota
+                    </option>
+                    <option value={1}>1</option>
+                    <option value={2}>2</option>
+                    <option value={3}>3</option>
+                    <option value={4}>4</option>
+                    <option value={5}>5</option>
+                    <option value={6}>6</option>
+                    <option value={7}>7</option>
+                    <option value={8}>8</option>
+                    <option value={9}>9</option>
+                    <option value={10}>10</option>
+                  </select>
+                  <select
+                    className="select select-bordered w-full max-w-xs"
+                    onChange={(e) => setType(e.target.value)}
+                  >
+                    <option disabled selected>
+                      Type
+                    </option>
+                    <option value="Completed">Completed</option>
+                    <option value="Playing">Playing</option>
+                    <option value="Dropped">Dropped</option>
+                    <option value="Plan to Play">Plan to Play</option>
+                  </select>
+                </div>
+                <div className="modal-action">
+                  <label
+                    htmlFor="my-modal"
+                    className="btn"
+                    onClick={() =>
+                      setUserList([...userList, { detailGame, rating, type }])
+                    }
+                  >
+                    Salvar
+                  </label>
+                  <label htmlFor="my-modal" className="btn">
+                    Fechar
+                  </label>
+                </div>
+              </div>
+            </div>
+
             <div className="w-full">
               {detailGame.game.cover && (
                 <GameImage ImageId={detailGame.game.cover.image_id} />
               )}
             </div>
           </div>
+
           <h3 className="font-bold text-lg flex-1">{detailGame.game.name}</h3>
           <div className="flex gap-2 flex-wrap justify-center my-3">
             {detailGame.company && <h3>{detailGame.company.name}</h3>}
@@ -80,7 +143,7 @@ export function Detail() {
         </div>
       </div>
       <div className="col-span-2">
-        <Tabs detailGame={detailGame.game} setNewGame={setNewGame} />
+        <Tabs detailGame={detailGame.game} />
       </div>
       <div className="mt-4 px-2 row-start-1 col-start-2 lg:pr-24 lg:max-w-[500px]">
         {detailGame.game.summary}

@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { gameFetch } from "../api/game";
 import { IGame } from "../types/IGames";
-import { GameImage } from "./Genres/GameCarousel/GameImage";
+import { GameImage } from "./GameImage";
 import { Theme } from "./Theme";
 
 export function Header() {
@@ -65,7 +65,7 @@ export function Header() {
               <Link to={"/"}>Início</Link>
             </li>
             <li>
-              <a>Minha Lista</a>
+              <Link to={"list"}>Minha Lista</Link>
             </li>
             <li>
               <Link
@@ -92,7 +92,7 @@ export function Header() {
             <div className="relative hidden group-focus-within:block hover:block">
               <div className="text-xs md:text-sm bg-base-300 border border-slate-600 max-h-52 overflow-auto absolute w-full z-50 mt-2">
                 {searchGames.map((game) => (
-                  <Link to={`detail/${game.id}`}>
+                  <Link to={`detail/${game.id}`} key={game.id}>
                     <div
                       className="border-b flex gap-2 hover:bg-base-100"
                       key={game.id}
