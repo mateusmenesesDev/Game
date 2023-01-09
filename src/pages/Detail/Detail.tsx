@@ -15,7 +15,6 @@ export function Detail() {
   const { games } = useContext(Context);
 
   async function fetchGameData() {
-    console.log("non-random");
     setNewGame(true);
     let game;
     const gameInContext = games.find((game) => game.id === Number(gameId));
@@ -31,7 +30,6 @@ export function Detail() {
   }
 
   async function fetchRandomGameData() {
-    console.log("random");
     setNewGame(true);
     let game;
     if (games.length === 0) {
