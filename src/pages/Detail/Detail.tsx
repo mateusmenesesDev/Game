@@ -1,9 +1,4 @@
-import {
-  IBasicGameApi,
-  IBasicMediaGameApi,
-  IDetaiGame,
-  IGame,
-} from "../../types/IGames";
+import { IDetaiGame } from "../../types/IGames";
 import { GameImage } from "../../components/Genres/GameCarousel/GameImage";
 import { Placeholder } from "../../components/utils/Placeholder";
 import { useParams } from "react-router-dom";
@@ -21,9 +16,10 @@ export function Detail() {
 
   async function fetchGameData() {
     setNewGame(true);
-    let game: IGame;
-    if (gameId?.startsWith("random")) {
-      game = games[generateRandom(499)];
+    let game;
+    const gameInContext = games.find((game) => game.id === Number(gameId));
+    if (gameInContext !== undefined) {
+      game = games.find((game) => game.id === Number(gameId));
     } else {
       const request = await gameFetch.getGame(gameId);
       game = request[0];
@@ -33,9 +29,27 @@ export function Detail() {
     setNewGame(false);
   }
 
+  async function fetchRandomGameData() {
+    setNewGame(true);
+    let game;
+    if (games.length === 0) {
+      const request = await gameFetch.getGame(String(generateRandom(499)));
+      game = request[0];
+    } else {
+      game = games[generateRandom(499)];
+    }
+    const company = await gameFetch.getCompany(game);
+    setDetailGame({ game, company });
+    setNewGame(false);
+  }
+
   useEffect(() => {
-    fetchGameData();
-  }, [gameId, games]);
+    if (gameId?.startsWith("random")) {
+      fetchRandomGameData();
+    } else {
+      fetchGameData();
+    }
+  }, [gameId]);
 
   return detailGame?.game && newGame === false ? (
     <div className="lg:grid grid-cols-2 items-center ">
