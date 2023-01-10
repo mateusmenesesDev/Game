@@ -45,6 +45,18 @@ export function Detail() {
     setNewGame(false);
   }
 
+  function addGameToList() {
+    if (detailGame !== undefined) {
+      const gameInList = userList.some(
+        (item) => item.game.id === detailGame.game.id
+      );
+      if (!gameInList) {
+        setUserList([...userList, { ...detailGame, rating, type }]);
+      } else {
+        alert("Jogo já está na sua lista!");
+      }
+    }
+  }
   useEffect(() => {
     if (gameId?.startsWith("random")) {
       fetchRandomGameData();
@@ -110,12 +122,7 @@ export function Detail() {
                   <label
                     htmlFor="my-modal"
                     className="btn"
-                    onClick={() =>
-                      setUserList([
-                        ...userList,
-                        { ...detailGame, rating, type },
-                      ])
-                    }
+                    onClick={addGameToList}
                   >
                     Salvar
                   </label>
