@@ -9,9 +9,9 @@ export function List() {
   const [tab, setTab] = useState("All");
   console.log(userList);
   return (
-    <>
+    <div className="">
       {userList.length > 0 ? (
-        <div className="">
+        <>
           <ListTabs tab={tab} setTab={setTab} />
           <div className="grid grid-cols-3 place-items-center my-4 ">
             <div>plataform</div>
@@ -22,17 +22,21 @@ export function List() {
             </div>
             <div>order</div>
           </div>
-          {tab !== "All"
-            ? userList
-                .filter((item) => item.type === tab)
-                .map((item) => <ListGameData item={item} key={item.game.id} />)
-            : userList.map((item) => (
-                <ListGameData item={item} key={item.game.id} />
-              ))}
-        </div>
+          <div>
+            {tab !== "All"
+              ? userList
+                  .filter((item) => item.type === tab)
+                  .map((item) => (
+                    <ListGameData item={item} key={item.game.id} />
+                  ))
+              : userList.map((item) => (
+                  <ListGameData item={item} key={item.game.id} />
+                ))}
+          </div>
+        </>
       ) : (
         <EmptyList />
       )}
-    </>
+    </div>
   );
 }

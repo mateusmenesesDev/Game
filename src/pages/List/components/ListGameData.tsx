@@ -8,21 +8,22 @@ type Props = {
 export default function ListGameData({ item }: Props) {
   return (
     <div
-      className="grid place-items-center bg-base-300 grid-cols-3 text-sm md:text-base"
+      className="grid grid-cols-3 bg-base-300 items-center text-sm md:text-base pr-5"
       key={item.game.id}
     >
-      <div className="w-24 lg:w-52">
+      <div className="w-20 lg:w-52">
         <GameImage ImageId={item.game.cover.image_id} />
       </div>
-      <div className="flex justify-between w-full">
-        <div>
-          <p>{item.game.name}</p>
-          <p>{item.rating}/10</p>
-        </div>
+      <div className="">
+        <p>{item.game.name}</p>
+        <p>{item.rating}/10</p>
       </div>
-      <div className="flex gap-10">
-        <div>{item.type}</div>
-        <div>Editar</div>
+      <div className="justify-self-end">
+        <div className="text-center">{item.type}</div>
+        <div className="flex gap-2 mt-10">
+          <div>Editar</div>
+          <div>Excluir</div>
+        </div>
       </div>
     </div>
   );
