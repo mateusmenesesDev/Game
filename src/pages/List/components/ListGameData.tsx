@@ -16,7 +16,7 @@ export default function ListGameData({ item }: Props) {
       </div>
       <div className="">
         <p>{item.game.name}</p>
-        <p>{item.rating}/10</p>
+        {item.rating > 0 && <p>{item.rating}/10</p>}
       </div>
       <div className="justify-self-end">
         <div className="text-center">{item.type}</div>
