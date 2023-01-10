@@ -111,7 +111,10 @@ export function Detail() {
                     htmlFor="my-modal"
                     className="btn"
                     onClick={() =>
-                      setUserList([...userList, { detailGame, rating, type }])
+                      setUserList([
+                        ...userList,
+                        { ...detailGame, rating, type },
+                      ])
                     }
                   >
                     Salvar

@@ -53,11 +53,9 @@ export function List() {
       {tab !== "All"
         ? userList
             .filter((item) => item.type === tab)
-            .map((item) => (
-              <ListGameData item={item} key={item.detailGame.game.id} />
-            ))
+            .map((item) => <ListGameData item={item} key={item.game.id} />)
         : userList.map((item) => (
-            <ListGameData item={item} key={item.detailGame.game.id} />
+            <ListGameData item={item} key={item.game.id} />
           ))}
     </div>
   );
