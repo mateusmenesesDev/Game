@@ -1,5 +1,5 @@
-import { GameImage } from "../../components/GameImage";
-import { IUserList } from "../../types/IGames";
+import { GameImage } from "../../../components/GameImage";
+import { IUserList } from "../../../types/IGames";
 
 type Props = {
   item: IUserList;
