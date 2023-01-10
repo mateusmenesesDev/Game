@@ -1,5 +1,4 @@
 import { useContext, useState } from "react";
-import { GameImage } from "../../components/GameImage";
 import { Context } from "../../contexts/Context";
 import ListGameData from "./ListGameData";
 
@@ -44,7 +43,11 @@ export function List() {
       </div>
       <div className="grid grid-cols-3 place-items-center my-4 ">
         <div>plataform</div>
-        <div className="">{userList.length}</div>
+        <div>
+          {tab !== "All"
+            ? userList.filter((list) => list.type === tab).length
+            : userList.length}
+        </div>
         <div>order</div>
       </div>
       {tab !== "All"
