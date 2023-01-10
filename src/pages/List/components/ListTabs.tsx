@@ -25,7 +25,7 @@ export default function ListTabs({ tab, setTab }: Props) {
       </a>
       <a
         className={`tab tab-bordered ${tab === "Plan to Play" && "tab-active"}`}
-        onClick={() => setTab("On Hold")}
+        onClick={() => setTab("Plan to Play")}
       >
         Plan to Play
       </a>

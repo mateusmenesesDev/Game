@@ -7,6 +7,7 @@ import ListTabs from "./components/ListTabs";
 export function List() {
   const { userList } = useContext(Context);
   const [tab, setTab] = useState("All");
+  console.log(userList);
   return (
     <>
       {userList.length > 0 ? (
