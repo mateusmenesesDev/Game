@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import axios from "axios";
-import React, { createContext, useEffect, useState } from "react";
-import { IBasicGameApi, IGame, IUserList } from "../types/IGames";
+import axios from 'axios';
+import React, { createContext, useEffect, useState } from 'react';
+import { IBasicGameApi, IGame, IUserList } from '../types/IGames';
 
 type Props = {
   children: React.ReactNode;
@@ -13,6 +13,8 @@ type InitialContextProps = {
   setGenres: React.Dispatch<React.SetStateAction<IBasicGameApi[]>>;
   userList: IUserList[];
   setUserList: React.Dispatch<React.SetStateAction<IUserList[] | []>>;
+  user: any;
+  setUser: React.Dispatch<any>;
 };
 
 const initialContext = {
@@ -22,6 +24,8 @@ const initialContext = {
   setGenres: () => {},
   userList: [],
   setUserList: () => {},
+  user: {},
+  setUser: () => {},
 };
 
 export const Context = createContext<InitialContextProps>(initialContext);
@@ -30,9 +34,9 @@ export const ContextProvider = ({ children }: Props) => {
   const [games, setGames] = useState<IGame[]>([]);
   const [genres, setGenres] = useState<IBasicGameApi[]>([]);
   const [userList, setUserList] = useState<IUserList[] | []>([]);
-
+  const [user, setUser] = useState<any>();
   async function getGamesAndGenres() {
-    const { data } = await axios.get("/.netlify/functions/gameApi");
+    const { data } = await axios.get('/.netlify/functions/gameApi');
     setGames(data.games);
     setGenres(data.genres);
   }
@@ -42,7 +46,16 @@ export const ContextProvider = ({ children }: Props) => {
 
   return (
     <Context.Provider
-      value={{ games, setGames, genres, setGenres, userList, setUserList }}
+      value={{
+        games,
+        setGames,
+        genres,
+        setGenres,
+        userList,
+        setUserList,
+        user,
+        setUser,
+      }}
     >
       {children}
     </Context.Provider>

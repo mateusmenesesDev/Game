@@ -1,29 +1,35 @@
-import { useContext, useState } from "react";
-import { Context } from "../../contexts/Context";
-import EmptyList from "./EmptyList";
-import ListGameData from "./components/ListGameData";
-import ListTabs from "./components/ListTabs";
+import { useContext, useEffect, useState } from 'react';
+import { Context } from '../../contexts/Context';
+import EmptyList from './EmptyList';
+import ListGameData from './components/ListGameData';
+import ListTabs from './components/ListTabs';
+import { useNavigate } from 'react-router-dom';
 
 export function List() {
   const { userList } = useContext(Context);
-  const [tab, setTab] = useState("All");
-  console.log(userList);
+  const [tab, setTab] = useState('All');
+  const { user } = useContext(Context);
+  const navigate = useNavigate();
+  useEffect(() => {
+    console.log(user);
+    if (user === undefined || null) navigate('../login');
+  }, []);
   return (
-    <div className="">
+    <div className=''>
       {userList.length > 0 ? (
         <>
           <ListTabs tab={tab} setTab={setTab} />
-          <div className="grid grid-cols-3 place-items-center my-4 ">
+          <div className='grid grid-cols-3 place-items-center my-4 '>
             <div>plataform</div>
             <div>
-              {tab !== "All"
+              {tab !== 'All'
                 ? userList.filter((list) => list.type === tab).length
                 : userList.length}
             </div>
             <div>order</div>
           </div>
           <div>
-            {tab !== "All"
+            {tab !== 'All'
               ? userList
                   .filter((item) => item.type === tab)
                   .map((item) => (
