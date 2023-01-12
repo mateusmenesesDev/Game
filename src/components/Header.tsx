@@ -79,7 +79,7 @@ export function Header() {
         </div>
         <div className='hidden sm:block'>GAMENETZ</div>
       </div>
-      <div className='flex gap-5'>
+      <div>
         <div className='group'>
           <input
             type='text'
@@ -110,6 +110,9 @@ export function Header() {
             </div>
           )}
         </div>
+      </div>
+      <div className='flex gap-5 items-center'>
+        <div>Login</div>
         <Theme />
       </div>
     </header>
