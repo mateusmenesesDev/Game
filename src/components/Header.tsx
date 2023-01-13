@@ -1,6 +1,7 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gameFetch } from '../api/game';
+import { Context } from '../contexts/Context';
 import { IGame } from '../types/IGames';
 import { GameImage } from './GameImage';
 import { Theme } from './Theme';
@@ -9,11 +10,17 @@ export function Header() {
   const [random, setRandom] = useState(1);
   const [searchGames, setSearchGames] = useState<IGame[]>([]);
   const [input, setInput] = useState('');
+  const [isLogged, setIsLogged] = useState(false);
+  const { user, setUser } = useContext(Context);
 
   async function handleChange(event: ChangeEvent<HTMLInputElement>) {
     setInput(event.target.value);
   }
 
+  function signOut() {
+    localStorage.clear();
+    location.reload();
+  }
   useEffect(() => {
     const delayDebounceFn = setTimeout(async () => {
       if (input === '') setSearchGames([]);
@@ -23,6 +30,14 @@ export function Header() {
     return () => clearTimeout(delayDebounceFn);
   }, [input]);
 
+  useEffect(() => {
+    if (localStorage.user === undefined) {
+      setIsLogged(false);
+    } else {
+      setIsLogged(true);
+    }
+    console.log(isLogged);
+  }, [localStorage.user]);
   // function handleChange(event: ChangeEvent<HTMLInputElement>) {
   //   setInput(event.target.value);
   // }
@@ -112,7 +127,10 @@ export function Header() {
         </div>
       </div>
       <div className='flex gap-5 items-center'>
-        <div>Login</div>
+        <Link to={'/login'}>Login</Link>
+        <div className={`${isLogged === false && 'hidden'}`} onClick={signOut}>
+          Sair
+        </div>
         <Theme />
       </div>
     </header>

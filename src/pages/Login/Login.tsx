@@ -6,20 +6,20 @@ import { useContext, useEffect } from 'react';
 
 export default function Login() {
   const { setUser } = useContext(Context);
-  function handleGoogleSignIn() {
+
+  async function handleGoogleSignIn() {
     const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        setUser(result.user);
-        localStorage.setItem('user', JSON.stringify(result.user));
-      })
-      .catch((error) => console.log(error));
+    const sign = await signInWithPopup(auth, provider);
+    setUser(sign.user);
+    localStorage.setItem('user', JSON.stringify(sign.user));
+    location.reload();
   }
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (user) setUser(JSON.parse(user));
+    const newUser = localStorage.getItem('user');
+    if (newUser) setUser(JSON.parse(newUser));
   }, []);
+
   return (
     <div className='flex flex-col place-items-center items-center gap-5 bg-base-300 max-w-sm mx-auto mt-48'>
       <Tab />
