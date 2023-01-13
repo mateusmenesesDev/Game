@@ -1,51 +1,129 @@
 import Tab from './components/Tab';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { auth } from '../../services/firebase/firebase';
-import { Context } from '../../contexts/Context';
-import { useContext, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
+import { useAuth } from '../../contexts/Auth';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const { setUser } = useContext(Context);
-
-  async function handleGoogleSignIn() {
-    const provider = new GoogleAuthProvider();
-    const sign = await signInWithPopup(auth, provider);
-    setUser(sign.user);
-    localStorage.setItem('user', JSON.stringify(sign.user));
-    location.reload();
+  const { signup, signin, resetPassword, signinGoogle } = useAuth();
+  const [tab, setTab] = useState(1);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const signupButtonRef = useRef<HTMLButtonElement>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError('');
+    if (emailRef.current && passwordRef.current) {
+      if (!signupButtonRef.current?.disabled) {
+        try {
+          setLoading(true);
+          await signup(emailRef.current.value, passwordRef.current.value);
+        } catch (error: any) {
+          if (error.code === 'auth/weak-password') setError('Weak Password');
+          if (error.code === 'auth/email-already-in-use')
+            setError('Email already exist');
+        }
+      } else {
+        try {
+          setLoading(true);
+          await signin(emailRef.current.value, passwordRef.current.value);
+          navigate('/');
+        } catch (error: any) {
+          if (error.code === 'auth/wrong-password') setError('Wrong Password');
+          if (error.code === 'auth/user-not-found') setError('Email not found');
+          console.log(error.code);
+        }
+      }
+      setLoading(false);
+    }
   }
 
-  useEffect(() => {
-    const newUser = localStorage.getItem('user');
-    if (newUser) setUser(JSON.parse(newUser));
-  }, []);
-
+  async function handlePasswordReset() {
+    if (emailRef.current) {
+      try {
+        setMessage('');
+        setError('');
+        setLoading(true);
+        await resetPassword(emailRef.current.value);
+        setMessage('Check your inbox for further instructions');
+      } catch (error) {
+        setMessage('Failed to reset password');
+      }
+    }
+  }
   return (
     <div className='flex flex-col place-items-center items-center gap-5 bg-base-300 max-w-sm mx-auto mt-48'>
-      <Tab />
-      <form className='flex flex-col place-items-center gap-2'>
+      <Tab tab={tab} setTab={setTab} />
+      {error && (
+        <div className='alert alert-error shadow-lg rounded-none'>
+          <div>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='stroke-current flex-shrink-0 h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+                d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
+              />
+            </svg>
+            <span>{error}</span>
+          </div>
+        </div>
+      )}
+      <form
+        className='flex flex-col place-items-center gap-2'
+        onSubmit={handleSubmit}
+      >
         <input
           required
           type='email'
           placeholder='Email Address'
           className='input input-bordered'
+          ref={emailRef}
         />
         <input
           required
           type='password'
           placeholder='Password'
           className='input input-bordered'
+          ref={passwordRef}
         />
-        <a href='' className='self-start text-secondary'>
-          Forgot Password?
-        </a>
-        <button className='bg-primary w-full py-4 rounded-md text-white'>
+        {tab === 1 && (
+          <label
+            htmlFor='my-modal-3'
+            className='self-start text-secondary cursor-pointer'
+          >
+            Forgot Password?
+          </label>
+        )}
+        <button
+          disabled={loading || tab === 2}
+          className={`${
+            tab === 1 ? 'bg-primary text-white' : 'bg-transparent'
+          } w-full py-4 rounded-md`}
+        >
           Login
+        </button>
+        <button
+          disabled={loading || tab === 1}
+          className={`${
+            tab === 2 ? 'bg-primary text-white' : 'bg-transparent'
+          } w-full py-4 rounded-md`}
+          ref={signupButtonRef}
+        >
+          Cadastrar
         </button>
       </form>
       <div>
         <p>Or login with:</p>
-        <button onClick={handleGoogleSignIn}>
+        <button onClick={signinGoogle}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 488 512'
@@ -57,6 +135,56 @@ export default function Login() {
             />
           </svg>
         </button>
+      </div>
+
+      {/* MODAL */}
+      <input type='checkbox' id='my-modal-3' className='modal-toggle' />
+      <div className='modal'>
+        <div className='modal-box relative'>
+          {message && (
+            <div className='alert alert-success shadow-lg rounded-none'>
+              <div>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='stroke-current flex-shrink-0 h-6 w-6'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth='2'
+                    d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+                  />
+                </svg>
+                <span>{message}</span>
+              </div>
+            </div>
+          )}
+          <label
+            htmlFor='my-modal-3'
+            className='btn btn-sm btn-circle absolute right-2 top-2'
+          >
+            ✕
+          </label>
+          <p className='text-lg font-bold'>Password Reset</p>
+          <div>
+            <input
+              required
+              type='email'
+              placeholder='Email Address'
+              className='input input-bordered block mb-2'
+              ref={emailRef}
+            />
+            <button
+              className='btn'
+              disabled={loading}
+              onClick={handlePasswordReset}
+            >
+              Reset Password
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

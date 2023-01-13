@@ -1,7 +1,10 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 
-export default function Tab() {
-  const [tab, setTab] = useState(1);
+type Props = {
+  tab: number;
+  setTab: React.Dispatch<SetStateAction<number>>;
+};
+export default function Tab({ tab, setTab }: Props) {
   return (
     <div className='tabs'>
       <a
