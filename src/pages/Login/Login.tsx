@@ -8,6 +8,7 @@ export default function Login() {
   const [tab, setTab] = useState(1);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const emailResetRef = useRef<HTMLInputElement>(null);
   const signupButtonRef = useRef<HTMLButtonElement>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -21,6 +22,7 @@ export default function Login() {
         try {
           setLoading(true);
           await signup(emailRef.current.value, passwordRef.current.value);
+          navigate(-1);
         } catch (error: any) {
           if (error.code === 'auth/weak-password') setError('Weak Password');
           if (error.code === 'auth/email-already-in-use')
@@ -30,7 +32,7 @@ export default function Login() {
         try {
           setLoading(true);
           await signin(emailRef.current.value, passwordRef.current.value);
-          navigate('/');
+          navigate(-1);
         } catch (error: any) {
           if (error.code === 'auth/wrong-password') setError('Wrong Password');
           if (error.code === 'auth/user-not-found') setError('Email not found');
@@ -136,6 +138,7 @@ export default function Login() {
           </svg>
         </button>
       </div>
+      {/* The button to open modal */}
 
       {/* MODAL */}
       <input type='checkbox' id='my-modal-3' className='modal-toggle' />
@@ -174,7 +177,7 @@ export default function Login() {
               type='email'
               placeholder='Email Address'
               className='input input-bordered block mb-2'
-              ref={emailRef}
+              ref={emailResetRef}
             />
             <button
               className='btn'
