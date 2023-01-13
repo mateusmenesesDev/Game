@@ -4,15 +4,16 @@ import EmptyList from './EmptyList';
 import ListGameData from './components/ListGameData';
 import ListTabs from './components/ListTabs';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/Auth';
 
 export function List() {
   const { userList } = useContext(Context);
   const [tab, setTab] = useState('All');
-  const { user } = useContext(Context);
+  const { user } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
     console.log(user);
-    if (user === undefined || null) navigate('../login');
+    if (user === null) navigate('../login');
   }, []);
   return (
     <div className=''>
