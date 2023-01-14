@@ -72,6 +72,7 @@ export function Detail() {
 
   async function updateFirestore() {
     const users = await getDocs(collection(db, 'users'));
+    console.log(userList, 't');
     users.forEach((userDB) => {
       if (userDB.data().email === user?.email) {
         const userDocRef = doc(db, 'users', userDB.id);
@@ -83,7 +84,7 @@ export function Detail() {
   }
 
   useEffect(() => {
-    updateFirestore();
+    if (userList !== undefined) updateFirestore();
   }, [userList]);
 
   return detailGame?.game && newGame === false ? (

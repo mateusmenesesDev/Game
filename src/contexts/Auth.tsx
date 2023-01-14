@@ -11,9 +11,10 @@ import {
   User,
   UserCredential,
 } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, getDocs } from 'firebase/firestore';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '../services/firebase/firebase';
+import { Context } from './Context';
 
 type Props = {
   children: React.ReactNode;
@@ -41,7 +42,7 @@ export const AuthContext = createContext<InitialContextProps>(initialContext);
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<null | User>(null);
   const [loading, setLoading] = useState(true);
-
+  const { setUserList } = useContext(Context);
   async function signup(email: string, password: string) {
     const newUser = await createUserWithEmailAndPassword(auth, email, password);
     try {
@@ -82,6 +83,22 @@ export const AuthProvider = ({ children }: Props) => {
     });
     return unsubscriber;
   }, []);
+
+  async function getGamelistDB() {
+    const users = await getDocs(collection(db, 'users'));
+    const firebaseUser = users.docs.find(
+      (userDB) => userDB.data().email === user?.email
+    );
+    console.log(
+      '🚀 ~ file: Auth.tsx:92 ~ getGamelistDB ~ firebaseUser',
+      firebaseUser?.data().gameList
+    );
+    setUserList(firebaseUser?.data().gameList);
+  }
+
+  // useEffect(() => {
+  //   if (user) getGamelistDB();
+  // }, [user]);
 
   return (
     <AuthContext.Provider

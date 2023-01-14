@@ -13,8 +13,6 @@ type InitialContextProps = {
   setGenres: React.Dispatch<React.SetStateAction<IBasicGameApi[]>>;
   userList: IUserList[];
   setUserList: React.Dispatch<React.SetStateAction<IUserList[] | []>>;
-  user: any;
-  setUser: React.Dispatch<any>;
 };
 
 const initialContext = {
@@ -24,8 +22,6 @@ const initialContext = {
   setGenres: () => {},
   userList: [],
   setUserList: () => {},
-  user: {},
-  setUser: () => {},
 };
 
 export const Context = createContext<InitialContextProps>(initialContext);
@@ -34,12 +30,12 @@ export const ContextProvider = ({ children }: Props) => {
   const [games, setGames] = useState<IGame[]>([]);
   const [genres, setGenres] = useState<IBasicGameApi[]>([]);
   const [userList, setUserList] = useState<IUserList[] | []>([]);
-  const [user, setUser] = useState<any>();
   async function getGamesAndGenres() {
     const { data } = await axios.get('/.netlify/functions/gameApi');
     setGames(data.games);
     setGenres(data.genres);
   }
+
   useEffect(() => {
     getGamesAndGenres();
   }, []);
@@ -53,8 +49,6 @@ export const ContextProvider = ({ children }: Props) => {
         setGenres,
         userList,
         setUserList,
-        user,
-        setUser,
       }}
     >
       {children}

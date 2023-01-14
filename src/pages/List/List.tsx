@@ -5,15 +5,32 @@ import ListGameData from './components/ListGameData';
 import ListTabs from './components/ListTabs';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../services/firebase/firebase';
 
 export function List() {
-  const { userList } = useContext(Context);
+  const { userList, setUserList } = useContext(Context);
   const [tab, setTab] = useState('All');
   const { user } = useAuth();
   const navigate = useNavigate();
+  async function getGamelistDB() {
+    const users = await getDocs(collection(db, 'users'));
+    const firebaseUser = users.docs.find(
+      (userDB) => userDB.data().email === user?.email
+    );
+    console.log(
+      '🚀 ~ file: Auth.tsx:92 ~ getGamelistDB ~ firebaseUser',
+      firebaseUser?.data().gameList
+    );
+    setUserList(firebaseUser?.data().gameList);
+  }
+
   useEffect(() => {
-    console.log('USER NO LIST:', user);
-    if (user === null) navigate('../login');
+    if (user === null) {
+      navigate('../login');
+    } else {
+      getGamelistDB();
+    }
   }, []);
   return (
     <div>
