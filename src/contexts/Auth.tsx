@@ -3,6 +3,7 @@
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
+  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -33,7 +34,7 @@ const initialContext = {
   logout: () => Promise.resolve(),
   resetPassword: (email: string) => Promise.resolve(),
 };
-// (email: string, password: string): Promise<UserCredential>
+
 export const AuthContext = createContext<InitialContextProps>(initialContext);
 
 export const AuthProvider = ({ children }: Props) => {
@@ -64,6 +65,9 @@ export const AuthProvider = ({ children }: Props) => {
   useEffect(() => {
     const unsubscriber = auth.onAuthStateChanged((user) => {
       setUser(user);
+      if (user && !user?.emailVerified) {
+        sendEmailVerification(user);
+      }
       setLoading(false);
     });
     return unsubscriber;

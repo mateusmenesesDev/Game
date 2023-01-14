@@ -17,12 +17,13 @@ export default function Login() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
+    setMessage('');
     if (emailRef.current && passwordRef.current) {
       if (!signupButtonRef.current?.disabled) {
         try {
           setLoading(true);
           await signup(emailRef.current.value, passwordRef.current.value);
-          navigate(-1);
+          setMessage('Check your email for confirm your access');
         } catch (error: any) {
           if (error.code === 'auth/weak-password') setError('Weak Password');
           if (error.code === 'auth/email-already-in-use')
@@ -30,9 +31,17 @@ export default function Login() {
         }
       } else {
         try {
+          setMessage('');
           setLoading(true);
-          await signin(emailRef.current.value, passwordRef.current.value);
-          navigate(-1);
+          const user = await signin(
+            emailRef.current.value,
+            passwordRef.current.value
+          );
+          if (user && user.user.emailVerified) {
+            navigate(-1);
+          } else {
+            setMessage('Check your email for confirm your access');
+          }
         } catch (error: any) {
           if (error.code === 'auth/wrong-password') setError('Wrong Password');
           if (error.code === 'auth/user-not-found') setError('Email not found');
@@ -76,6 +85,26 @@ export default function Login() {
               />
             </svg>
             <span>{error}</span>
+          </div>
+        </div>
+      )}
+      {message && (
+        <div className='alert alert-success shadow-lg rounded-none'>
+          <div>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='stroke-current flex-shrink-0 h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+                d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
+              />
+            </svg>
+            <span>{error || message}</span>
           </div>
         </div>
       )}
