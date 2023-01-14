@@ -1,20 +1,24 @@
-import { IDetaiGame } from "../../types/IGames";
-import { GameImage } from "../../components/GameImage";
-import { Placeholder } from "../../components/utils/Placeholder";
-import { useParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { Tabs } from "./components/Tabs";
-import { Context } from "../../contexts/Context";
-import { generateRandom } from "../../utils/generateRandom";
-import { gameFetch } from "../../api/game";
+import { IDetaiGame } from '../../types/IGames';
+import { GameImage } from '../../components/GameImage';
+import { Placeholder } from '../../components/utils/Placeholder';
+import { useParams } from 'react-router-dom';
+import { useContext, useEffect, useState } from 'react';
+import { Tabs } from './components/Tabs';
+import { Context } from '../../contexts/Context';
+import { generateRandom } from '../../utils/generateRandom';
+import { gameFetch } from '../../api/game';
+import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { db } from '../../services/firebase/firebase';
+import { useAuth } from '../../contexts/Auth';
 
 export function Detail() {
   const [newGame, setNewGame] = useState(false);
   const [detailGame, setDetailGame] = useState<IDetaiGame>();
   const [rating, setRating] = useState(0);
-  const [type, setType] = useState("");
+  const [type, setType] = useState('');
   const { gameId } = useParams();
   const { games, setUserList, userList } = useContext(Context);
+  const { user } = useAuth();
 
   async function fetchGameData() {
     setNewGame(true);
@@ -53,12 +57,12 @@ export function Detail() {
       if (!gameInList) {
         setUserList([...userList, { ...detailGame, rating, type }]);
       } else {
-        alert("Jogo já está na sua lista!");
+        alert('Jogo já está na sua lista!');
       }
     }
   }
   useEffect(() => {
-    if (gameId?.startsWith("random")) {
+    if (gameId?.startsWith('random')) {
       fetchRandomGameData();
     } else {
       fetchGameData();
@@ -66,29 +70,45 @@ export function Detail() {
     console.log(userList);
   }, [gameId]);
 
+  async function updateFirestore() {
+    const users = await getDocs(collection(db, 'users'));
+    users.forEach((userDB) => {
+      if (userDB.data().email === user?.email) {
+        const userDocRef = doc(db, 'users', userDB.id);
+        updateDoc(userDocRef, {
+          gameList: userList,
+        });
+      }
+    });
+  }
+
+  useEffect(() => {
+    updateFirestore();
+  }, [userList]);
+
   return detailGame?.game && newGame === false ? (
-    <div className="lg:grid grid-cols-2 items-center ">
-      <div className="col-span-1 row-span-1 justify-self-end">
-        <div className="flex flex-col items-center mb-10">
-          <div className="indicator max-w-[310px]">
+    <div className='lg:grid grid-cols-2 items-center '>
+      <div className='col-span-1 row-span-1 justify-self-end'>
+        <div className='flex flex-col items-center mb-10'>
+          <div className='indicator max-w-[310px]'>
             {detailGame.game.rating && (
-              <span className="indicator-item indicator-start badge bg-red-700 w-14 h-14 font-bold border-none">
+              <span className='indicator-item indicator-start badge bg-red-700 w-14 h-14 font-bold border-none'>
                 {Math.floor(detailGame.game.rating)}/100
               </span>
             )}
             <label
-              htmlFor="my-modal"
-              className="indicator-item indicator-end badge w-6 h-6 font-bold border-none hover:scale-150"
+              htmlFor='my-modal'
+              className='indicator-item indicator-end badge w-6 h-6 font-bold border-none hover:scale-150'
             >
               +
             </label>
-            <input type="checkbox" id="my-modal" className="modal-toggle" />
-            <div className="modal">
-              <div className="modal-box">
-                <h3 className="font-bold text-lg">{detailGame.game.name}</h3>
+            <input type='checkbox' id='my-modal' className='modal-toggle' />
+            <div className='modal'>
+              <div className='modal-box'>
+                <h3 className='font-bold text-lg'>{detailGame.game.name}</h3>
                 <div>
                   <select
-                    className="select select-bordered w-full max-w-xs"
+                    className='select select-bordered w-full max-w-xs'
                     onChange={(e) => setRating(Number(e.target.value))}
                   >
                     <option disabled selected>
@@ -106,56 +126,56 @@ export function Detail() {
                     <option value={10}>10</option>
                   </select>
                   <select
-                    className="select select-bordered w-full max-w-xs"
+                    className='select select-bordered w-full max-w-xs'
                     onChange={(e) => setType(e.target.value)}
                   >
                     <option disabled selected>
                       Type
                     </option>
-                    <option value="Completed">Completed</option>
-                    <option value="Playing">Playing</option>
-                    <option value="Dropped">Dropped</option>
-                    <option value="Plan to Play">Plan to Play</option>
+                    <option value='Completed'>Completed</option>
+                    <option value='Playing'>Playing</option>
+                    <option value='Dropped'>Dropped</option>
+                    <option value='Plan to Play'>Plan to Play</option>
                   </select>
                 </div>
-                <div className="modal-action">
+                <div className='modal-action'>
                   <label
-                    htmlFor="my-modal"
-                    className="btn"
+                    htmlFor='my-modal'
+                    className='btn'
                     onClick={addGameToList}
                   >
                     Salvar
                   </label>
-                  <label htmlFor="my-modal" className="btn">
+                  <label htmlFor='my-modal' className='btn'>
                     Fechar
                   </label>
                 </div>
               </div>
             </div>
 
-            <div className="w-full">
+            <div className='w-full'>
               {detailGame.game.cover && (
                 <GameImage ImageId={detailGame.game.cover.image_id} />
               )}
             </div>
           </div>
 
-          <h3 className="font-bold text-lg flex-1">{detailGame.game.name}</h3>
-          <div className="flex gap-2 flex-wrap justify-center my-3">
+          <h3 className='font-bold text-lg flex-1'>{detailGame.game.name}</h3>
+          <div className='flex gap-2 flex-wrap justify-center my-3'>
             {detailGame.company && <h3>{detailGame.company.name}</h3>}
             {new Date(
               detailGame.game.first_release_date * 1000
-            ).toLocaleDateString() !== "Invalid Date" &&
+            ).toLocaleDateString() !== 'Invalid Date' &&
               new Date(
                 detailGame.game.first_release_date * 1000
               ).toLocaleDateString()}
           </div>
         </div>
       </div>
-      <div className="col-span-2">
+      <div className='col-span-2'>
         <Tabs detailGame={detailGame.game} />
       </div>
-      <div className="mt-4 px-2 row-start-1 col-start-2 lg:pr-24 lg:max-w-[500px]">
+      <div className='mt-4 px-2 row-start-1 col-start-2 lg:pr-24 lg:max-w-[500px]'>
         {detailGame.game.summary}
       </div>
     </div>

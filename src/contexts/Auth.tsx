@@ -11,8 +11,9 @@ import {
   User,
   UserCredential,
 } from 'firebase/auth';
+import { addDoc, collection } from 'firebase/firestore';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { auth } from '../services/firebase/firebase';
+import { auth, db } from '../services/firebase/firebase';
 
 type Props = {
   children: React.ReactNode;
@@ -41,8 +42,17 @@ export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<null | User>(null);
   const [loading, setLoading] = useState(true);
 
-  function signup(email: string, password: string) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  async function signup(email: string, password: string) {
+    const newUser = await createUserWithEmailAndPassword(auth, email, password);
+    try {
+      await addDoc(collection(db, 'users'), {
+        id: newUser.user.uid,
+        email: newUser.user.email,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+    return newUser;
   }
 
   function signin(email: string, password: string) {
