@@ -26,37 +26,12 @@ export function Header() {
   }, [input]);
 
   useEffect(() => {
-    console.log(user);
+    console.log('User no HEADER: ', user);
   }, [user]);
   async function signOut() {
     await logout();
     navigate('/');
   }
-  // function signOut() {
-  //   localStorage.clear();
-  //   location.reload();
-  // }
-  // useEffect(() => {
-  //   if (localStorage.user === undefined) {
-  //     setIsLogged(false);
-  //   } else {
-  //     setIsLogged(true);
-  //   }
-  // }, [localStorage.user]);
-  // function handleChange(event: ChangeEvent<HTMLInputElement>) {
-  //   setInput(event.target.value);
-  // }
-
-  // async function getGame(game: string) {
-  //   if (input !== "") {
-  //     setSearchGames(await gameFetch.getGame(game));
-  //   } else {
-  //     setSearchGames([]);
-  //   }
-  // }
-  // useEffect(() => {
-  //     getGame(input);
-  // }, [input]);
 
   return (
     <header className='px-4 py-6 flex gap-3 justify-between mb-12 sm:text-lg sm:px-10 md:px-12 lg:justify-around lg:px-0'>

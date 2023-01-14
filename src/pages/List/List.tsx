@@ -12,11 +12,11 @@ export function List() {
   const { user } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(user);
+    console.log('USER NO LIST:', user);
     if (user === null) navigate('../login');
   }, []);
   return (
-    <div className=''>
+    <div>
       {userList.length > 0 ? (
         <>
           <ListTabs tab={tab} setTab={setTab} />
