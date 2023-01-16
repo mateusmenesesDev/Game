@@ -21,7 +21,7 @@ export default function Login() {
     setError('');
     setMessage('');
     if (emailRef.current && passwordRef.current) {
-      if (!signupButtonRef.current?.disabled) {
+      if (tab === 2) {
         try {
           setLoading(true);
           await signup(emailRef.current.value, passwordRef.current.value);
@@ -101,20 +101,9 @@ export default function Login() {
         )}
         <button
           disabled={loading || tab === 2}
-          className={`${
-            tab === 1 ? 'bg-primary text-white' : 'bg-transparent'
-          } w-full py-4 rounded-md`}
+          className='bg-primary text-white w-full py-4 rounded-md'
         >
-          Login
-        </button>
-        <button
-          disabled={loading || tab === 1}
-          className={`${
-            tab === 2 ? 'bg-primary text-white' : 'bg-transparent'
-          } w-full py-4 rounded-md`}
-          ref={signupButtonRef}
-        >
-          Cadastrar
+          {tab === 1 ? 'Login' : 'Signup'}
         </button>
       </form>
       <div>
