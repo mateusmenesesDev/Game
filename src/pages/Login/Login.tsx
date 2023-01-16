@@ -53,14 +53,15 @@ export default function Login() {
   }
 
   async function handlePasswordReset() {
-    if (emailRef.current) {
+    if (emailResetRef.current) {
       try {
         setMessage('');
         setError('');
         setLoading(true);
-        await resetPassword(emailRef.current.value);
+        await resetPassword(emailResetRef.current.value);
         setMessage('Check your inbox for further instructions');
       } catch (error) {
+        setLoading(false);
         setMessage('Failed to reset password');
       }
     }
@@ -104,7 +105,7 @@ export default function Login() {
                 d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
               />
             </svg>
-            <span>{error || message}</span>
+            <span>{message}</span>
           </div>
         </div>
       )}
@@ -174,7 +175,7 @@ export default function Login() {
       <div className='modal'>
         <div className='modal-box relative'>
           {message && (
-            <div className='alert alert-success shadow-lg rounded-none'>
+            <div className='alert alert-warning shadow-lg rounded-none'>
               <div>
                 <svg
                   xmlns='http://www.w3.org/2000/svg'

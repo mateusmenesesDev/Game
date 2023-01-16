@@ -96,10 +96,6 @@ export const AuthProvider = ({ children }: Props) => {
     setUserList(firebaseUser?.data().gameList);
   }
 
-  // useEffect(() => {
-  //   if (user) getGamelistDB();
-  // }, [user]);
-
   return (
     <AuthContext.Provider
       value={{ user, signup, signin, signinGoogle, logout, resetPassword }}
