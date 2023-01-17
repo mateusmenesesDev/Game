@@ -1,5 +1,11 @@
+import { useEffect } from "react";
+
 export function Theme() {
-  let theme = localStorage.getItem('theme');
+  let theme = localStorage.getItem('theme') || 'night';
+
+  useEffect(()=> {
+    document.body.setAttribute('data-theme', theme);
+  }, [])
 
   const setTheme = () => {
     if (theme === 'light') {
