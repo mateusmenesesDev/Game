@@ -41,22 +41,15 @@ export const AuthContext = createContext<InitialContextProps>(initialContext);
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<null | User>(null);
   const [loading, setLoading] = useState(true);
-  const { setUserList } = useContext(Context);
 
   async function addUserToDB(newUser: UserCredential) {
-    const firebaseUsers = await getDocs(collection(db, 'users'));
-    const userExist = firebaseUsers.docs.some(
-      (user) => user.data().email === newUser.user.email
-    );
-    if (!userExist) {
-      try {
-        await addDoc(collection(db, 'users'), {
-          id: newUser.user.uid,
-          email: newUser.user.email,
-        });
-      } catch (error) {
-        console.log(error);
-      }
+    try {
+      await addDoc(collection(db, 'users'), {
+        id: newUser.user.uid,
+        email: newUser.user.email,
+      });
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -73,7 +66,13 @@ export const AuthProvider = ({ children }: Props) => {
   async function signinGoogle() {
     const provider = new GoogleAuthProvider();
     const newUser = await signInWithPopup(auth, provider);
-    await addUserToDB(newUser);
+    const firebaseUsers = await getDocs(collection(db, 'users'));
+    const userExist = firebaseUsers.docs.some(
+      (user) => user.data().email === newUser.user.email
+    );
+    if (!userExist) {
+      await addUserToDB(newUser);
+    }
   }
 
   function logout() {
