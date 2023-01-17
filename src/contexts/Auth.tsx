@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/no-empty-function */
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -44,12 +43,13 @@ export const AuthProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState(true);
   const { setUserList } = useContext(Context);
 
-  async function addUserToDB(newUser:any) {
-    const firebaseUsers = await getDocs(collection(db,'users'));
-    const userExist = firebaseUsers.docs.some((user:any) => user.data().email === newUser.user.email);
-    console.log('🚀 ~ file: Auth.tsx:50 ~ addUserToDB ~ userExist', userExist)
+  async function addUserToDB(newUser: UserCredential) {
+    const firebaseUsers = await getDocs(collection(db, 'users'));
+    const userExist = firebaseUsers.docs.some(
+      (user) => user.data().email === newUser.user.email
+    );
+    console.log('🚀 ~ file: Auth.tsx:50 ~ addUserToDB ~ userExist', userExist);
     if (!userExist) {
-      console.log('t')
       try {
         await addDoc(collection(db, 'users'), {
           id: newUser.user.uid,
