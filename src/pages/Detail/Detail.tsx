@@ -54,7 +54,6 @@ export function Detail() {
       setUserList([{ ...detailGame, rating, type }]);
       return;
     }
-    console.log('t');
     const gameInList = userList
       ? userList?.some((item) => item.game.id === detailGame?.game.id)
       : false;

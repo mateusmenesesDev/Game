@@ -14,42 +14,48 @@ export default function Login() {
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+
+  async function handleRegister() {
+    if (emailRef.current && passwordRef.current) {
+      try {
+        setLoading(true);
+        await signup(emailRef.current.value, passwordRef.current.value);
+        setMessage('Check your email for confirm your access');
+      } catch (error: any) {
+        if (error.code === 'auth/weak-password') setError('Weak Password');
+        if (error.code === 'auth/email-already-in-use')
+          setError('Email already exist');
+      }
+    }
+  }
+
+  async function handleLogin() {
+    if (emailRef.current && passwordRef.current) {
+      setLoading(true);
+      try {
+        const user = await signin(
+          emailRef.current.value,
+          passwordRef.current.value
+        );
+        if (user && user.user.emailVerified) {
+          navigate(-1);
+        } else {
+          setMessage('Check your email for confirm your access');
+        }
+      } catch (error: any) {
+        if (error.code === 'auth/wrong-password') setError('Wrong Password');
+        if (error.code === 'auth/user-not-found') setError('Email not found');
+      }
+    }
+  }
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError('');
     setMessage('');
-    if (emailRef.current && passwordRef.current) {
-      if (tab === 2) {
-        try {
-          setLoading(true);
-          await signup(emailRef.current.value, passwordRef.current.value);
-          setMessage('Check your email for confirm your access');
-        } catch (error: any) {
-          if (error.code === 'auth/weak-password') setError('Weak Password');
-          if (error.code === 'auth/email-already-in-use')
-            setError('Email already exist');
-        }
-      } else {
-        try {
-          setMessage('');
-          setLoading(true);
-          const user = await signin(
-            emailRef.current.value,
-            passwordRef.current.value
-          );
-          if (user && user.user.emailVerified) {
-            navigate(-1);
-          } else {
-            setMessage('Check your email for confirm your access');
-          }
-        } catch (error: any) {
-          if (error.code === 'auth/wrong-password') setError('Wrong Password');
-          if (error.code === 'auth/user-not-found') setError('Email not found');
-          console.log(error.code);
-        }
-      }
-      setLoading(false);
-    }
+    if (tab === 1) await handleLogin();
+    if (tab === 2) await handleRegister();
+    setLoading(false);
   }
 
   return (
