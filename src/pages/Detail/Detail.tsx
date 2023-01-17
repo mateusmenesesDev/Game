@@ -50,6 +50,11 @@ export function Detail() {
   }
 
   function addGameToList() {
+    if (!userList && detailGame) {
+      setUserList([{ ...detailGame, rating, type }]);
+      return;
+    }
+    console.log('t');
     const gameInList = userList
       ? userList?.some((item) => item.game.id === detailGame?.game.id)
       : false;
@@ -84,6 +89,7 @@ export function Detail() {
   }, [gameId]);
 
   useEffect(() => {
+    console.log('userlist: ', userList);
     if (userList !== undefined) updateFirestore();
   }, [userList]);
 
