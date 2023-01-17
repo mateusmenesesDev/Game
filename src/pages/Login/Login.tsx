@@ -6,7 +6,7 @@ import PasswordReset from './components/PasswordReset';
 import Alert from '../../components/Alert';
 
 export default function Login() {
-  const { signup, signin, signinGoogle } = useAuth();
+  const { signup, signin, signinGoogle, logout } = useAuth();
   const [tab, setTab] = useState(1);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -30,6 +30,7 @@ export default function Login() {
   }
 
   async function handleLogin() {
+    await logout();
     if (emailRef.current && passwordRef.current) {
       setLoading(true);
       try {

@@ -25,9 +25,6 @@ export function Header() {
     return () => clearTimeout(delayDebounceFn);
   }, [input]);
 
-  useEffect(() => {
-    console.log('User no HEADER: ', user);
-  }, [user]);
   async function signOut() {
     await logout();
     navigate('/');
@@ -107,11 +104,11 @@ export function Header() {
         </div>
       </div>
       <div className='flex gap-5 items-center'>
-        <Link to={'/login'} className={`${user !== null && 'hidden'}`}>
+        <Link to={'/login'} className={`${user?.emailVerified && 'hidden'}`}>
           Login
         </Link>
         <div
-          className={`cursor-pointer ${user === null && 'hidden'}`}
+          className={`cursor-pointer ${!user?.emailVerified && 'hidden'}`}
           onClick={signOut}
         >
           Sair
