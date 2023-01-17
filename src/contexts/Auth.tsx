@@ -48,7 +48,6 @@ export const AuthProvider = ({ children }: Props) => {
     const userExist = firebaseUsers.docs.some(
       (user) => user.data().email === newUser.user.email
     );
-    console.log('🚀 ~ file: Auth.tsx:50 ~ addUserToDB ~ userExist', userExist);
     if (!userExist) {
       try {
         await addDoc(collection(db, 'users'), {
@@ -60,6 +59,7 @@ export const AuthProvider = ({ children }: Props) => {
       }
     }
   }
+
   async function signup(email: string, password: string) {
     const newUser = await createUserWithEmailAndPassword(auth, email, password);
     await addUserToDB(newUser);
@@ -94,14 +94,6 @@ export const AuthProvider = ({ children }: Props) => {
     });
     return unsubscriber;
   }, []);
-
-  async function getGamelistDB() {
-    const users = await getDocs(collection(db, 'users'));
-    const firebaseUser = users.docs.find(
-      (userDB) => userDB.data().email === user?.email
-    );
-    setUserList(firebaseUser?.data().gameList);
-  }
 
   return (
     <AuthContext.Provider
