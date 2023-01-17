@@ -3,6 +3,8 @@ type Props = {
   message?: string;
 };
 export default function Alert({ error, message }: Props) {
+  console.log(error);
+  console.log(message);
   return (
     <div
       className={`alert ${

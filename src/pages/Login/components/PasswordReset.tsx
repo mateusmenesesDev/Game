@@ -1,42 +1,34 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import Alert from '../../../components/Alert';
+import { useAuth } from '../../../contexts/Auth';
 
-type Props = {
-  message: string;
-  emailResetRef: React.RefObject<HTMLInputElement>;
-  loading: boolean;
-  handlePasswordReset: () => Promise<void>;
-};
-export default function PasswordReset({
-  message,
-  emailResetRef,
-  loading,
-  handlePasswordReset,
-}: Props) {
+export default function PasswordReset() {
+  const emailResetRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+  const { resetPassword } = useAuth();
+  async function handlePasswordReset() {
+    setMessage('');
+    if (emailResetRef.current) {
+      setError('');
+      try {
+        setLoading(true);
+        await resetPassword(emailResetRef.current.value);
+        setMessage('Check your inbox for further instructions');
+      } catch (error) {
+        setLoading(false);
+        setMessage('Failed to reset password');
+      }
+    }
+  }
   return (
     <>
       <input type='checkbox' id='my-modal-3' className='modal-toggle' />
       <div className='modal'>
         <div className='modal-box relative'>
-          {message && (
-            <div className='alert alert-warning shadow-lg rounded-none'>
-              <div>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  className='stroke-current flex-shrink-0 h-6 w-6'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth='2'
-                    d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-                  />
-                </svg>
-                <span>{message}</span>
-              </div>
-            </div>
-          )}
+          {message && <Alert message={message} />}
+          {error && <Alert error={error} />}
           <label
             htmlFor='my-modal-3'
             className='btn btn-sm btn-circle absolute right-2 top-2'

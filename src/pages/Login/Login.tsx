@@ -6,11 +6,10 @@ import PasswordReset from './components/PasswordReset';
 import Alert from '../../components/Alert';
 
 export default function Login() {
-  const { signup, signin, resetPassword, signinGoogle } = useAuth();
+  const { signup, signin, signinGoogle } = useAuth();
   const [tab, setTab] = useState(1);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const emailResetRef = useRef<HTMLInputElement>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
@@ -53,20 +52,6 @@ export default function Login() {
     }
   }
 
-  async function handlePasswordReset() {
-    if (emailResetRef.current) {
-      try {
-        setMessage('');
-        setError('');
-        setLoading(true);
-        await resetPassword(emailResetRef.current.value);
-        setMessage('Check your inbox for further instructions');
-      } catch (error) {
-        setLoading(false);
-        setMessage('Failed to reset password');
-      }
-    }
-  }
   return (
     <div className='flex flex-col place-items-center items-center gap-5 bg-base-300 max-w-sm mx-auto mt-48'>
       <Tab tab={tab} setTab={setTab} />
@@ -99,7 +84,7 @@ export default function Login() {
           </label>
         )}
         <button
-          disabled={loading || tab === 2}
+          disabled={loading}
           className='bg-primary text-white w-full py-4 rounded-md'
         >
           {tab === 1 ? 'Login' : 'Signup'}
@@ -120,12 +105,7 @@ export default function Login() {
           </svg>
         </button>
       </div>
-      <PasswordReset
-        emailResetRef={emailResetRef}
-        handlePasswordReset={handlePasswordReset}
-        loading={loading}
-        message={message}
-      />
+      <PasswordReset />
     </div>
   );
 }
