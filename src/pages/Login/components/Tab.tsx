@@ -1,4 +1,4 @@
-import { SetStateAction, useState } from 'react';
+import { SetStateAction } from 'react';
 
 type Props = {
   tab: number;
