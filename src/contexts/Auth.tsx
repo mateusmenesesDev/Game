@@ -13,7 +13,6 @@ import {
 import { addDoc, collection, getDocs } from 'firebase/firestore';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '../services/firebase/firebase';
-import { Context } from './Context';
 
 type Props = {
   children: React.ReactNode;
