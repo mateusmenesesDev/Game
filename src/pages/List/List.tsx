@@ -13,19 +13,17 @@ export function List() {
   const [tab, setTab] = useState('All');
   const { user } = useAuth();
   const navigate = useNavigate();
+
   async function getGamelistDB() {
     const users = await getDocs(collection(db, 'users'));
     const firebaseUser = users.docs.find(
       (userDB) => userDB.data().email === user?.email
     );
-    console.log(
-      '🚀 ~ file: Auth.tsx:92 ~ getGamelistDB ~ firebaseUser',
-      firebaseUser?.data().gameList
-    );
     setUserList(firebaseUser?.data().gameList);
   }
 
   useEffect(() => {
+    console.log(userList);
     if (user === null) {
       navigate('../login');
     } else {
@@ -36,7 +34,7 @@ export function List() {
     <div>
       {!user?.emailVerified ? (
         <div className='text-xl text-center'>Confirm your email first</div>
-      ) : userList.length > 0 ? (
+      ) : userList ? (
         <>
           <ListTabs tab={tab} setTab={setTab} />
           <div className='grid grid-cols-3 place-items-center my-4 '>

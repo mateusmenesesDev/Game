@@ -43,16 +43,26 @@ export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<null | User>(null);
   const [loading, setLoading] = useState(true);
   const { setUserList } = useContext(Context);
+
+  async function addUserToDB(newUser:any) {
+    const firebaseUsers = await getDocs(collection(db,'users'));
+    const userExist = firebaseUsers.docs.some((user:any) => user.data().email === newUser.user.email);
+    console.log('🚀 ~ file: Auth.tsx:50 ~ addUserToDB ~ userExist', userExist)
+    if (!userExist) {
+      console.log('t')
+      try {
+        await addDoc(collection(db, 'users'), {
+          id: newUser.user.uid,
+          email: newUser.user.email,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
   async function signup(email: string, password: string) {
     const newUser = await createUserWithEmailAndPassword(auth, email, password);
-    try {
-      await addDoc(collection(db, 'users'), {
-        id: newUser.user.uid,
-        email: newUser.user.email,
-      });
-    } catch (error) {
-      console.log(error);
-    }
+    await addUserToDB(newUser);
     return newUser;
   }
 
@@ -62,7 +72,8 @@ export const AuthProvider = ({ children }: Props) => {
 
   async function signinGoogle() {
     const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider);
+    const newUser = await signInWithPopup(auth, provider);
+    await addUserToDB(newUser);
   }
 
   function logout() {
@@ -88,10 +99,6 @@ export const AuthProvider = ({ children }: Props) => {
     const users = await getDocs(collection(db, 'users'));
     const firebaseUser = users.docs.find(
       (userDB) => userDB.data().email === user?.email
-    );
-    console.log(
-      '🚀 ~ file: Auth.tsx:92 ~ getGamelistDB ~ firebaseUser',
-      firebaseUser?.data().gameList
     );
     setUserList(firebaseUser?.data().gameList);
   }

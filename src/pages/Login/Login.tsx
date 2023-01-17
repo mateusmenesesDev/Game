@@ -92,7 +92,12 @@ export default function Login() {
       </form>
       <div>
         <p>Or login with:</p>
-        <button onClick={signinGoogle}>
+        <button
+          onClick={async () => {
+            await signinGoogle();
+            navigate('/');
+          }}
+        >
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 488 512'

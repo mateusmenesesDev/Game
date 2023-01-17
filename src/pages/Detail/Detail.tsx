@@ -50,28 +50,19 @@ export function Detail() {
   }
 
   function addGameToList() {
-    if (detailGame !== undefined) {
-      const gameInList = userList.some(
-        (item) => item.game.id === detailGame.game.id
-      );
-      if (!gameInList) {
-        setUserList([...userList, { ...detailGame, rating, type }]);
-      } else {
-        alert('Jogo já está na sua lista!');
-      }
+    const gameInList = userList
+      ? userList?.some((item) => item.game.id === detailGame?.game.id)
+      : false;
+    if (!gameInList && detailGame) {
+      setUserList([...userList, { ...detailGame, rating, type }]);
+    } else {
+      alert('Jogo já está na sua lista!');
     }
   }
-  useEffect(() => {
-    if (gameId?.startsWith('random')) {
-      fetchRandomGameData();
-    } else {
-      fetchGameData();
-    }
-    console.log(userList);
-  }, [gameId]);
 
   async function updateFirestore() {
     const users = await getDocs(collection(db, 'users'));
+    console.log('🚀 ~ file: Detail.tsx:75 ~ updateFirestore ~ users', users);
     console.log(userList, 't');
     users.forEach((userDB) => {
       if (userDB.data().email === user?.email) {
@@ -82,6 +73,15 @@ export function Detail() {
       }
     });
   }
+
+  useEffect(() => {
+    if (gameId?.startsWith('random')) {
+      fetchRandomGameData();
+    } else {
+      fetchGameData();
+    }
+    console.log(userList);
+  }, [gameId]);
 
   useEffect(() => {
     if (userList !== undefined) updateFirestore();
