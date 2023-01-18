@@ -7,8 +7,6 @@ import { Tabs } from './components/Tabs';
 import { Context } from '../../contexts/Context';
 import { generateRandom } from '../../utils/generateRandom';
 import { gameFetch } from '../../api/game';
-import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../services/firebase/firebase';
 import { useAuth } from '../../contexts/Auth';
 import { firestore } from '../../services/firebase/firestore';
 

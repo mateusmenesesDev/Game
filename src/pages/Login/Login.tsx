@@ -38,10 +38,6 @@ export default function Login() {
     const userRef = doc(db, 'users', user.uid);
     const docUser = await getDoc(userRef);
     const userData = docUser.data();
-    console.log(
-      '🚀 ~ file: Login.tsx:41 ~ getGameListFirestore ~ userData',
-      userData
-    );
     setUserList(userData?.gameList);
   }
 
@@ -60,7 +56,6 @@ export default function Login() {
           emailRef.current.value,
           passwordRef.current.value
         );
-        console.log('t', user);
         if (user && user.user.emailVerified) {
           await getGameListFirestore(user);
           navigate(-1);
