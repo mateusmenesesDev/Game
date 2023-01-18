@@ -5,7 +5,7 @@ import ListGameData from './components/ListGameData';
 import ListTabs from './components/ListTabs';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase/firebase';
 
 export function List() {
