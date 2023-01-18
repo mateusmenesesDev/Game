@@ -5,7 +5,7 @@ import ListGameData from './components/ListGameData';
 import ListTabs from './components/ListTabs';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import { db } from '../../services/firebase/firebase';
 
 export function List() {
@@ -15,15 +15,15 @@ export function List() {
   const navigate = useNavigate();
 
   async function getGamelistDB() {
-    const users = await getDocs(collection(db, 'users'));
-    const firebaseUser = users.docs.find(
-      (userDB) => userDB.data().email === user?.email
-    );
-    setUserList(firebaseUser?.data().gameList);
+    if (user?.email) {
+      const userRef = doc(db, 'users', user.uid);
+      const docUser = await getDoc(userRef);
+      const userData = docUser.data();
+      setUserList(userData?.gameList);
+    }
   }
 
   useEffect(() => {
-    console.log(userList);
     if (user === null) {
       navigate('../login');
     } else {

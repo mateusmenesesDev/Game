@@ -10,7 +10,7 @@ import {
   User,
   UserCredential,
 } from 'firebase/auth';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, setDoc } from 'firebase/firestore';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '../services/firebase/firebase';
 
@@ -42,9 +42,10 @@ export const AuthProvider = ({ children }: Props) => {
   const [loading, setLoading] = useState(true);
 
   async function addUserToDB(newUser: UserCredential) {
+    const id = newUser.user.uid;
+    const usersRef = collection(db, 'users');
     try {
-      await addDoc(collection(db, 'users'), {
-        id: newUser.user.uid,
+      await setDoc(doc(usersRef, id), {
         email: newUser.user.email,
       });
     } catch (error) {

@@ -84,11 +84,9 @@ export function Detail() {
     } else {
       fetchGameData();
     }
-    console.log(userList);
   }, [gameId]);
 
   useEffect(() => {
-    console.log('userlist: ', userList);
     if (userList !== undefined) updateFirestore();
   }, [userList]);
 
