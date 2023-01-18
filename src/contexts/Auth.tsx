@@ -10,7 +10,7 @@ import {
   User,
   UserCredential,
 } from 'firebase/auth';
-import { addDoc, collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '../services/firebase/firebase';
 
@@ -66,13 +66,10 @@ export const AuthProvider = ({ children }: Props) => {
   async function signinGoogle() {
     const provider = new GoogleAuthProvider();
     const newUser = await signInWithPopup(auth, provider);
-    const firebaseUsers = await getDocs(collection(db, 'users'));
-    const userExist = firebaseUsers.docs.some(
-      (user) => user.data().email === newUser.user.email
-    );
-    if (!userExist) {
-      await addUserToDB(newUser);
-    }
+    const userRef = doc(db, 'users', newUser.user.uid);
+    const userDoc = await getDoc(userRef);
+    const userExist = userDoc.exists();
+    if (!userExist) await addUserToDB(newUser);
   }
 
   function logout() {

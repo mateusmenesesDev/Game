@@ -7,13 +7,7 @@ import { Tabs } from './components/Tabs';
 import { Context } from '../../contexts/Context';
 import { generateRandom } from '../../utils/generateRandom';
 import { gameFetch } from '../../api/game';
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  updateDoc,
-} from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase/firebase';
 import { useAuth } from '../../contexts/Auth';
 
@@ -71,6 +65,7 @@ export function Detail() {
   }
 
   async function updateFirestore() {
+    console.log('t');
     if (user) {
       const userRef = doc(db, 'users', user.uid);
       updateDoc(userRef, {
@@ -88,7 +83,7 @@ export function Detail() {
   }, [gameId]);
 
   useEffect(() => {
-    if (userList !== undefined) updateFirestore();
+    if (userList.length > 0) updateFirestore();
   }, [userList]);
 
   return detailGame?.game && newGame === false ? (
