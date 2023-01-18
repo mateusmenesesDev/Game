@@ -10,9 +10,10 @@ import {
   User,
   UserCredential,
 } from 'firebase/auth';
-import { collection, doc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '../services/firebase/firebase';
+import { Context } from './Context';
 
 type Props = {
   children: React.ReactNode;
@@ -40,6 +41,7 @@ export const AuthContext = createContext<InitialContextProps>(initialContext);
 export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<null | User>(null);
   const [loading, setLoading] = useState(true);
+  const { setUserList, userList } = useContext(Context);
 
   async function addUserToDB(newUser: UserCredential) {
     const id = newUser.user.uid;
@@ -59,8 +61,18 @@ export const AuthProvider = ({ children }: Props) => {
     return newUser;
   }
 
-  function signin(email: string, password: string) {
-    return signInWithEmailAndPassword(auth, email, password);
+  async function getGamelistDB({ user }: UserCredential) {
+    if (user) {
+      const userRef = doc(db, 'users', user.uid);
+      const docUser = await getDoc(userRef);
+      const userData = docUser.data();
+      setUserList(userData?.gameList);
+    }
+  }
+
+  async function signin(email: string, password: string) {
+    const user = await signInWithEmailAndPassword(auth, email, password);
+    return user;
   }
 
   async function signinGoogle() {
@@ -70,6 +82,8 @@ export const AuthProvider = ({ children }: Props) => {
     const userDoc = await getDoc(userRef);
     const userExist = userDoc.exists();
     if (!userExist) await addUserToDB(newUser);
+    return newUser;
+    // await getGamelistDB(newUser);
   }
 
   function logout() {

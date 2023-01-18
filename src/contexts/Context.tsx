@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import axios from 'axios';
+import { User, UserCredential } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 import React, { createContext, useEffect, useState } from 'react';
+import { db } from '../services/firebase/firebase';
 import { IBasicGameApi, IGame, IUserList } from '../types/IGames';
+import { useAuth } from './Auth';
 
 type Props = {
   children: React.ReactNode;

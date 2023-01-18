@@ -1,12 +1,17 @@
 import Tab from './components/Tab';
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useAuth } from '../../contexts/Auth';
 import { useNavigate } from 'react-router-dom';
 import PasswordReset from './components/PasswordReset';
 import Alert from '../../components/Alert';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../services/firebase/firebase';
+import { Context } from '../../contexts/Context';
+import { UserCredential } from 'firebase/auth';
 
 export default function Login() {
   const { signup, signin, signinGoogle, logout } = useAuth();
+  const { setUserList } = useContext(Context);
   const [tab, setTab] = useState(1);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -29,6 +34,23 @@ export default function Login() {
     }
   }
 
+  async function getGameListFirestore({ user }: UserCredential) {
+    const userRef = doc(db, 'users', user.uid);
+    const docUser = await getDoc(userRef);
+    const userData = docUser.data();
+    console.log(
+      '🚀 ~ file: Login.tsx:41 ~ getGameListFirestore ~ userData',
+      userData
+    );
+    setUserList(userData?.gameList);
+  }
+
+  async function handleGoogleLogin() {
+    const user = await signinGoogle();
+    if (user) await getGameListFirestore(user);
+    navigate('/');
+  }
+
   async function handleLogin() {
     await logout();
     if (emailRef.current && passwordRef.current) {
@@ -38,7 +60,9 @@ export default function Login() {
           emailRef.current.value,
           passwordRef.current.value
         );
+        console.log('t', user);
         if (user && user.user.emailVerified) {
+          await getGameListFirestore(user);
           navigate(-1);
         } else {
           setMessage('Check your email for confirm your access');
@@ -99,12 +123,7 @@ export default function Login() {
       </form>
       <div>
         <p>Or login with:</p>
-        <button
-          onClick={async () => {
-            await signinGoogle();
-            navigate('/');
-          }}
-        >
+        <button onClick={handleGoogleLogin}>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             viewBox='0 0 488 512'

@@ -65,7 +65,6 @@ export function Detail() {
   }
 
   async function updateFirestore() {
-    console.log('t');
     if (user) {
       const userRef = doc(db, 'users', user.uid);
       updateDoc(userRef, {
@@ -83,7 +82,7 @@ export function Detail() {
   }, [gameId]);
 
   useEffect(() => {
-    if (userList.length > 0) updateFirestore();
+    if (userList && userList.length > 0) updateFirestore();
   }, [userList]);
 
   return detailGame?.game && newGame === false ? (
