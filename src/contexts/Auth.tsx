@@ -13,6 +13,7 @@ import {
 import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '../services/firebase/firebase';
+import { firestore } from '../services/firebase/firestore';
 
 type Props = {
   children: React.ReactNode;
@@ -41,21 +42,9 @@ export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<null | User>(null);
   const [loading, setLoading] = useState(true);
 
-  async function addUserToDB(newUser: UserCredential) {
-    const id = newUser.user.uid;
-    const usersRef = collection(db, 'users');
-    try {
-      await setDoc(doc(usersRef, id), {
-        email: newUser.user.email,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   async function signup(email: string, password: string) {
     const newUser = await createUserWithEmailAndPassword(auth, email, password);
-    await addUserToDB(newUser);
+    await firestore.addUserToDB(newUser);
     return newUser;
   }
 
@@ -70,7 +59,7 @@ export const AuthProvider = ({ children }: Props) => {
     const userRef = doc(db, 'users', newUser.user.uid);
     const userDoc = await getDoc(userRef);
     const userExist = userDoc.exists();
-    if (!userExist) await addUserToDB(newUser);
+    if (!userExist) await firestore.addUserToDB(newUser);
     return newUser;
     // await getGamelistDB(newUser);
   }

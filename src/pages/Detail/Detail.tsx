@@ -10,6 +10,7 @@ import { gameFetch } from '../../api/game';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase/firebase';
 import { useAuth } from '../../contexts/Auth';
+import { firestore } from '../../services/firebase/firestore';
 
 export function Detail() {
   const [newGame, setNewGame] = useState(false);
@@ -64,15 +65,6 @@ export function Detail() {
     }
   }
 
-  async function updateFirestore() {
-    if (user) {
-      const userRef = doc(db, 'users', user.uid);
-      updateDoc(userRef, {
-        gameList: userList,
-      });
-    }
-  }
-
   useEffect(() => {
     if (gameId?.startsWith('random')) {
       fetchRandomGameData();
@@ -82,7 +74,9 @@ export function Detail() {
   }, [gameId]);
 
   useEffect(() => {
-    if (userList && userList.length > 0) updateFirestore();
+    if (userList && userList.length > 0 && user) {
+      firestore.updateFirestore(user, userList);
+    }
   }, [userList]);
 
   return detailGame?.game && newGame === false ? (
