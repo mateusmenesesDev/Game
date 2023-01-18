@@ -8,6 +8,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../services/firebase/firebase';
 import { Context } from '../../contexts/Context';
 import { UserCredential } from 'firebase/auth';
+import { firestore } from '../../services/firebase/firestore';
 
 export default function Login() {
   const { signup, signin, signinGoogle, logout } = useAuth();
@@ -34,16 +35,16 @@ export default function Login() {
     }
   }
 
-  async function getGameListFirestore({ user }: UserCredential) {
-    const userRef = doc(db, 'users', user.uid);
-    const docUser = await getDoc(userRef);
-    const userData = docUser.data();
-    setUserList(userData?.gameList);
-  }
+  // async function getGameListFirestore({ user }: UserCredential) {
+  //   const userRef = doc(db, 'users', user.uid);
+  //   const docUser = await getDoc(userRef);
+  //   const userData = docUser.data();
+  //   setUserList(userData?.gameList);
+  // }
 
   async function handleGoogleLogin() {
     const user = await signinGoogle();
-    if (user) await getGameListFirestore(user);
+    // if (user) await firestore.getGameListFirestore({ user, setUserList });
     navigate('/');
   }
 
@@ -57,7 +58,7 @@ export default function Login() {
           passwordRef.current.value
         );
         if (user && user.user.emailVerified) {
-          await getGameListFirestore(user);
+          // await firestore.getGameListFirestore({ user, setUserList });
           navigate(-1);
         } else {
           setMessage('Check your email for confirm your access');

@@ -9,7 +9,8 @@ import { generateRandom } from '../../utils/generateRandom';
 import { gameFetch } from '../../api/game';
 import { useAuth } from '../../contexts/Auth';
 import { firestore } from '../../services/firebase/firestore';
-
+import RateModal from '../../components/Modal/RateModal';
+import ModalOpener from '../../components/Modal/ModalOpener';
 export function Detail() {
   const [newGame, setNewGame] = useState(false);
   const [detailGame, setDetailGame] = useState<IDetaiGame>();
@@ -87,63 +88,13 @@ export function Detail() {
                 {Math.floor(detailGame.game.rating)}/100
               </span>
             )}
-            <label
-              htmlFor='my-modal'
-              className='indicator-item indicator-end badge w-6 h-6 font-bold border-none hover:scale-150'
-            >
-              +
-            </label>
-            <input type='checkbox' id='my-modal' className='modal-toggle' />
-            <div className='modal'>
-              <div className='modal-box'>
-                <h3 className='font-bold text-lg'>{detailGame.game.name}</h3>
-                <div>
-                  <select
-                    className='select select-bordered w-full max-w-xs'
-                    onChange={(e) => setRating(Number(e.target.value))}
-                  >
-                    <option disabled selected>
-                      Nota
-                    </option>
-                    <option value={1}>1</option>
-                    <option value={2}>2</option>
-                    <option value={3}>3</option>
-                    <option value={4}>4</option>
-                    <option value={5}>5</option>
-                    <option value={6}>6</option>
-                    <option value={7}>7</option>
-                    <option value={8}>8</option>
-                    <option value={9}>9</option>
-                    <option value={10}>10</option>
-                  </select>
-                  <select
-                    className='select select-bordered w-full max-w-xs'
-                    onChange={(e) => setType(e.target.value)}
-                  >
-                    <option disabled selected>
-                      Type
-                    </option>
-                    <option value='Completed'>Completed</option>
-                    <option value='Playing'>Playing</option>
-                    <option value='Dropped'>Dropped</option>
-                    <option value='Plan to Play'>Plan to Play</option>
-                  </select>
-                </div>
-                <div className='modal-action'>
-                  <label
-                    htmlFor='my-modal'
-                    className='btn'
-                    onClick={addGameToList}
-                  >
-                    Salvar
-                  </label>
-                  <label htmlFor='my-modal' className='btn'>
-                    Fechar
-                  </label>
-                </div>
-              </div>
-            </div>
-
+            <ModalOpener> + </ModalOpener>
+            <RateModal
+              detailGame={detailGame}
+              setRating={setRating}
+              setType={setType}
+              addGameToList={addGameToList}
+            />
             <div className='w-full'>
               {detailGame.game.cover && (
                 <GameImage ImageId={detailGame.game.cover.image_id} />
@@ -163,6 +114,7 @@ export function Detail() {
           </div>
         </div>
       </div>
+
       <div className='col-span-2'>
         <Tabs detailGame={detailGame.game} />
       </div>

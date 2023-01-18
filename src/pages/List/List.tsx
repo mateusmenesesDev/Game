@@ -16,6 +16,7 @@ export function List() {
     if (user === null) {
       navigate('../login');
     }
+    console.log(userList);
   }, []);
 
   return (

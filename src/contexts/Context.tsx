@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import axios from 'axios';
 import React, { createContext, useEffect, useState } from 'react';
+import { firestore } from '../services/firebase/firestore';
 import { IBasicGameApi, IGame, IUserList } from '../types/IGames';
+import { useAuth } from './Auth';
 
 type Props = {
   children: React.ReactNode;
@@ -27,6 +29,7 @@ const initialContext = {
 export const Context = createContext<InitialContextProps>(initialContext);
 
 export const ContextProvider = ({ children }: Props) => {
+  const { user } = useAuth();
   const [games, setGames] = useState<IGame[]>([]);
   const [genres, setGenres] = useState<IBasicGameApi[]>([]);
   const [userList, setUserList] = useState<IUserList[] | []>([]);
@@ -40,6 +43,9 @@ export const ContextProvider = ({ children }: Props) => {
     getGamesAndGenres();
   }, []);
 
+  useEffect(() => {
+    if (user) firestore.getGameListFirestore({ user, setUserList });
+  }, [user]);
   return (
     <Context.Provider
       value={{
