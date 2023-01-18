@@ -7,7 +7,13 @@ import { Tabs } from './components/Tabs';
 import { Context } from '../../contexts/Context';
 import { generateRandom } from '../../utils/generateRandom';
 import { gameFetch } from '../../api/game';
-import { collection, doc, getDocs, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from 'firebase/firestore';
 import { db } from '../../services/firebase/firebase';
 import { useAuth } from '../../contexts/Auth';
 
@@ -65,17 +71,12 @@ export function Detail() {
   }
 
   async function updateFirestore() {
-    const users = await getDocs(collection(db, 'users'));
-    console.log('🚀 ~ file: Detail.tsx:75 ~ updateFirestore ~ users', users);
-    console.log(userList, 't');
-    users.forEach((userDB) => {
-      if (userDB.data().email === user?.email) {
-        const userDocRef = doc(db, 'users', userDB.id);
-        updateDoc(userDocRef, {
-          gameList: userList,
-        });
-      }
-    });
+    if (user) {
+      const userRef = doc(db, 'users', user.uid);
+      updateDoc(userRef, {
+        gameList: userList,
+      });
+    }
   }
 
   useEffect(() => {

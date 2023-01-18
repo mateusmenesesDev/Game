@@ -15,7 +15,7 @@ export function List() {
   const navigate = useNavigate();
 
   async function getGamelistDB() {
-    if (user?.email) {
+    if (user) {
       const userRef = doc(db, 'users', user.uid);
       const docUser = await getDoc(userRef);
       const userData = docUser.data();
