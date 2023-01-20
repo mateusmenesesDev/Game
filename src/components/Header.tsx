@@ -36,7 +36,7 @@ export function Header() {
   return (
     <header className='px-4 py-6 flex gap-3 justify-between mb-12 sm:text-lg sm:px-10 md:px-12 lg:justify-around lg:px-0'>
       <div className='flex items-center gap-2'>
-        <div className='dropdown'>
+        <div className='dropdown dropdown-hover'>
           <label tabIndex={0} className='btn btn-square btn-ghost'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
