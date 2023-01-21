@@ -11,6 +11,7 @@ export function GameImage({ ImageId, hover = false, rounded }: Props) {
         srcSet={`https://images.igdb.com/igdb/image/upload/t_720p/${ImageId}.png`}
         media="(min-width: 768px)"
       />
+
       <img
         src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${ImageId}.png`}
         alt=""

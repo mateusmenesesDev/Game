@@ -36,3 +36,8 @@ export interface IDetaiGame {
   game: IGame;
   company?: IBasicGameApi;
 }
+
+export interface IUserList extends IDetaiGame{
+  rating: number;
+  type: string
+}
