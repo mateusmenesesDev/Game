@@ -1,5 +1,7 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useAuth } from '../../contexts/Auth';
 import { Context } from '../../contexts/Context';
+import { firestore } from '../../services/firebase/firestore';
 import { IDetaiGame, IGame } from '../../types/IGames';
 
 type Props = {
@@ -9,6 +11,7 @@ type Props = {
 
 export default function ModalGame({ detailGame, game }: Props) {
   const { userList, setUserList } = useContext(Context);
+  const { user } = useAuth();
   const [rating, setRating] = useState(0);
   const [type, setType] = useState('');
   function addGameToList() {
@@ -25,6 +28,10 @@ export default function ModalGame({ detailGame, game }: Props) {
       alert('Jogo já está na sua lista!');
     }
   }
+
+  useEffect(() => {
+    if (user) firestore.updateFirestore(user, userList);
+  }, [userList]);
   return (
     <div className='modal'>
       <div className='modal-box'>

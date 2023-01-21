@@ -1,23 +1,32 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { GameImage } from '../../../components/GameImage';
 import ModalOpener from '../../../components/Modal/ModalOpener';
 import RateModal from '../../../components/Modal/ModalGame';
 import { Context } from '../../../contexts/Context';
 import { IUserList } from '../../../types/IGames';
+import { firestore } from '../../../services/firebase/firestore';
+import { useAuth } from '../../../contexts/Auth';
 
 type Props = {
   item: IUserList;
 };
 
 export default function ListGameData({ item }: Props) {
-  const { userList } = useContext(Context);
+  const { userList, setUserList } = useContext(Context);
+  const { user } = useAuth();
   function editGame() {
     console.log('edit', userList);
   }
 
-  function removeGame() {
-    console.log('remove', userList);
+  async function removeGame() {
+    const newList = userList.filter((game) => game !== item);
+    setUserList(newList);
+    if (user) await firestore.updateFirestore(user, newList);
   }
+
+  // useEffect(() => {
+  //   removeGame();
+  // }, [userList]);
   return (
     <div
       className='grid grid-cols-3 bg-base-300 items-center text-sm md:text-base pr-5'

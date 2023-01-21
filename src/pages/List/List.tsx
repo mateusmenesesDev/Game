@@ -1,22 +1,21 @@
-import { useContext, useEffect, useState } from 'react';
-import { Context } from '../../contexts/Context';
 import EmptyList from './EmptyList';
 import ListGameData from './components/ListGameData';
 import ListTabs from './components/ListTabs';
+import { Context } from '../../contexts/Context';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
+import { useContext, useEffect, useState } from 'react';
 
 export function List() {
   const { userList } = useContext(Context);
-  const [tab, setTab] = useState('All');
   const { user } = useAuth();
+  const [tab, setTab] = useState('All');
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user === null) {
       navigate('../login');
     }
-    console.log(userList);
   }, []);
 
   return (

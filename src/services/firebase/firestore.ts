@@ -1,5 +1,5 @@
 import { User, UserCredential } from 'firebase/auth';
-import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { IUserList } from '../../types/IGames';
 import { db } from './firebase';
 
@@ -19,6 +19,7 @@ export const firestore = {
       console.log(error);
     }
   },
+  
   updateFirestore: async (user:User, userList:IUserList[]) => {
     if (user) {
       const userRef = doc(db, 'users', user.uid);
@@ -27,6 +28,7 @@ export const firestore = {
       });
     }
   },
+
   getGameListFirestore:async ({user, setUserList}: Props) => {
     const userRef = doc(db, 'users', user.uid);
     const docUser = await getDoc(userRef);
