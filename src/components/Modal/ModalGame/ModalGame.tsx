@@ -37,7 +37,6 @@ export default function ModalGame({ detailGame, game, edit }: Props) {
       edit.type = type;
       setUserList([...newList, edit]);
     }
-    location.reload();
   }
   useEffect(() => {
     if (user) firestore.updateFirestore(user, userList);

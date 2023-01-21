@@ -14,9 +14,6 @@ type Props = {
 export default function ListGameData({ item }: Props) {
   const { userList, setUserList } = useContext(Context);
   const { user } = useAuth();
-  function editGame() {
-    console.log('edit', userList);
-  }
 
   async function removeGame() {
     const confirmation = confirm('Are you sure you want to delete this game?');

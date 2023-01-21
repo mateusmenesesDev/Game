@@ -1,5 +1,5 @@
 import { User, UserCredential } from 'firebase/auth';
-import { collection, deleteDoc, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
 import { IUserList } from '../../types/IGames';
 import { db } from './firebase';
 

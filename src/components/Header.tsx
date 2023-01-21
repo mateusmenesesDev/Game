@@ -21,7 +21,7 @@ export function Header() {
       if (input === '') setSearchGames([]);
       if (input !== '') setSearchGames(await gameFetch.getGame(input));
       // Send Axios request here
-    }, 1000);
+    }, 400);
     return () => clearTimeout(delayDebounceFn);
   }, [input]);
 
