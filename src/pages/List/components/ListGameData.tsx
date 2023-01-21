@@ -4,6 +4,8 @@ import { Context } from '../../../contexts/Context';
 import { IUserList } from '../../../types/IGames';
 import { firestore } from '../../../services/firebase/firestore';
 import { useAuth } from '../../../contexts/Auth';
+import ModalOpener from '../../../components/Modal/ModalOpener';
+import ModalGame from '../../../components/Modal/ModalGame/ModalGame';
 
 type Props = {
   item: IUserList;
@@ -40,9 +42,8 @@ export default function ListGameData({ item }: Props) {
       <div className='justify-self-end'>
         <div className='text-center'>{item.type}</div>
         <div className='flex gap-2 mt-10'>
-          <div onClick={editGame} className='cursor-pointer'>
-            Editar
-          </div>
+          <ModalOpener>Editar</ModalOpener>
+          <ModalGame edit={item} />
           <div onClick={removeGame} className='cursor-pointer'>
             Excluir
           </div>

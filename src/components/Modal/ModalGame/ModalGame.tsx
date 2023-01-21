@@ -2,14 +2,15 @@ import { useContext, useEffect, useState } from 'react';
 import { useAuth } from '../../../contexts/Auth';
 import { Context } from '../../../contexts/Context';
 import { firestore } from '../../../services/firebase/firestore';
-import { IDetaiGame, IGame } from '../../../types/IGames';
+import { IDetaiGame, IGame, IUserList } from '../../../types/IGames';
 
 type Props = {
   detailGame?: IDetaiGame;
   game?: IGame;
+  edit?: IUserList;
 };
 
-export default function ModalGame({ detailGame, game }: Props) {
+export default function ModalGame({ detailGame, game, edit }: Props) {
   const { userList, setUserList } = useContext(Context);
   const { user } = useAuth();
   const [rating, setRating] = useState(0);
@@ -28,7 +29,16 @@ export default function ModalGame({ detailGame, game }: Props) {
       alert('Jogo já está na sua lista!');
     }
   }
-
+  function editGameList() {
+    if (edit) {
+      const gameToEdit = edit.game;
+      const newList = userList.filter(({ game }) => game !== gameToEdit);
+      edit.rating = rating;
+      edit.type = type;
+      setUserList([...newList, edit]);
+    }
+    location.reload();
+  }
   useEffect(() => {
     if (user) firestore.updateFirestore(user, userList);
   }, [userList]);
@@ -71,7 +81,14 @@ export default function ModalGame({ detailGame, game }: Props) {
           </select>
         </div>
         <div className='modal-action'>
-          <label htmlFor='my-modal' className='btn' onClick={addGameToList}>
+          <label
+            htmlFor='my-modal'
+            className='btn'
+            onClick={() => {
+              if (edit) editGameList();
+              if (!edit) addGameToList();
+            }}
+          >
             Salvar
           </label>
           <label htmlFor='my-modal' className='btn'>
