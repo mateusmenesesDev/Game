@@ -9,15 +9,14 @@ import { generateRandom } from '../../utils/generateRandom';
 import { gameFetch } from '../../api/game';
 import { useAuth } from '../../contexts/Auth';
 import { firestore } from '../../services/firebase/firestore';
-import RateModal from '../../components/Modal/RateModal';
 import ModalOpener from '../../components/Modal/ModalOpener';
+import ModalGame from '../../components/Modal/ModalGame';
+
 export function Detail() {
   const [newGame, setNewGame] = useState(false);
   const [detailGame, setDetailGame] = useState<IDetaiGame>();
-  const [rating, setRating] = useState(0);
-  const [type, setType] = useState('');
   const { gameId } = useParams();
-  const { games, setUserList, userList } = useContext(Context);
+  const { games, userList } = useContext(Context);
   const { user } = useAuth();
 
   async function fetchGameData() {
@@ -49,21 +48,6 @@ export function Detail() {
     setNewGame(false);
   }
 
-  function addGameToList() {
-    if (!userList && detailGame) {
-      setUserList([{ ...detailGame, rating, type }]);
-      return;
-    }
-    const gameInList = userList
-      ? userList?.some((item) => item.game.id === detailGame?.game.id)
-      : false;
-    if (!gameInList && detailGame) {
-      setUserList([...userList, { ...detailGame, rating, type }]);
-    } else {
-      alert('Jogo já está na sua lista!');
-    }
-  }
-
   useEffect(() => {
     if (gameId?.startsWith('random')) {
       fetchRandomGameData();
@@ -73,7 +57,7 @@ export function Detail() {
   }, [gameId]);
 
   useEffect(() => {
-    if (userList && userList.length > 0 && user) {
+    if (user) {
       firestore.updateFirestore(user, userList);
     }
   }, [userList]);
@@ -89,12 +73,7 @@ export function Detail() {
               </span>
             )}
             <ModalOpener> + </ModalOpener>
-            <RateModal
-              detailGame={detailGame}
-              setRating={setRating}
-              setType={setType}
-              addGameToList={addGameToList}
-            />
+            <ModalGame detailGame={detailGame} />
             <div className='w-full'>
               {detailGame.game.cover && (
                 <GameImage ImageId={detailGame.game.cover.image_id} />

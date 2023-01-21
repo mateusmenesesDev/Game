@@ -1,5 +1,7 @@
 import { useContext } from 'react';
 import { GameImage } from '../../../components/GameImage';
+import ModalOpener from '../../../components/Modal/ModalOpener';
+import RateModal from '../../../components/Modal/ModalGame';
 import { Context } from '../../../contexts/Context';
 import { IUserList } from '../../../types/IGames';
 

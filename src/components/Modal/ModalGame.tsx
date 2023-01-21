@@ -1,21 +1,30 @@
-import React from 'react';
+import { useContext, useState } from 'react';
+import { Context } from '../../contexts/Context';
 import { IDetaiGame, IGame } from '../../types/IGames';
 
 type Props = {
   detailGame?: IDetaiGame;
   game?: IGame;
-  setRating: React.Dispatch<React.SetStateAction<number>>;
-  setType: React.Dispatch<React.SetStateAction<string>>;
-  addGameToList?: () => void;
 };
 
-export default function RateModal({
-  detailGame,
-  game,
-  setRating,
-  setType,
-  addGameToList,
-}: Props) {
+export default function ModalGame({ detailGame, game }: Props) {
+  const { userList, setUserList } = useContext(Context);
+  const [rating, setRating] = useState(0);
+  const [type, setType] = useState('');
+  function addGameToList() {
+    if (!userList && detailGame) {
+      setUserList([{ ...detailGame, rating, type }]);
+      return;
+    }
+    const gameInList = userList
+      ? userList?.some((item) => item.game.id === detailGame?.game.id)
+      : false;
+    if (!gameInList && detailGame) {
+      setUserList([...userList, { ...detailGame, rating, type }]);
+    } else {
+      alert('Jogo já está na sua lista!');
+    }
+  }
   return (
     <div className='modal'>
       <div className='modal-box'>

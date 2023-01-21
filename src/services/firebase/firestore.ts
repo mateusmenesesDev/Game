@@ -34,5 +34,4 @@ export const firestore = {
     setUserList(userData?.gameList);
   }
 }
-
-
+// DECLAÇÃO DE TYPE E INTERFACE
