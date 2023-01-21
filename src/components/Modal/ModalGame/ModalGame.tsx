@@ -1,8 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
-import { useAuth } from '../../contexts/Auth';
-import { Context } from '../../contexts/Context';
-import { firestore } from '../../services/firebase/firestore';
-import { IDetaiGame, IGame } from '../../types/IGames';
+import { useAuth } from '../../../contexts/Auth';
+import { Context } from '../../../contexts/Context';
+import { firestore } from '../../../services/firebase/firestore';
+import { IDetaiGame, IGame } from '../../../types/IGames';
 
 type Props = {
   detailGame?: IDetaiGame;

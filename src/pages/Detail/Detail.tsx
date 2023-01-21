@@ -10,7 +10,7 @@ import { gameFetch } from '../../api/game';
 import { useAuth } from '../../contexts/Auth';
 import { firestore } from '../../services/firebase/firestore';
 import ModalOpener from '../../components/Modal/ModalOpener';
-import ModalGame from '../../components/Modal/ModalGame';
+import ModalGame from '../../components/Modal/ModalGame/ModalGame';
 
 export function Detail() {
   const [newGame, setNewGame] = useState(false);

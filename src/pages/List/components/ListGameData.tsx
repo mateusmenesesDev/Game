@@ -1,7 +1,5 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { GameImage } from '../../../components/GameImage';
-import ModalOpener from '../../../components/Modal/ModalOpener';
-import RateModal from '../../../components/Modal/ModalGame';
 import { Context } from '../../../contexts/Context';
 import { IUserList } from '../../../types/IGames';
 import { firestore } from '../../../services/firebase/firestore';
@@ -19,14 +17,14 @@ export default function ListGameData({ item }: Props) {
   }
 
   async function removeGame() {
-    const newList = userList.filter((game) => game !== item);
-    setUserList(newList);
-    if (user) await firestore.updateFirestore(user, newList);
+    const confirmation = confirm('Are you sure you want to delete this game?');
+    if (confirmation) {
+      const newList = userList.filter((game) => game !== item);
+      setUserList(newList);
+      if (user) await firestore.updateFirestore(user, newList);
+    }
   }
 
-  // useEffect(() => {
-  //   removeGame();
-  // }, [userList]);
   return (
     <div
       className='grid grid-cols-3 bg-base-300 items-center text-sm md:text-base pr-5'
