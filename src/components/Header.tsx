@@ -54,10 +54,10 @@ export function Header() {
             className='dropdown-content menu p-2 shadow  bg-base-300 rounded-box w-52'
           >
             <li className=''>
-              <Link to={'/'}>Início</Link>
+              <Link to={'/'}>Home</Link>
             </li>
             <li>
-              <Link to={'list'}>Minha Lista</Link>
+              <Link to={'list'}>My Game List</Link>
             </li>
             <li>
               <Link
@@ -75,7 +75,7 @@ export function Header() {
         <div className='group'>
           <input
             type='text'
-            placeholder='Buscar'
+            placeholder='Search'
             className='input input-bordered w-full max-w-xs'
             onChange={handleChange}
             value={input}
@@ -111,7 +111,7 @@ export function Header() {
           className={`cursor-pointer ${!user?.emailVerified && 'hidden'}`}
           onClick={signOut}
         >
-          Sair
+          Logout
         </div>
         <Theme />
       </div>

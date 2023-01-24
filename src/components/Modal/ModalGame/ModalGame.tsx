@@ -53,7 +53,7 @@ export default function ModalGame({ detailGame, game, edit }: Props) {
             onChange={(e) => setRating(Number(e.target.value))}
           >
             <option disabled selected>
-              Nota
+              Rate
             </option>
             <option value={1}>1</option>
             <option value={2}>2</option>

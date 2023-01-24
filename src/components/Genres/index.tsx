@@ -7,13 +7,14 @@ import { useContext } from 'react';
 import { GameCarousel } from './GameCarousel';
 import { Context } from '../../contexts/Context';
 import LazyLoad from 'react-lazyload';
+
 export function Genres() {
   const { genres } = useContext(Context);
   return (
     <div>
       {genres.length > 0 ? (
         genres.map((genre) => (
-          <LazyLoad offset={200} height={300} once key={genre.id}>
+          <LazyLoad height={300} offset={200} once key={genre.id}>
             <div>
               <h3
                 key={genre.id}

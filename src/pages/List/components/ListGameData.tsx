@@ -39,10 +39,10 @@ export default function ListGameData({ item }: Props) {
       <div className='justify-self-end'>
         <div className='text-center'>{item.type}</div>
         <div className='flex gap-2 mt-10'>
-          <ModalOpener>Editar</ModalOpener>
+          <ModalOpener>Edit</ModalOpener>
           <ModalGame edit={item} />
           <div onClick={removeGame} className='cursor-pointer'>
-            Excluir
+            Remove
           </div>
         </div>
       </div>
