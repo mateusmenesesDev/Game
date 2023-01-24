@@ -32,7 +32,7 @@ export default function ModalGame({ detailGame, game, edit }: Props) {
   function editGameList() {
     if (edit) {
       const gameToEdit = edit.game;
-      const newList = userList.filter(({ game }) => game !== gameToEdit);
+      const newList = userList.filter(({ game }) => game.id !== gameToEdit.id);
       edit.rating = rating;
       edit.type = type;
       setUserList([...newList, edit]);
@@ -88,10 +88,10 @@ export default function ModalGame({ detailGame, game, edit }: Props) {
               if (!edit) addGameToList();
             }}
           >
-            Salvar
+            Save
           </label>
           <label htmlFor='my-modal' className='btn'>
-            Fechar
+            Close
           </label>
         </div>
       </div>
