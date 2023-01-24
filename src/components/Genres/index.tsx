@@ -3,10 +3,10 @@ import 'swiper/css/navigation';
 import './Genre.css';
 
 import { Placeholder } from '../utils/Placeholder';
-import { lazy, useContext } from 'react';
+import { useContext } from 'react';
 import GameCarousel from './GameCarousel';
 import { Context } from '../../contexts/Context';
-import LazyLoad from 'react-lazy-load';
+import LazyLoad from 'react-lazyload';
 
 // const GameCarousel = lazy(() => import('./GameCarousel'));
 
@@ -16,7 +16,7 @@ export function Genres() {
     <div>
       {genres.length > 0 ? (
         genres.map((genre) => (
-          <LazyLoad key={genre.id} height={521} offset={200}>
+          <LazyLoad key={genre.id} height={400} offset={200} once>
             <div>
               <h3
                 key={genre.id}
