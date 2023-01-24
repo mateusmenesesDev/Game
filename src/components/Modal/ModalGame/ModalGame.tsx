@@ -42,14 +42,14 @@ export default function ModalGame({ detailGame, game, edit }: Props) {
     if (user) firestore.updateFirestore(user, userList);
   }, [userList]);
   return (
-    <div className='modal'>
-      <div className='modal-box'>
-        <h3 className='font-bold text-lg'>
+    <div className='modal px-4'>
+      <div className='modal-box w-auto md:px-14'>
+        <h3 className='font-bold text-lg mb-12 text-center'>
           {detailGame?.game.name || game?.name}
         </h3>
         <div>
           <select
-            className='select select-bordered w-full max-w-xs'
+            className='select select-bordered w-full max-w-xs mb-2'
             onChange={(e) => setRating(Number(e.target.value))}
           >
             <option disabled selected>
@@ -79,10 +79,10 @@ export default function ModalGame({ detailGame, game, edit }: Props) {
             <option value='Plan to Play'>Plan to Play</option>
           </select>
         </div>
-        <div className='modal-action'>
+        <div className='flex justify-between mt-5'>
           <label
             htmlFor='my-modal'
-            className='btn'
+            className='btn btn-primary px-6'
             onClick={() => {
               if (edit) editGameList();
               if (!edit) addGameToList();
@@ -90,7 +90,7 @@ export default function ModalGame({ detailGame, game, edit }: Props) {
           >
             Save
           </label>
-          <label htmlFor='my-modal' className='btn'>
+          <label htmlFor='my-modal' className='btn btn-outline px-6'>
             Close
           </label>
         </div>
