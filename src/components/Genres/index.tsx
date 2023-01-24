@@ -1,11 +1,14 @@
-import "swiper/css";
-import "swiper/css/navigation";
-import "./Genre.css";
+import 'swiper/css';
+import 'swiper/css/navigation';
+import './Genre.css';
 
-import { Placeholder } from "../utils/Placeholder";
-import { useContext } from "react";
-import { GameCarousel } from "./GameCarousel";
-import { Context } from "../../contexts/Context";
+import { Placeholder } from '../utils/Placeholder';
+import { useContext } from 'react';
+import GameCarousel from './GameCarousel';
+import { Context } from '../../contexts/Context';
+import LazyLoad from 'react-lazyload';
+
+// const GameCarousel = lazy(() => import('./GameCarousel'));
 
 export function Genres() {
   const { genres } = useContext(Context);
@@ -13,15 +16,18 @@ export function Genres() {
     <div>
       {genres.length > 0 ? (
         genres.map((genre) => (
-          <div key={genre.id}>
-            <h3
-              key={genre.id}
-              className="font-bold text-lg lg:text-3xl ml-4 md:ml-8"
-            >
-              {genre.name}
-            </h3>
-            <GameCarousel genre={genre} />
-          </div>
+          <LazyLoad key={genre.id} height={400} offset={200} once>
+            <div>
+              <h3
+                key={genre.id}
+                className='font-bold text-lg lg:text-3xl ml-4 md:ml-8'
+              >
+                {genre.name}
+              </h3>
+
+              <GameCarousel genre={genre} />
+            </div>
+          </LazyLoad>
         ))
       ) : (
         <Placeholder quantify={16} />
