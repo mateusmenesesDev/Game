@@ -10,11 +10,9 @@ function App() {
       <HashRouter>
         <AuthProvider>
           <Header />
-          <main>
             <ContextProvider>
               <RouteList />
             </ContextProvider>
-          </main>
         </AuthProvider>
       </HashRouter>
     </>
