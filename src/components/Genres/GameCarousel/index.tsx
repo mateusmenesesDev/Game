@@ -18,15 +18,17 @@ export function GameCarousel({ genre }: Props) {
   return (
     <>
       <Swiper
-        slidesPerView={'auto'}
+        slidesPerView={2}
         navigation={true}
         spaceBetween={10}
         mousewheel={{ forceToAxis: true }}
         modules={[Navigation, Mousewheel]}
+        loopFillGroupWithBlank={false}
+        loop={true}
         breakpoints={{
-          768: { slidesPerGroup: 2, slidesPerView: 'auto' },
-          1024: { slidesPerGroup: 3, slidesPerView: 'auto' },
-          1440: { slidesPerGroup: 4, slidesPerView: 'auto' },
+          768: { slidesPerGroup: 2, slidesPerView: 3 },
+          1024: { slidesPerGroup: 3, slidesPerView: 4 },
+          1440: { slidesPerGroup: 3, slidesPerView: 6 },
         }}
         className='pb-10 pt-2'
       >
