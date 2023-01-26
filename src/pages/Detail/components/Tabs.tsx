@@ -69,8 +69,14 @@ export function Tabs({ detailGame }: Props) {
           </div>
         )}
         <div className={`${tab === 3 ? 'block' : 'hidden'}`}>
-          <Swiper navigation={true} modules={[Navigation]} slidesPerView={2}>
-            {detailGame.similar_games !== undefined &&
+          <Swiper
+            navigation={true}
+            modules={[Navigation]}
+            slidesPerView={'auto'}
+            slidesPerGroup={2}
+            loopFillGroupWithBlank={false}
+          >
+            {detailGame.similar_games &&
               detailGame.similar_games
                 .filter((game) => game.cover !== undefined)
                 .map((game) => (
