@@ -5,11 +5,14 @@ import { Context } from '../../contexts/Context';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/Auth';
 import { useContext, useEffect, useState } from 'react';
+import FilterDropdown from './FilterDropdown';
 
 export function List() {
   const { userList } = useContext(Context);
   const { user } = useAuth();
   const [tab, setTab] = useState('All');
+  const [filterValue, setFilterValue] = useState('default');
+  const [filteredUserList, setFilteredUserList] = useState(userList);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,30 +21,41 @@ export function List() {
     }
   }, []);
 
+  useEffect(() => {
+    console.log('entrei')
+    setFilteredUserList(userList);
+    if (filterValue === 'lowest' || filterValue === 'default') {
+      setFilteredUserList(userList?.sort((a, b) => b.game.rating - a.game.rating));
+    }
+    if (filterValue === 'highest') {
+      setFilteredUserList(userList?.sort((a, b) => a.game.rating - b.game.rating));
+    }
+  }, [filterValue, userList]);
+
   return (
     <div>
       {!user?.emailVerified ? (
         <div className='text-xl text-center'>Confirm your email first</div>
-      ) : userList ? (
+      ) : filteredUserList ? (
         <>
           <ListTabs tab={tab} setTab={setTab} />
           <div className='grid grid-cols-3 place-items-center my-4 '>
             <div>plataform</div>
             <div>
               {tab !== 'All'
-                ? userList.filter((list) => list.type === tab).length
-                : userList.length}
+                ? filteredUserList.filter((list) => list.type === tab).length
+                : filteredUserList.length}
             </div>
-            <div>order</div>
+            <FilterDropdown setFilterValue={setFilterValue} />
           </div>
           <div>
             {tab !== 'All'
-              ? userList
+              ? filteredUserList
                   .filter((item) => item.type === tab)
                   .map((item) => (
                     <ListGameData item={item} key={item.game.id} />
                   ))
-              : userList.map((item) => (
+              : filteredUserList.map((item) => (
                   <ListGameData item={item} key={item.game.id} />
                 ))}
           </div>
