@@ -81,7 +81,7 @@ export default function Login() {
 
   return (
     <div className='mt-[100px] h-[calc(100vh-300px)] w-screen flex justify-center items-center '>
-      <div className='flex flex-col items-center justify-center gap-5 bg-base-300 w-11/12 max-w-sm'>
+      <div className='rounded-lg flex flex-col items-center gap-5 bg-base-300 w-11/12 max-w-sm h-[370px] justify-between p-3 shadow-2xl'>
         <Tab tab={tab} setTab={setTab} />
         {error && <Alert error={error} />}
         {message && <Alert message={message} />}
@@ -118,7 +118,7 @@ export default function Login() {
             {tab === 1 ? 'Login' : 'Signup'}
           </button>
         </form>
-        <div>
+        <div className='flex gap-2'>
           <p>Or login with:</p>
           <button onClick={handleGoogleLogin}>
             <svg
