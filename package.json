@@ -32,6 +32,7 @@
     "@typescript-eslint/parser": "^5.46.1",
     "@vitejs/plugin-react": "^3.0.0",
     "autoprefixer": "^10.4.13",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^8.30.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.2.1",
@@ -47,6 +48,11 @@
     "react-lazyload": {
       "react": "^18.2.0",
       "react-dom": "^18.2.0"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
     }
   }
 }
