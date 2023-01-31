@@ -1,18 +1,12 @@
 import Tab from './components/Tab';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useAuth } from '../../contexts/Auth';
 import { useNavigate } from 'react-router-dom';
 import PasswordReset from './components/PasswordReset';
 import Alert from '../../components/Alert';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../../services/firebase/firebase';
-import { Context } from '../../contexts/Context';
-import { UserCredential } from 'firebase/auth';
-import { firestore } from '../../services/firebase/firestore';
 
 export default function Login() {
   const { signup, signin, signinGoogle, logout } = useAuth();
-  const { setUserList } = useContext(Context);
   const [tab, setTab] = useState(1);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
@@ -35,16 +29,8 @@ export default function Login() {
     }
   }
 
-  // async function getGameListFirestore({ user }: UserCredential) {
-  //   const userRef = doc(db, 'users', user.uid);
-  //   const docUser = await getDoc(userRef);
-  //   const userData = docUser.data();
-  //   setUserList(userData?.gameList);
-  // }
-
   async function handleGoogleLogin() {
-    const user = await signinGoogle();
-    // if (user) await firestore.getGameListFirestore({ user, setUserList });
+    await signinGoogle();
     navigate('/');
   }
 

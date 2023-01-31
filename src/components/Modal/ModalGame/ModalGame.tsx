@@ -2,15 +2,13 @@ import { useContext, useEffect, useState } from 'react';
 import { useAuth } from '../../../contexts/Auth';
 import { Context } from '../../../contexts/Context';
 import { firestore } from '../../../services/firebase/firestore';
-import { IDetaiGame, IGame, IUserList } from '../../../types/IGames';
+import { IDetaiGame } from '../../../types/IGames';
 
 type Props = {
   detailGame?: IDetaiGame;
-  game?: IGame;
-  edit?: IUserList;
 };
 
-export default function ModalGame({ detailGame, game, edit }: Props) {
+export default function ModalGame({ detailGame }: Props) {
   const { userList, setUserList } = useContext(Context);
   const { user } = useAuth();
   const [rating, setRating] = useState(0);
@@ -29,31 +27,23 @@ export default function ModalGame({ detailGame, game, edit }: Props) {
       alert('Jogo já está na sua lista!');
     }
   }
-  function editGameList() {
-    if (edit) {
-      const gameToEdit = edit.game;
-      const newList = userList.filter(({ game }) => game !== gameToEdit);
-      edit.rating = rating;
-      edit.type = type;
-      setUserList([...newList, edit]);
-    }
-  }
+
   useEffect(() => {
     if (user) firestore.updateFirestore(user, userList);
   }, [userList]);
   return (
-    <div className='modal'>
-      <div className='modal-box'>
-        <h3 className='font-bold text-lg'>
-          {detailGame?.game.name || game?.name}
+    <div className='modal px-4'>
+      <div className='modal-box w-auto md:px-14'>
+        <h3 className='font-bold text-lg mb-12 text-center'>
+          {detailGame?.game.name}
         </h3>
         <div>
           <select
-            className='select select-bordered w-full max-w-xs'
+            className='select select-bordered w-full max-w-xs mb-2'
             onChange={(e) => setRating(Number(e.target.value))}
           >
             <option disabled selected>
-              Nota
+              Rate
             </option>
             <option value={1}>1</option>
             <option value={2}>2</option>
@@ -79,19 +69,16 @@ export default function ModalGame({ detailGame, game, edit }: Props) {
             <option value='Plan to Play'>Plan to Play</option>
           </select>
         </div>
-        <div className='modal-action'>
+        <div className='flex justify-between mt-5'>
           <label
             htmlFor='my-modal'
-            className='btn'
-            onClick={() => {
-              if (edit) editGameList();
-              if (!edit) addGameToList();
-            }}
+            className='btn btn-primary px-6'
+            onClick={addGameToList}
           >
-            Salvar
+            Save
           </label>
-          <label htmlFor='my-modal' className='btn'>
-            Fechar
+          <label htmlFor='my-modal' className='btn btn-outline px-6'>
+            Close
           </label>
         </div>
       </div>
