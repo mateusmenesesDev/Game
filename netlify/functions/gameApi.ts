@@ -10,7 +10,7 @@ async function getAuth() {
 const apiRequest = {
   getAllGames: async () => {
     const fields =
-      'fields name, rating, id, genres, screenshots.image_id, videos.video_id, created_at, first_release_date, involved_companies.*, platforms.platform_logo, similar_games.cover.image_id, summary, cover.image_id;';
+      'fields name, total_rating_count, rating, id, genres, screenshots.image_id, videos.video_id, created_at, first_release_date, involved_companies.*, platforms.platform_logo, similar_games.cover.image_id, summary, cover.image_id;';
     const auth = await getAuth();
     const request = await axios({
       url: 'https://api.igdb.com/v4/games',
@@ -20,7 +20,7 @@ const apiRequest = {
         Authorization: `Bearer ${auth}`,
         'Accept-Encoding': 'gzip,deflate,compress',
       },
-      data: `${fields} where rating != null & screenshots != null & genres != (7) & genres != (35) & genres != (26) & genres != (30) & genres != (36); sort rating desc; limit 500;`,
+      data: `${fields} where rating != null & screenshots != null & genres != (7) & genres != (35) & genres != (26) & genres != (30) & genres != (36); sort total_rating_count desc; limit 500;`,
     });
     return request.data;
   },
@@ -34,7 +34,7 @@ const apiRequest = {
         Authorization: `Bearer ${auth}`,
         'Accept-Encoding': 'gzip,deflate,compress',
       },
-      data: 'fields name; where name != "Quiz/Trivia" & name != "Card & Board Game" & name != "Music" & name != "Pinball" & name !="MOBA"; limit 100;',
+      data: 'fields name; where name != "Sport" & name != "Visual Novel" & name != "Quiz/Trivia" & name != "Card & Board Game" & name != "Music" & name != "Pinball" & name !="MOBA"; limit 100;',
     });
     return request.data;
   },
