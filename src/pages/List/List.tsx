@@ -36,7 +36,7 @@ export function List() {
     <div>
       {!user?.emailVerified ? (
         <div className='text-xl text-center'>Confirm your email first</div>
-      ) : filteredUserList ? (
+      ) : filteredUserList && userList.length > 0 ? (
         <>
           <ListTabs tab={tab} setTab={setTab} />
           <div className='grid grid-cols-3 place-items-center my-4 '>
