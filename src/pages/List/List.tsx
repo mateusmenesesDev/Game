@@ -40,7 +40,6 @@ export function List() {
         <>
           <ListTabs tab={tab} setTab={setTab} />
           <div className='grid grid-cols-3 place-items-center my-4 '>
-            <div>plataform</div>
             <div>
               {tab !== 'All'
                 ? filteredUserList.filter((list) => list.type === tab).length
