@@ -11,7 +11,7 @@ export function List() {
   const { userList } = useContext(Context);
   const { user } = useAuth();
   const [tab, setTab] = useState('All');
-  const [filterValue, setFilterValue] = useState('default');
+  const [filterValue, setFilterValue] = useState('highest');
   const [filteredUserList, setFilteredUserList] = useState(userList);
   const navigate = useNavigate();
 
@@ -22,18 +22,15 @@ export function List() {
   }, []);
 
   useEffect(() => {
-    console.log('entrei')
     setFilteredUserList(userList);
-    if (filterValue === 'lowest' || filterValue === 'default') {
-      setFilteredUserList(userList?.sort((a, b) => b.game.rating - a.game.rating));
+    if(tab !== 'All'){
+      setFilteredUserList(userList?.filter((item) => item.type === tab));
     }
-    if (filterValue === 'highest') {
-      setFilteredUserList(userList?.sort((a, b) => a.game.rating - b.game.rating));
-    }
-  }, [filterValue, userList]);
+  }, [filterValue, userList, tab]);
 
   return (
     <div>
+      {console.log(filteredUserList)}
       {!user?.emailVerified ? (
         <div className='text-xl text-center'>Confirm your email first</div>
       ) : filteredUserList && userList.length > 0 ? (
@@ -48,13 +45,11 @@ export function List() {
             <FilterDropdown setFilterValue={setFilterValue} />
           </div>
           <div>
-            {tab !== 'All'
-              ? filteredUserList
-                  .filter((item) => item.type === tab)
-                  .map((item) => (
-                    <ListGameData item={item} key={item.game.id} />
-                  ))
-              : filteredUserList.map((item) => (
+            {filteredUserList.sort((a, b) => {
+              return filterValue === 'lowest' ? a.rating - b.rating :
+              b.rating - a.rating
+            })
+            .map((item) => (
                   <ListGameData item={item} key={item.game.id} />
                 ))}
           </div>
