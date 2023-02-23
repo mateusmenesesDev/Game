@@ -1,23 +1,26 @@
 import { IDetaiGame } from '../../types/IGames';
-import { GameImage } from '../../components/GameImage';
 import { Placeholder } from '../../components/utils/Placeholder';
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import { Tabs } from './components/Tabs';
 import { Context } from '../../contexts/Context';
 import { generateRandom } from '../../utils/generateRandom';
 import { gameFetch } from '../../api/game';
 import { useAuth } from '../../contexts/Auth';
 import { firestore } from '../../services/firebase/firestore';
-import ModalOpener from '../../components/Modal/ModalOpener';
-import ModalGame from '../../components/Modal/ModalGame/ModalGame';
+import { AiFillStar } from 'react-icons/ai';
+import Modal from './components/Modal';
+
+type Modal = 'screenshots' | 'videos' | 'similar games' | undefined;
 
 export function Detail() {
   const [newGame, setNewGame] = useState(false);
+  const [cover, setCover] = useState('');
+  const [mainScreenshot, setMainScreenshoot] = useState('');
   const [detailGame, setDetailGame] = useState<IDetaiGame>();
   const { gameId } = useParams();
   const { games, userList } = useContext(Context);
   const { user } = useAuth();
+  const [modal, setModal] = useState<Modal>();
 
   async function fetchGameData() {
     setNewGame(true);
@@ -62,43 +65,94 @@ export function Detail() {
     }
   }, [userList]);
 
-  return detailGame?.game && newGame === false ? (
-    <div className='lg:grid grid-cols-2 items-center '>
-      <div className='col-span-1 row-span-1 justify-self-end'>
-        <div className='flex flex-col items-center mb-10'>
-          <div className='indicator max-w-[310px]'>
-            {detailGame.game.rating && (
-              <span className='indicator-item indicator-start badge bg-red-700 w-14 h-14 font-bold border-none'>
-                {Math.floor(detailGame.game.rating)}/100
-              </span>
-            )}
-            <ModalOpener> + </ModalOpener>
-            <ModalGame detailGame={detailGame} />
-            <div className='w-full'>
-              {detailGame.game.cover && (
-                <GameImage ImageId={detailGame.game.cover.image_id} />
-              )}
-            </div>
-          </div>
+  useEffect(() => {
+    if (detailGame) {
+      setCover(
+        `https://images.igdb.com/igdb/image/upload/t_cover_big/${detailGame.game.cover.image_id}.png`
+      );
+      setMainScreenshoot(
+        `https://images.igdb.com/igdb/image/upload/t_1080p/${detailGame.game.screenshots[0].image_id}.png`
+      );
+    }
+  }, [detailGame]);
 
-          <h3 className='font-bold text-lg flex-1'>{detailGame.game.name}</h3>
-          <div className='flex gap-2 flex-wrap justify-center my-3'>
-            {detailGame.company && <h3>{detailGame.company.name}</h3>}
-            {new Date(
-              detailGame.game.first_release_date * 1000
-            ).toLocaleDateString() !== 'Invalid Date' &&
-              new Date(
-                detailGame.game.first_release_date * 1000
-              ).toLocaleDateString()}
+  return detailGame?.game && newGame === false ? (
+    <div>
+      {modal && (
+        <Modal
+          handleClose={() => setModal(undefined)}
+          game={detailGame.game}
+          type={modal}
+        />
+      )}
+      <div className='h-[50vh] w-screen'>
+        <picture>
+          <source srcSet={mainScreenshot} media='(min-width:550px)' />
+          <img
+            src={cover}
+            alt='game cover'
+            className='h-full w-full lg:object-cover'
+          />
+        </picture>
+      </div>
+      <div className='absolute lg:max-h-[400px] top-[51vh] w-full p-5 rounded-t-3xl bg-transparent backdrop-blur-md lg:flex gap-10'>
+        <div>
+          <div className='hidden lg:block relative bottom-[20vh] h-[533px] w-[400px] '>
+            <img
+              src={cover}
+              alt='game cover'
+              className=' rounded-xl w-full h-full shadow-lg'
+            />
           </div>
         </div>
-      </div>
-
-      <div className='col-span-2'>
-        <Tabs detailGame={detailGame.game} />
-      </div>
-      <div className='mt-4 px-2 row-start-1 col-start-2 lg:pr-24 lg:max-w-[500px]'>
-        {detailGame.game.summary}
+        <div className='flex-1 lg:pr-10'>
+          <div className='flex flex-col'>
+            <div className='flex gap-5 items-center'>
+              <div className='flex items-center gap-1'>
+                <AiFillStar className='text-yellow-300' />
+                <div className='text-yellow-300 font-bold drop-shadow-[0_10px_10px_rgba(0,0,0,0.70)]'>
+                  {Math.floor(detailGame.game.rating)}
+                </div>
+              </div>
+              <div className='drop-shadow-[0_10px_10px_rgba(0,0,0,0.70)] text-white'>
+                {'('}
+                {detailGame.game.total_rating_count}
+                {' ratings)'}
+              </div>
+            </div>
+            <div className='text-3xl text-white font-bold mb-2 drop-shadow-[0_10px_10px_rgba(0,0,0,0.70)]'>
+              {detailGame.game.name}
+            </div>
+            <div className='hidden md:block pt-6 lg:order-3 mt-12'>
+              {detailGame.game.summary}
+            </div>
+            <div className='lg:flex items-center justify-between mt-4 lg:mt-16'>
+              <button className='btn w-full lg:max-w-[187px] btn-primary'>
+                Add to List
+              </button>
+              <div className='flex justify-center gap-5 mt-5 lg:mt-0'>
+                <div
+                  className='btn btn-xs md:btn-sm btn-outline'
+                  onClick={() => setModal('screenshots')}
+                >
+                  Screenshots
+                </div>
+                <div
+                  className='btn btn-xs md:btn-sm btn-outline'
+                  onClick={() => setModal('videos')}
+                >
+                  Vídeos
+                </div>
+                <div
+                  className='btn btn-xs md:btn-sm btn-outline'
+                  onClick={() => setModal('similar games')}
+                >
+                  Similar Games
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   ) : (
