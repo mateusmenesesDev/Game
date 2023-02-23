@@ -44,7 +44,6 @@ export const ContextProvider = ({ children }: Props) => {
   }, []);
 
   useEffect(() => {
-    console.log('PEGOU DO FIREBASE');
     if (user) firestore.getGameListFirestore({ user, setUserList });
   }, [user]);
   return (

@@ -9,6 +9,7 @@ import { useAuth } from '../../contexts/Auth';
 import { firestore } from '../../services/firebase/firestore';
 import { AiFillStar } from 'react-icons/ai';
 import Modal from './components/Modal';
+import ModalAddGame from '../../components/Modal/ModalGame/ModalAddGame';
 
 type Modal = 'screenshots' | 'videos' | 'similar games' | undefined;
 
@@ -21,6 +22,7 @@ export function Detail() {
   const { games, userList } = useContext(Context);
   const { user } = useAuth();
   const [modal, setModal] = useState<Modal>();
+  const [modalAddGame, setModalAddGame] = useState(false);
 
   async function fetchGameData() {
     setNewGame(true);
@@ -85,6 +87,12 @@ export function Detail() {
           type={modal}
         />
       )}
+      {modalAddGame && (
+        <ModalAddGame
+          detailGame={detailGame}
+          setModal={() => setModalAddGame(false)}
+        />
+      )}
       <div className='h-[50vh] w-screen'>
         <picture>
           <source srcSet={mainScreenshot} media='(min-width:550px)' />
@@ -127,7 +135,10 @@ export function Detail() {
               {detailGame.game.summary}
             </div>
             <div className='lg:flex items-center justify-between mt-4 lg:mt-16'>
-              <button className='btn w-full lg:max-w-[187px] btn-primary'>
+              <button
+                className='btn w-full lg:max-w-[187px] btn-primary'
+                onClick={() => setModalAddGame(true)}
+              >
                 Add to List
               </button>
               <div className='flex justify-center gap-5 mt-5 lg:mt-0'>
