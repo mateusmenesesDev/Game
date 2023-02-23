@@ -1,5 +1,6 @@
 import { IGame } from '../../../../types/IGames';
 import Screenshots from './Screenshots';
+import SimilarGames from './SimilarGames';
 
 type Props = {
   handleClose: () => void;
@@ -14,7 +15,7 @@ export default function Modal({ handleClose, game, type }: Props) {
         {type === 'screenshots' || type === 'videos' ? (
           <Screenshots items={game[type]} />
         ) : (
-          <div>teste</div>
+          <SimilarGames items={game.similar_games} setModal={handleClose} />
         )}
         <button className='btn btn-primary mt-5' onClick={handleClose}>
           Fechar
