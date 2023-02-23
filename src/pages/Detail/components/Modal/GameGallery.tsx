@@ -2,12 +2,14 @@ import { Mousewheel, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 type Props = {
-  items:
-    | { id: number; image_id: string }[]
-    | { id: number; video_id: string }[];
+  items: {
+    id: number;
+    image_id?: string;
+    video_id?: string;
+  }[];
 };
 
-export default function Screenshots({ items }: Props) {
+export default function GameGalery({ items }: Props) {
   return (
     <>
       {items[0].video_id ? (
@@ -18,7 +20,10 @@ export default function Screenshots({ items }: Props) {
           modules={[Navigation, Mousewheel]}
         >
           {items.map((item) => (
-            <SwiperSlide key={item.id} className='md:h-72 lg:h-[600px]'>
+            <SwiperSlide
+              key={item.id}
+              className='h-[200px] md:h-[400px] min-w-[60vw] lg:h-[550px]'
+            >
               <iframe
                 className='w-full min-h-full rounded-xl'
                 allowFullScreen={true}
