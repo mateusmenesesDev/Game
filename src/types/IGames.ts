@@ -24,6 +24,7 @@ export interface IGame {
   platforms: [{ id: number; platform_logo: number }];
   similar_games: [{ id: number; cover: { id: number; image_id: string } }];
   summary: [string];
+  total_rating_count: number;
 }
 
 export interface IBasicMediaGameApi {
@@ -37,7 +38,7 @@ export interface IDetaiGame {
   company?: IBasicGameApi;
 }
 
-export interface IUserList extends IDetaiGame{
+export interface IUserList extends IDetaiGame {
   rating: number;
-  type: string
+  type: string;
 }

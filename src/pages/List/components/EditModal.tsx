@@ -19,7 +19,7 @@ export default function EditModal({ gameEdit, setEdit }: Props) {
 
   return (
     <div
-      className='w-screen h-screen z-50 top-0 absolute bg-neutral
+      className='w-screen h-screen z-50 top-0 fixed bg-neutral
     grid place-items-center'
     >
       <div className='bg-base-300 rounded-xl p-10'>
