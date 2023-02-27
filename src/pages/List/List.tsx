@@ -30,7 +30,6 @@ export function List() {
 
   return (
     <div>
-      {console.log(filteredUserList)}
       {!user?.emailVerified ? (
         <div className='text-xl text-center'>Confirm your email first</div>
       ) : filteredUserList && userList.length > 0 ? (

@@ -1,9 +1,7 @@
-
 const BugReportPage = () => {
-
   return (
     <form
-      action='https://formspree.io/f/mvonzrbb'
+      action='https://formspree.io/f/xgebyvlk'
       method='POST'
       className='max-w-3xl text-base-content bg-base-300 p-6 rounded-lg shadow-md flex flex-col w-5/6 m-auto'
     >
@@ -11,7 +9,7 @@ const BugReportPage = () => {
       <label className='block mb-4' htmlFor='bugDescription'>
         <span className='font-medium'>Bug description:</span>
         <textarea
-          name="bugDescription"
+          name='bugDescription'
           className='textarea mt-1 block w-full'
           id='bugDescription'
         />
@@ -20,7 +18,7 @@ const BugReportPage = () => {
         <span className=' font-medium'>Severity:</span>
         <select
           className='select mt-1 block w-full'
-          name="bugSeverity"
+          name='bugSeverity'
           id='bugSeverity'
         >
           <option value='Low'>Low</option>
