@@ -46,6 +46,7 @@ export const ContextProvider = ({ children }: Props) => {
   useEffect(() => {
     if (user) firestore.getGameListFirestore({ user, setUserList });
   }, [user]);
+
   return (
     <Context.Provider
       value={{

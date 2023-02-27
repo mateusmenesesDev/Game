@@ -5,8 +5,6 @@ import { useContext, useEffect, useState } from 'react';
 import { Context } from '../../contexts/Context';
 import { generateRandom } from '../../utils/generateRandom';
 import { gameFetch } from '../../api/game';
-import { useAuth } from '../../contexts/Auth';
-import { firestore } from '../../services/firebase/firestore';
 import { AiFillStar } from 'react-icons/ai';
 import Modal from './components/Modal';
 import ModalAddGame from '../../components/Modal/ModalGame/ModalAddGame';
@@ -19,8 +17,7 @@ export function Detail() {
   const [mainScreenshot, setMainScreenshoot] = useState('');
   const [detailGame, setDetailGame] = useState<IDetaiGame>();
   const { gameId } = useParams();
-  const { games, userList } = useContext(Context);
-  const { user } = useAuth();
+  const { games } = useContext(Context);
   const [modal, setModal] = useState<Modal>();
   const [modalAddGame, setModalAddGame] = useState(false);
 
@@ -62,13 +59,7 @@ export function Detail() {
   }, [gameId]);
 
   useEffect(() => {
-    if (user) {
-      firestore.updateFirestore(user, userList);
-    }
-  }, [userList]);
-
-  useEffect(() => {
-    if (detailGame) {
+    if (detailGame?.game) {
       setCover(
         `https://images.igdb.com/igdb/image/upload/t_cover_big/${detailGame.game.cover.image_id}.png`
       );

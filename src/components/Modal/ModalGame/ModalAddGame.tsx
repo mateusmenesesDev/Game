@@ -14,10 +14,12 @@ export default function ModalAddGame({ detailGame, setModal }: Props) {
   const { user } = useAuth();
   const [rating, setRating] = useState(0);
   const [type, setType] = useState('');
+  const [render, setRender] = useState(true);
 
   function addGameToList() {
-    if (!userList && detailGame) {
+    if (!userList && detailGame && user) {
       setUserList([{ ...detailGame, rating, type }]);
+      setRender(false);
       setModal();
       return;
     }
@@ -26,13 +28,17 @@ export default function ModalAddGame({ detailGame, setModal }: Props) {
       : false;
     if (!gameInList && detailGame) {
       setUserList([...userList, { ...detailGame, rating, type }]);
+      setRender(false);
     } else {
       alert('Jogo já está na sua lista!');
     }
     setModal();
   }
+
   useEffect(() => {
-    if (user) firestore.updateFirestore(user, userList);
+    if (!render && user) {
+      firestore.updateFirestore(user, userList);
+    }
   }, [userList]);
 
   return (

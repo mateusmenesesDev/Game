@@ -22,13 +22,16 @@ export function List() {
   }, []);
 
   useEffect(() => {
-    console.log('entrei')
     setFilteredUserList(userList);
     if (filterValue === 'lowest' || filterValue === 'default') {
-      setFilteredUserList(userList?.sort((a, b) => b.game.rating - a.game.rating));
+      setFilteredUserList(
+        userList?.sort((a, b) => b.game.rating - a.game.rating)
+      );
     }
     if (filterValue === 'highest') {
-      setFilteredUserList(userList?.sort((a, b) => a.game.rating - b.game.rating));
+      setFilteredUserList(
+        userList?.sort((a, b) => a.game.rating - b.game.rating)
+      );
     }
   }, [filterValue, userList]);
 
