@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 export function Theme() {
   let theme = localStorage.getItem('theme') || 'night';
 
-  useEffect(()=> {
-    document.body.setAttribute('data-theme', theme);
-  }, [])
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, []);
 
   const setTheme = () => {
     if (theme === 'light') {
@@ -13,7 +13,7 @@ export function Theme() {
     } else {
       theme = 'light';
     }
-    document.body.setAttribute('data-theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
   };
 
