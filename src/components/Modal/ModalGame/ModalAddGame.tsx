@@ -14,36 +14,31 @@ export default function ModalAddGame({ detailGame, setModal }: Props) {
   const { user } = useAuth();
   const [rating, setRating] = useState(0);
   const [type, setType] = useState('');
-  const [render, setRender] = useState(true);
 
-  function addGameToList() {
+  async function addGameToList() {
     if (!userList && detailGame && user) {
-      setUserList([{ ...detailGame, rating, type }]);
-      setRender(false);
+      const newList = [{ ...detailGame, rating, type }];
+      setUserList(newList);
+      await firestore.updateFirestore(user, newList);
       setModal();
       return;
     }
     const gameInList = userList
       ? userList?.some((item) => item.game.id === detailGame?.game.id)
       : false;
-    if (!gameInList && detailGame) {
-      setUserList([...userList, { ...detailGame, rating, type }]);
-      setRender(false);
+    if (!gameInList && detailGame && user) {
+      const newList = [...userList, { ...detailGame, rating, type }];
+      setUserList(newList);
+      await firestore.updateFirestore(user, newList);
     } else {
       alert('Jogo já está na sua lista!');
     }
     setModal();
   }
 
-  useEffect(() => {
-    if (!render && user) {
-      firestore.updateFirestore(user, userList);
-    }
-  }, [userList]);
-
   return (
     <div
-      className='w-screen h-screen z-50 top-0 absolute bg-neutral
+      className='w-screen h-screen z-50 top-0 fixed bg-neutral
   grid place-items-center'
     >
       <div className='bg-base-300 rounded-xl p-10'>
