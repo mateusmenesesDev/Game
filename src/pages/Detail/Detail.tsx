@@ -8,6 +8,7 @@ import { gameFetch } from '../../api/game';
 import { AiFillStar } from 'react-icons/ai';
 import Modal from './components/Modal';
 import ModalAddGame from '../../components/Modal/ModalGame/ModalAddGame';
+import {AiFillCheckCircle} from 'react-icons/ai';
 
 type Modal = 'screenshots' | 'videos' | 'similar games' | undefined;
 
@@ -17,10 +18,11 @@ export function Detail() {
   const [mainScreenshot, setMainScreenshoot] = useState('');
   const [detailGame, setDetailGame] = useState<IDetaiGame>();
   const { gameId } = useParams();
-  const { games } = useContext(Context);
+  const { games, userList } = useContext(Context);
   const [modal, setModal] = useState<Modal>();
   const [modalAddGame, setModalAddGame] = useState(false);
   const [plataforms, setPlataforms] = useState<string[]>();
+  const [gameInList, setGameInList] = useState(false);
 
   async function fetchGameData() {
     setNewGame(true);
@@ -71,6 +73,13 @@ export function Detail() {
       setMainScreenshoot(
         `https://images.igdb.com/igdb/image/upload/t_1080p/${detailGame.game.screenshots[0].image_id}.png`
       );
+      // console.log(userList[0].game)
+      // console.log(detailGame.game.id === userList[0].game.id)
+      // userList.forEach(({game}) => console.log(game))
+      const gameInList = userList.some(({game}) => game.id === detailGame.game.id);
+      // console.log('🚀 ~ file: Detail.tsx:76 ~ useEffect ~ gameInList:', gameInList)
+      setGameInList(gameInList);
+      // console.log(gameInList)
     }
   }, [detailGame]);
 
@@ -142,7 +151,7 @@ export function Detail() {
                 className='btn w-full lg:max-w-[187px] btn-primary'
                 onClick={() => setModalAddGame(true)}
               >
-                Add to List
+                {!gameInList ? "Add Game" : <AiFillCheckCircle size={24}/> }
               </button>
               <div className='flex justify-center gap-5 mt-5 lg:mt-0'>
                 <div
