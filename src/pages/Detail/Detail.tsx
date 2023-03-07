@@ -8,7 +8,7 @@ import { gameFetch } from '../../api/game';
 import { AiFillStar } from 'react-icons/ai';
 import Modal from './components/Modal';
 import ModalAddGame from '../../components/Modal/ModalGame/ModalAddGame';
-import {AiFillCheckCircle} from 'react-icons/ai';
+import { AiFillCheckCircle } from 'react-icons/ai';
 
 type Modal = 'screenshots' | 'videos' | 'similar games' | undefined;
 
@@ -76,7 +76,9 @@ export function Detail() {
       // console.log(userList[0].game)
       // console.log(detailGame.game.id === userList[0].game.id)
       // userList.forEach(({game}) => console.log(game))
-      const gameInList = userList.some(({game}) => game.id === detailGame.game.id);
+      const gameInList = userList.some(
+        ({ game }) => game.id === detailGame.game.id
+      );
       // console.log('🚀 ~ file: Detail.tsx:76 ~ useEffect ~ gameInList:', gameInList)
       setGameInList(gameInList);
       // console.log(gameInList)
@@ -135,11 +137,16 @@ export function Detail() {
             </div>
             <div className='text-3xl text-white font-bold mb-2 drop-shadow-[0_10px_10px_rgba(0,0,0,0.70)]'>
               {detailGame.game.name}
-              <div className='flex gap-6 mt-4'> 
-              {plataforms!== undefined && plataforms.map((plataform) => (
-                <div key={plataform} className='w-8'>
-                  <img src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${plataform}.png`} alt="Plataform Logo" />
-                </div>
+              <div className='flex gap-6 mt-4'>
+                {plataforms !== undefined &&
+                  plataforms.map((plataform) => (
+                    <div key={plataform} className='w-6 lg:w-8'>
+                      <img
+                        src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${plataform}.png`}
+                        alt='Plataform Logo'
+                        className='w-full'
+                      />
+                    </div>
                   ))}
               </div>
             </div>
@@ -151,7 +158,7 @@ export function Detail() {
                 className='btn w-full lg:max-w-[187px] btn-primary'
                 onClick={() => setModalAddGame(true)}
               >
-                {!gameInList ? "Add Game" : <AiFillCheckCircle size={24}/> }
+                {!gameInList ? 'Add Game' : <AiFillCheckCircle size={24} />}
               </button>
               <div className='flex justify-center gap-5 mt-5 lg:mt-0'>
                 <div
