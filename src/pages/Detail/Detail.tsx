@@ -1,4 +1,4 @@
-import { IDetaiGame } from '../../types/IGames';
+import { IDetaiGame, IGame } from '../../types/IGames';
 import { Placeholder } from '../../components/utils/Placeholder';
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
@@ -20,10 +20,11 @@ export function Detail() {
   const { games } = useContext(Context);
   const [modal, setModal] = useState<Modal>();
   const [modalAddGame, setModalAddGame] = useState(false);
+  const [plataforms, setPlataforms] = useState<string[]>();
 
   async function fetchGameData() {
     setNewGame(true);
-    let game;
+    let game: IGame;
     const gameInContext = games.find((game) => game.id === Number(gameId));
     if (gameInContext !== undefined) {
       game = games.find((game) => game.id === Number(gameId));
@@ -32,6 +33,8 @@ export function Detail() {
       game = request[0];
     }
     const company = await gameFetch.getCompany(game);
+    const plataforms = await gameFetch.getPlataform(game.platforms);
+    setPlataforms(plataforms);
     setDetailGame({ game, company });
     setNewGame(false);
   }
@@ -121,8 +124,15 @@ export function Detail() {
             </div>
             <div className='text-3xl text-white font-bold mb-2 drop-shadow-[0_10px_10px_rgba(0,0,0,0.70)]'>
               {detailGame.game.name}
+              <div className='flex gap-6 mt-4'> 
+              {plataforms!== undefined && plataforms.map((plataform) => (
+                <div key={plataform} className='w-8'>
+                  <img src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${plataform}.png`} alt="Plataform Logo" />
+                </div>
+                  ))}
+              </div>
             </div>
-            <div className='hidden md:block pt-6 lg:order-3 mt-12 h-full'>
+            <div className='hidden md:block pt-6 lg:order-3 mt-8 h-full'>
               {detailGame.game.summary}
             </div>
             <div className='lg:flex items-center justify-between mt-4 lg:mt-16'>
