@@ -9,7 +9,7 @@ export const gameFetch = {
     return data;
   },
 
-  getPlataform: async (plataformsId: any) => {
+  getPlataform: async (plataformsId: {id: number, platform_logo: number}[]): Promise<string[]> => {
     const promises = plataformsId.map( async ({platform_logo}) => await axios.get(`/.netlify/functions/gamePlataform?plataformId=${platform_logo}`))
     const data = (await Promise.all(promises)).map((({data}) => data)).map((data) => data[0]);
     const images = data.map((({image_id}) => image_id));

@@ -24,7 +24,7 @@ export function Detail() {
 
   async function fetchGameData() {
     setNewGame(true);
-    let game: IGame;
+    let game: IGame | undefined;
     const gameInContext = games.find((game) => game.id === Number(gameId));
     if (gameInContext !== undefined) {
       game = games.find((game) => game.id === Number(gameId));
@@ -32,10 +32,12 @@ export function Detail() {
       const request = await gameFetch.getGame(gameId);
       game = request[0];
     }
-    const company = await gameFetch.getCompany(game);
-    const plataforms = await gameFetch.getPlataform(game.platforms);
-    setPlataforms(plataforms);
-    setDetailGame({ game, company });
+    if (game) {
+      const company = await gameFetch.getCompany(game);
+      const plataforms = await gameFetch.getPlataform(game.platforms);
+      setPlataforms(plataforms);
+      setDetailGame({ game, company });
+    }
     setNewGame(false);
   }
 
