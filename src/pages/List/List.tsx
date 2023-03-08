@@ -49,7 +49,11 @@ export function List() {
      if (sortedUserList.length > 0 || tab !== 'All') {
       return (
         <>
-          <ListTabs tab={tab} setTab={setTab} />
+          <ListTabs 
+            tabOptions={["All", "Playing", "Completed", "Plan to Play", "Dropped"]}
+            tabState={tab}
+            setTabState={setTab}
+          />
           <div className='grid grid-cols-3 place-items-center my-4 '>
             <div>{sortedUserList.length}</div>
             <FilterDropdown setFilterValue={setFilterValue} />

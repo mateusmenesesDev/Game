@@ -1,40 +1,21 @@
-type Props = {
-  tab: string;
-  setTab: React.Dispatch<React.SetStateAction<string>>;
+type ListTabsProps = {
+  tabOptions: string[];
+  tabState: string;
+  setTabState: React.Dispatch<React.SetStateAction<string>>;
 };
-export default function ListTabs({ tab, setTab }: Props) {
+
+export default function ListTabs({ tabOptions, tabState, setTabState }: ListTabsProps) {
   return (
     <div className="tabs flex-nowrap overflow-auto sm:justify-center">
-      <a
-        className={`tab tab-bordered ${tab === "All" && "tab-active"}`}
-        onClick={() => setTab("All")}
-      >
-        All
-      </a>
-      <a
-        className={`tab tab-bordered ${tab === "Playing" && "tab-active"}`}
-        onClick={() => setTab("Playing")}
-      >
-        Playing
-      </a>
-      <a
-        className={`tab tab-bordered ${tab === "Completed" && "tab-active"}`}
-        onClick={() => setTab("Completed")}
-      >
-        Completed
-      </a>
-      <a
-        className={`tab tab-bordered ${tab === "Plan to Play" && "tab-active"}`}
-        onClick={() => setTab("Plan to Play")}
-      >
-        Plan to Play
-      </a>
-      <a
-        className={`tab tab-bordered ${tab === "Dropped" && "tab-active"}`}
-        onClick={() => setTab("Dropped")}
-      >
-        Dropped
-      </a>
+      {tabOptions.map((option) => (
+        <a
+          key={option}
+          className={`tab tab-bordered ${tabState === option && "tab-active"}`}
+          onClick={() => setTabState(option)}
+        >
+          {option}
+        </a>
+      ))}
     </div>
   );
 }
