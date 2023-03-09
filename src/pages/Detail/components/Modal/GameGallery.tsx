@@ -35,7 +35,7 @@ export default function GameGalery({ items }: Props) {
               key={item.id}
               className='h-[200px] md:h-[400px] min-w-[60vw] lg:h-[550px]'
             >
-              <ReactPlayer playing={i === currentSlide} 	width="100%" height="100%" url={`https://www.youtube.com/watch?v=${item.video_id}`} /> 
+              <ReactPlayer playing={i === currentSlide}	width="100%" height="100%" url={`https://www.youtube.com/watch?v=${item.video_id}`} /> 
             </SwiperSlide>
           ))}
         </Swiper>
