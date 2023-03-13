@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 
-
-function FilterDropdown({setFilterValue}: {setFilterValue:React.Dispatch<React.SetStateAction<string>>}) {
+type FilterValue = 'highest' | 'lowest';
+function FilterDropdown({setFilterValue}: {setFilterValue:React.Dispatch<React.SetStateAction<FilterValue>>}) {
   const [selectedOption, setSelectedOption] = useState('');
 
   const handleOptionChange = (e:  React.SyntheticEvent<EventTarget>) => {
-    const value = (e.target as HTMLSelectElement).value;
+    const value = (e.target as HTMLSelectElement).value as FilterValue;
     setSelectedOption(value);
     setFilterValue(value)
   };
