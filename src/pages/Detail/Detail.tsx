@@ -26,20 +26,18 @@ export function Detail() {
 
   async function fetchGameData() {
     setNewGame(true);
-    let game: IGame | undefined;
+    let game: IGame;
     const gameInContext = games.find((game) => game.id === Number(gameId));
-    if (gameInContext !== undefined) {
-      game = games.find((game) => game.id === Number(gameId));
+    if (gameInContext) {
+      game = gameInContext;
     } else {
       const request = await gameFetch.getGame(gameId);
       game = request[0];
     }
-    if (game) {
-      const company = await gameFetch.getCompany(game);
-      const plataforms = await gameFetch.getPlataform(game.platforms);
-      setPlataforms(plataforms);
-      setDetailGame({ game, company });
-    }
+    const company = await gameFetch.getCompany(game);
+    const plataforms = await gameFetch.getPlataform(game.platforms);
+    setPlataforms(plataforms);
+    setDetailGame({ game, company });
     setNewGame(false);
   }
 
@@ -66,22 +64,17 @@ export function Detail() {
   }, [gameId]);
 
   useEffect(() => {
-    if (detailGame?.game) {
+    if (detailGame?.game && detailGame.game.cover && detailGame.game.screenshots) {
       setCover(
         `https://images.igdb.com/igdb/image/upload/t_cover_big/${detailGame.game.cover.image_id}.png`
       );
       setMainScreenshoot(
         `https://images.igdb.com/igdb/image/upload/t_1080p/${detailGame.game.screenshots[0].image_id}.png`
       );
-      // console.log(userList[0].game)
-      // console.log(detailGame.game.id === userList[0].game.id)
-      // userList.forEach(({game}) => console.log(game))
       const gameInList = userList.some(
         ({ game }) => game.id === detailGame.game.id
       );
-      // console.log('🚀 ~ file: Detail.tsx:76 ~ useEffect ~ gameInList:', gameInList)
       setGameInList(gameInList);
-      // console.log(gameInList)
     }
   }, [detailGame]);
 
@@ -137,10 +130,10 @@ export function Detail() {
             </div>
             <div className='text-3xl text-white font-bold mb-2 drop-shadow-[0_10px_10px_rgba(0,0,0,0.70)]'>
               {detailGame.game.name}
-              <div className='flex gap-6 mt-4'>
+              <div className='flex items-center gap-6 mt-4 bg-slate-600/40 p-3 rounded-lg w-max'>
                 {plataforms !== undefined &&
                   plataforms.map((plataform) => (
-                    <div key={plataform} className='w-6 lg:w-8'>
+                    <div key={plataform} className='w-6 lg:w-8' style={{color:'black'}}>
                       <img
                         src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${plataform}.png`}
                         alt='Plataform Logo'
