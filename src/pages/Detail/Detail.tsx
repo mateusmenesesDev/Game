@@ -1,4 +1,4 @@
-import { IDetaiGame } from '../../types/IGames';
+import { IDetaiGame, IGame } from '../../types/IGames';
 import { Placeholder } from '../../components/utils/Placeholder';
 import { useParams } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
@@ -8,6 +8,7 @@ import { gameFetch } from '../../api/game';
 import { AiFillStar } from 'react-icons/ai';
 import Modal from './components/Modal';
 import ModalAddGame from '../../components/Modal/ModalGame/ModalAddGame';
+import { AiFillCheckCircle } from 'react-icons/ai';
 
 type Modal = 'screenshots' | 'videos' | 'similar games' | undefined;
 
@@ -17,21 +18,25 @@ export function Detail() {
   const [mainScreenshot, setMainScreenshoot] = useState('');
   const [detailGame, setDetailGame] = useState<IDetaiGame>();
   const { gameId } = useParams();
-  const { games } = useContext(Context);
+  const { games, userList } = useContext(Context);
   const [modal, setModal] = useState<Modal>();
   const [modalAddGame, setModalAddGame] = useState(false);
+  const [plataforms, setPlataforms] = useState<string[]>();
+  const [gameInList, setGameInList] = useState(false);
 
   async function fetchGameData() {
     setNewGame(true);
-    let game;
+    let game: IGame;
     const gameInContext = games.find((game) => game.id === Number(gameId));
-    if (gameInContext !== undefined) {
-      game = games.find((game) => game.id === Number(gameId));
+    if (gameInContext) {
+      game = gameInContext;
     } else {
       const request = await gameFetch.getGame(gameId);
       game = request[0];
     }
     const company = await gameFetch.getCompany(game);
+    const plataforms = await gameFetch.getPlataform(game.platforms);
+    setPlataforms(plataforms);
     setDetailGame({ game, company });
     setNewGame(false);
   }
@@ -59,13 +64,17 @@ export function Detail() {
   }, [gameId]);
 
   useEffect(() => {
-    if (detailGame?.game) {
+    if (detailGame?.game && detailGame.game.cover && detailGame.game.screenshots) {
       setCover(
         `https://images.igdb.com/igdb/image/upload/t_cover_big/${detailGame.game.cover.image_id}.png`
       );
       setMainScreenshoot(
         `https://images.igdb.com/igdb/image/upload/t_1080p/${detailGame.game.screenshots[0].image_id}.png`
       );
+      const gameInList = userList.some(
+        ({ game }) => game.id === detailGame.game.id
+      );
+      setGameInList(gameInList);
     }
   }, [detailGame]);
 
@@ -121,8 +130,20 @@ export function Detail() {
             </div>
             <div className='text-3xl text-white font-bold mb-2 drop-shadow-[0_10px_10px_rgba(0,0,0,0.70)]'>
               {detailGame.game.name}
+              <div className='flex items-center gap-6 mt-4 bg-slate-600/40 p-3 rounded-lg w-max'>
+                {plataforms !== undefined &&
+                  plataforms.map((plataform) => (
+                    <div key={plataform} className='w-6 lg:w-8' style={{color:'black'}}>
+                      <img
+                        src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${plataform}.png`}
+                        alt='Plataform Logo'
+                        className='w-full'
+                      />
+                    </div>
+                  ))}
+              </div>
             </div>
-            <div className='hidden md:block pt-6 lg:order-3 mt-12 h-full'>
+            <div className='hidden md:block pt-6 lg:order-3 mt-8 h-full'>
               {detailGame.game.summary}
             </div>
             <div className='lg:flex items-center justify-between mt-4 lg:mt-16'>
@@ -130,7 +151,7 @@ export function Detail() {
                 className='btn w-full lg:max-w-[187px] btn-primary'
                 onClick={() => setModalAddGame(true)}
               >
-                Add to List
+                {!gameInList ? 'Add Game' : <AiFillCheckCircle size={24} />}
               </button>
               <div className='flex justify-center gap-5 mt-5 lg:mt-0'>
                 <div

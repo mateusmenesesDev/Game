@@ -8,6 +8,14 @@ export const gameFetch = {
     );
     return data;
   },
+
+  getPlataform: async (plataformsId: {id: number, platform_logo: number}[]): Promise<string[]> => {
+    const promises = plataformsId.map( async ({platform_logo}) => await axios.get(`/.netlify/functions/gamePlataform?plataformId=${platform_logo}`))
+    const data = (await Promise.all(promises)).map((({data}) => data)).map((data) => data[0]);
+    const images = data.map((({image_id}) => image_id));
+    return images;
+  },
+
   getCompany: async (game: IGame) => {
     if (game !== undefined && game.involved_companies !== undefined) {
       const companyId = game.involved_companies.find(

@@ -7,7 +7,7 @@ async function getAuth() {
   return request.data.access_token;
 }
 
-async function getPlataformLogo(plataformId) {
+async function getPlataformLogo(plataformId: string) {
   const auth = await getAuth();
   const { data } = await axios({
     url: 'https://api.igdb.com/v4/platform_logos',
@@ -24,10 +24,10 @@ async function getPlataformLogo(plataformId) {
 
 export const handler = async (event) => {
   const plataformLogo = await getPlataformLogo(
-    event.queryStringParameters.logoId
+    event.queryStringParameters.plataformId
   );
   return {
     statusCode: 200,
-    body: JSON.stringify(plataformLogo[0]),
+    body: JSON.stringify(plataformLogo),
   };
 };
