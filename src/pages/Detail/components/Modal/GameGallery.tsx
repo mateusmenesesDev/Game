@@ -1,5 +1,8 @@
 import { Mousewheel, Navigation } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import ReactPlayer from 'react-player'
+import {useState} from 'react'
+import { Swiper as SwiperType } from 'swiper/types'
 
 type Props = {
   items: {
@@ -10,25 +13,29 @@ type Props = {
 };
 
 export default function GameGalery({ items }: Props) {
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const handleSlideChange = (swiper: SwiperType) => {
+    setCurrentSlide(swiper.activeIndex);
+  };
+
   return (
     <>
       {items[0].video_id ? (
         <Swiper
           slidesPerView={1}
           navigation={true}
+          onSlideChange={handleSlideChange}
           mousewheel={{ forceToAxis: true }}
           modules={[Navigation, Mousewheel]}
         >
-          {items.map((item) => (
+          {items.map((item, i) => (
             <SwiperSlide
               key={item.id}
               className='h-[200px] md:h-[400px] min-w-[60vw] lg:h-[550px]'
             >
-              <iframe
-                className='w-full min-h-full rounded-xl'
-                allowFullScreen={true}
-                src={`https://www.youtube.com/embed/${item.video_id}`}
-              ></iframe>
+              <ReactPlayer playing={i === currentSlide}	width="100%" height="100%" url={`https://www.youtube.com/watch?v=${item.video_id}`} /> 
             </SwiperSlide>
           ))}
         </Swiper>
